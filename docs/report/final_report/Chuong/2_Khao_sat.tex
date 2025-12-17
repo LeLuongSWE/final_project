@@ -1,0 +1,51 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\section{Khảo sát hiện trạng}
+\label{section:2.1}
+Dựa trên thông tin khảo sát hiện trạng tại các quán cơm bình dân trên địa bàn Hà Nội, chúng tôi nhận thấy đa số các cơ sở vẫn vận hành theo quy trình truyền thống: khách hàng xếp hàng, trực tiếp chọn món tại quầy, nhân viên phục vụ múc đồ và báo giá ngay tại chỗ. Việc thanh toán thường diễn ra sau khi khách ăn xong dựa trên trí nhớ hoặc thẻ tạm. Quy trình này bộc lộ rõ những hạn chế vào giờ cao điểm, đặc biệt là tình trạng ùn tắc do tốc độ phục vụ chậm, rủi ro thất thoát doanh thu do sai sót trong tính toán, và khó khăn trong việc kiểm soát định lượng nguyên liệu tiêu hao so với số lượng suất ăn thực tế.
+
+Qua phân tích các giải pháp phần mềm quản lý nhà hàng phổ biến như iPOS, CukCuk, và KiotViet, mặc dù các hệ thống này sở hữu tính năng mạnh mẽ và chuyên nghiệp, nhưng khi áp dụng vào mô hình cơm bình dân lại bộc lộ những bất cập nhất định. iPOS có chi phí đầu tư cao và quy trình thiết lập phức tạp, không phù hợp với quy mô nhỏ; CukCuk dù thân thiện hơn nhưng vẫn thiên về quản lý thực đơn cố định, gây khó khăn khi thay đổi món ăn hàng ngày; KiotViet mạnh về bán lẻ nhưng chưa tối ưu cho việc quản lý định lượng suất ăn chế biến với sự biến động nguyên liệu thường xuyên.
+
+Từ những phân tích trên, có thể khẳng định nhu cầu cấp thiết về một hệ thống quản lý chuyên biệt cho mô hình cơm bình dân. Hệ thống này cần tập trung giải quyết triệt để bài toán về tốc độ xử lý giao dịch (dưới 30 giây/đơn), đơn giản hóa tối đa quy trình quản lý thực đơn động theo ngày, và cung cấp cơ chế kiểm soát tồn kho suất ăn trực quan, hiệu quả, giúp chủ quán tối ưu hóa vận hành và giảm thiểu thất thoát.
+\section{Tổng quan chức năng}
+\label{section:2.2}
+
+Sau khi thu thập ý kiến của các chủ quán ăn bình dân, bạn bè (những người đã ăn những quán ăn ở xung quanh Hà Nội nhiều năm), cũng như những trải nghiệm thực tế của bản thân sau nhiều năm thưởng thức đồ ăn tại các quán ăn bình dân, em thiết kế hệ thống nhằm đáp ứng các yêu cầu nghiệp vụ cốt lõi của một quán cơm bình dân, tập trung vào việc tối ưu hóa quy trình bán hàng và quản lý vận hành. Về mặt tổng thể, hệ thống cung cấp các nhóm chức năng chính bao gồm quản lý bán hàng tại quầy, quản lý thực đơn và kho hàng, báo cáo thống kê, và cổng thông tin dành cho khách hàng. Đối với nhân viên thu ngân, hệ thống cung cấp công cụ tạo đơn hàng nhanh thông qua việc lựa chọn các gói giá định sẵn, hỗ trợ thanh toán đa phương thức và in hóa đơn tự động, giúp rút ngắn tối đa thời gian phục vụ trong giờ cao điểm. Song song với đó, bộ phận quản lý được trang bị các công cụ để thiết lập thực đơn theo ngày, tùy chỉnh giá bán, và theo dõi biến động nguyên vật liệu dựa trên số lượng suất ăn tiêu thụ. Ngoài ra, hệ thống còn tích hợp khả năng dự báo nhu cầu nhập hàng dựa trên dữ liệu lịch sử và cung cấp các báo cáo trực quan về doanh thu, hiệu suất bán hàng, giúp chủ cửa hàng có cái nhìn toàn diện và đưa ra các quyết định kinh doanh chính xác.
+
+\subsection{Biểu đồ use case tổng quát}
+\label{subsection:2.2.1}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Hinh_ve_Use_case_tong_quat.png}
+    \caption{Biểu đồ use case tổng quát}
+  
+\end{figure}
+
+\subsection{Biểu đồ use case phân rã XYZ}
+\label{subsection:2.2.2}
+Với mỗi use case mức cao trong biểu đồ use case tổng quan, sinh viên tạo một mục riêng như mục \ref{subsection:2.2.2} và tiến hành phân rã use case đó. Lưu ý tên use case cần phân rã trong biểu đồ use case tổng quan phải khớp với tên đề mục.
+
+Trong mỗi mục như vậy, sinh viên vẽ và giải thích ngắn gọn các use case phân rã.
+
+\subsection{Quy trình nghiệp vụ}
+\label{subsection:2.2.3}
+Nếu sản phẩm/hệ thống cần xây dựng có quy trình nghiệp vụ quan trọng/đáng chú ý, sinh viên cần mô tả và vẽ biểu đồ hoạt động minh họa quy trình nghiệp vụ đó. Sinh viên lưu ý đây không phải là luồng sự kiện của từng use case, mà là luồng hoạt động kết hợp nhiều use case để thực hiện một nghiệp vụ nào đó.
+
+Ví dụ, một hệ thống quản lý thư viện có quy trình nghiệp vụ mượn trả với mô tả sơ bộ như sau: Sinh viên làm thẻ mượn, sau đó sinh viên đăng ký mượn sách, thủ thư cho mượn, và cuối cùng sinh viên trả lại sách cho thư viện. Một hệ thống có thể có một vài quy trình nghiệp vụ quan trọng như vậy.
+\section{Đặc tả chức năng}
+\label{section:2.3}
+Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ án để đặc tả chi tiết. Mỗi đặc tả bao gồm ít nhất các thông tin sau: (i) Tên use case, (ii) Luồng sự kiện (chính và phát sinh), (iii) Tiền điều kiện, và (iv) Hậu điều kiện. Sinh viên chỉ vẽ bổ sung biểu đồ hoạt động khi đặc tả use case phức tạp.
+\subsection{Đặc tả use case A}
+\hfill
+\subsection{Đặc tả use case B}
+\hfill
+
+\section{Yêu cầu phi chức năng}
+\label{section:2.4}
+Trong phần này, sinh viên đưa ra các yêu cầu khác nếu có, bao gồm các yêu cầu phi chức năng như hiệu năng, độ tin cậy, tính dễ dùng, tính dễ bảo trì, hoặc các yêu cầu về mặt kỹ thuật như về CSDL, công nghệ sử dụng, v.v.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

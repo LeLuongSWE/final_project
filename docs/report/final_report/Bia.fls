@@ -1,0 +1,11 @@
+PWD /home/luongld/project/final_project/docs/report/final_report
+INPUT /etc/texmf/web2c/texmf.cnf
+INPUT /usr/share/texmf/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+INPUT /home/luongld/project/final_project/docs/report/final_report/Bia.tex
+OUTPUT Bia.log
+INPUT /usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls
+INPUT /usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls
+INPUT /usr/share/texlive/texmf-dist/tex/latex/import/import.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/import/import.sty

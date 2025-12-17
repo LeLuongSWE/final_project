@@ -1,0 +1,17 @@
+# Fdb version 4
+["pdflatex"] 1765806468.30506 "/home/luongld/project/final_project/docs/report/final_report/Bia.tex" "Bia.pdf" "Bia" 1765806468.52985 2
+  "/etc/texmf/web2c/texmf.cnf" 1765254337.53651 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/home/luongld/project/final_project/docs/report/final_report/Bia.tex" 1765806468.02913 1684 100db7aeb523102020800b9322a13483 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/import/import.sty" 1586645574 6201 0ad8b5da8e12f60a88d546b2198a56f2 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls" 1605478891 1507 57de335d88fde4e5c924dfed577fdb74 ""
+  "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
+  "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1765254397 8215456 762200d322b6d1dae673f78cbc85fc5c ""
+  "Bia.aux" 1765806468.3023 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "Bia.tex" 1765806468.02913 1684 100db7aeb523102020800b9322a13483 ""
+  "DoAn.tex" 0 -1 0 ""
+  (generated)
+  "Bia.aux"
+  "Bia.log"
+  "Bia.pdf"
+  (rewritten before read)

@@ -1,0 +1,66 @@
+@startuml Biểu đồ Use Case
+
+skinparam linetype polylin
+left to right direction
+
+
+:Nhân viên thu ngân: as cashier
+:Quản lý: as manager
+:Khách hàng vãng lai: as guest
+:Khách hàng thành viên: as member
+
+guest <|-- member
+
+usecase "Đăng nhập hệ thống" as UC0
+
+
+package "Bán hàng" { 
+    usecase "Tạo đơn hàng nhanh" as UC1
+    usecase "Thanh toán" as UC2
+    usecase "Đóng ca làm việc" as UC4
+}
+
+package "Quản trị" {
+    usecase "Quản lý Thực đơn & Giá" as UC5
+    usecase "Quản lý Nhân viên" as UC6
+    usecase "Báo cáo & Dự báo" as UC7
+}
+
+package "Khách hàng" {
+    usecase "Xem thực đơn hôm nay" as UC8
+    usecase "Đặt hàng trực tuyến" as UC9
+    usecase "Đăng nhập" as UC10
+    usecase "Đăng ký" as UC11
+    usecase "Xem lịch sử mua hàng" as UC12
+    usecase "Gửi feedback" as UC13
+}
+
+cashier --> UC0
+manager --> UC0
+
+
+UC1 ..> UC0 : <<include>>
+UC5 ..> UC0 : <<include>>
+UC6 ..> UC0 : <<include>>
+UC7 ..> UC0 : <<include>>
+
+cashier --> UC1
+cashier --> UC4
+UC2 .> UC1 : <<include>>
+' UC3 .> UC2 : <<extend>>
+
+
+manager --> UC5
+manager --> UC6
+manager --> UC7
+
+guest --> UC8
+guest --> UC9
+guest --> UC10
+guest --> UC11
+
+
+member --> UC12
+member --> UC13
+
+@enduml

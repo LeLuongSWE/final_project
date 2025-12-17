@@ -1,0 +1,41 @@
+@startuml Biểu đồ Use Case khách hàng tổng quát
+
+skinparam packageStyle rectangle
+skinparam usecase {
+    BackgroundColor LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+:Khách hàng: as customer
+
+left to right direction
+
+
+"Xem thông tin nhà hàng" as (uc1)
+"Xem thực đơn trong ngày" as (uc2)
+"Đặt hàng online" as (uc3)
+"Đăng ký" as (uc4)
+"Đăng nhập" as (uc5)
+
+"Lưu thông tin giao hàng thường dùng" as (uc6)
+
+"Xem lịch sử đặt hàng" as (uc7)
+"Gửi feedback" as (uc8)
+"Gửi đánh giá" as (uc9)
+
+
+customer --> uc1
+customer --> uc2
+customer --> uc3
+customer --> uc4
+customer --> uc5
+
+uc5 <.. uc6 : <<include>>
+uc5 <.. uc7 : <<include>>
+uc5 <.. uc8 : <<include>>
+uc5 <.. uc9 : <<include>>
+
+
+
+@enduml
