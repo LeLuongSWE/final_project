@@ -1,0 +1,39 @@
+@startuml
+title Biểu đồ trình tự: Thanh toán đơn hàng
+actor "Nhân viên" as Staff
+participant ":PaymentView (React)" as View
+participant ":OrderController" as Controller
+participant ":OrderService" as Service
+participant ":OrderRepository" as OrderRepo
+
+Staff -> View : 1. Chọn phương thức TT & Nhấn "Thanh toán"
+activate View
+View -> Controller : 2. PUT /api/orders/{id}/pay (paymentMethod)
+activate Controller
+
+Controller -> Service : 3. processPayment(orderId, paymentMethod)
+activate Service
+
+Service -> OrderRepo : 4. findById(orderId)
+activate OrderRepo
+OrderRepo --> Service : Trả về Order hiện tại
+deactivate OrderRepo
+
+Service -> Service : 5. Validate trạng thái (Chưa thanh toán?)
+Service -> Service : 6. Cập nhật status = PAID
+Service -> Service : 7. Cập nhật paymentMethod
+
+Service -> OrderRepo : 8. save(updatedOrder)
+activate OrderRepo
+OrderRepo --> Service : Xác nhận lưu thành công
+deactivate OrderRepo
+
+Service --> Controller : Trả về kết quả thành công
+deactivate Service
+
+Controller --> View : 9. HTTP 200 OK
+deactivate Controller
+
+View -> Staff : 10. Thông báo thành công & In hóa đơn
+deactivate View
+@enduml

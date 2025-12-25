@@ -1,0 +1,45 @@
+@startuml
+skinparam packageStyle rectangle
+left to right direction
+
+package "Tầng Trình Bày (Presentation Tier)" {
+    package "Client App (ReactJS)" {
+        [UI Components]
+        [Pages/Views]
+        [API Client Service]
+    }
+}
+
+package "Tầng Ứng Dụng (Application Tier)" {
+    package "Spring Boot Backend" {
+        [Controller Layer]
+        [Service Layer]
+        [Repository Layer]
+        [Entity/Model]
+        [Security/Config]
+    }
+}
+
+package "Tầng Dữ Liệu (Data Tier)" {
+    database "PostgreSQL"
+    database "Redis Cache"
+}
+
+' Quan hệ phụ thuộc trong Client
+[Pages/Views] ..> [UI Components] : use
+[UI Components] ..> [API Client Service] : use
+
+' Quan hệ Client - Server
+[API Client Service] ..> [Controller Layer] : HTTPS/JSON
+
+' Quan hệ trong Backend
+[Controller Layer] ..> [Service Layer] : use
+[Service Layer] ..> [Repository Layer] : use
+[Service Layer] ..> [Entity/Model] : use
+[Repository Layer] ..> [Entity/Model] : use
+
+' Quan hệ Backend - Database
+[Repository Layer] ..> [PostgreSQL] : JDBC/Hibernate
+[Service Layer] ..> [Redis Cache] : Jedis/Lettuce
+
+@enduml

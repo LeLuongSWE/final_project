@@ -1,71 +1,388 @@
-\documentclass[../DoAn.tex]{subfiles}
+\documentclass[../20232006p.tex]{subfiles}
 \begin{document}
 
 \section{Thiết kế kiến trúc}
 \subsection{Lựa chọn kiến trúc phần mềm}
-Mục này có độ dài từ một đến ba trang. Sinh viên cần lựa chọn kiến trúc phần mềm cho ứng dụng của mình như: kiến trúc ba lớp MVC, MVP, SOA, Microservice, v.v. rồi giải thích sơ bộ về kiến trúc đó (không giải thích chi tiết/dài dòng).
-Sử dụng kiến trúc phần mềm đã chọn ở trên, sinh viên mô tả kiến trúc cụ thể cho ứng dụng của mình. Gợi ý: sinh viên áp dụng lý thuyết chung vào hệ thống/sản phẩm của mình như thế nào, có thay đổi, bổ sung hoặc cải tiến gì không. Ví dụ, thành phần M trong kiến trúc lý thuyết MVC sẽ là những thành phần cụ thể nào (ví dụ: là interface I + class C1 + class C2, v.v.) trong kiến trúc phần mềm của sinh viên.
+Mô hình ba tầng (Three-tier architecture) là một kiến trúc ứng dụng phần mềm tổ chức các ứng dụng thành ba tầng tính toán logic và vật lý: tầng trình bày (presentation tier), tầng ứng dụng (application tier) và tầng dữ liệu (data tier). Lợi ích chính của kiến trúc ba tầng là mỗi tầng chạy trên một cơ sở hạ tầng riềng, được phát triển đồng thời bởi một nhóm phát triển riêng biệt và có thể được cập nhật hoặc mở rộng mà không ảnh hưởng đến các tầng khác.
 
-\subsection{Thiết kế tổng quan}
-Sinh viên vẽ biểu đồ gói UML (UML package diagram), nêu rõ sự phụ thuộc giữa các gói (package). SV cần vẽ các gói sao cho chúng được phân theo các tầng rõ ràng, không được sắp đặt package lộn xộn trong hình vẽ. Sinh viên chú ý các quy tắc thiết kế (Các gói không phụ thuộc lẫn nhau, gói tầng dưới không phụ thuộc gói tầng trên, không phụ thuộc bỏ qua tầng, v.v.) và cần giải thích sơ lược về mục đích/nhiệm vụ của từng package. SV tham khảo ví dụ minh họa trong Hình \ref{fig:Fig1}
 \begin{figure}[H]
     \centering
-    \includegraphics{Hinhve/Picture1.png}
-    \caption{Ví dụ biểu đồ phụ thuộc gói}
+    \includegraphics[width=0.75\linewidth]{Hinhve/Mô hình 3 tầng.png}
+    \caption{Mô hình 3 tầng}
     \label{fig:Fig1}
 \end{figure}
-\subsection{Thiết kế chi tiết gói}
-Sinh viên thiết kế và lần lượt vẽ biểu đồ thiết kế cho từng package, hoặc một nhóm các package liên quan để giải quyết một vấn đề gì đó. Khi vẽ thiết kế gói, sinh viên chỉ cần đưa tên lớp, không cần chỉ ra các thành viên phương thức và thuộc tính. SV tham khảo ví dụ minh họa trong Hình \ref{fig:Fig2}.
 
-Sinh viên cần vẽ rõ ràng quan hệ giữa các lớp trong biểu đồ. Các quan hệ bao gồm: phụ thuộc (dependency), kết hợp (association), kết tập (aggregation), hợp thành (composition), kế thừa (inheritance), và thực thi (implementation). Các quan hệ này đều đã được minh họa trong \ref{fig:Fig2}.
+\subsubsection{Tầng trình bày}
 
-Sau khi vẽ hình minh họa, sinh viên cần giải thích ngắn gọn về thiết kế của mình. 
+Tầng trình bày là tầng giao diện người dùng và giao tiếp của ứng dụng, nơi người dùng cuối (end-user) tương tác với ứng dụng. Mục đích chính của nó là hiển thị thông tin và thu thập thông tin từ người dùng. Tầng cấp cao nhất này có thể chạy trên trình duyệt web, dưới dạng ứng dụng dành cho máy tính để bàn hoặc giao diện người dùng đồ họa (GUI) chẳng hạn. Các tầng trình bày web thường được phát triển bằng HTML, CSS và JavaScript. Các ứng dụng máy tính để bàn có thể được viết bằng nhiều ngôn ngữ khác nhau tùy thuộc vào nền tảng.
+
+\subsubsection{Tầng ứng dụng}
+
+Tầng ứng dụng, còn được gọi là tầng logic hoặc tầng giữa, là trung tâm của hệ thống. Trong tầng này, thông tin được thu thập từ tầng trình bày được xử lý, đôi khi không giống hoặc không tồn tại trong những thông tin được lưu trong tầng dữ liệu. Bằng cách sử dụng logic nghiệp vụ, bộ quy tắc nghiệp vụ cụ thể, tầng ứng dụng có thể thêm, xóa hoặc sử đổi dữ liệu trong tầng dữ liệu. Tầng ứng dụng thường được phát triển bằng Python, Java, PHP,...
+
+\subsubsection{Tầng dữ liệu}
+
+Tầng dữ liệu, đôi khi được gọi là tầng cơ sở dữ liệu, tầng truy cập dữ liệu hoặc tầng phụ, là nơi lưu trữ và quản lý thông tin được ứng dụng xử lý. Các hệ thống cơ sở dữ liệu phổ biến có thể kể đến như PostgreSQL, MySQL, MariaDB, DB2, Informix, Microsoft SQL Server hoặc MongoDB
+
+Tại hệ thống POS này, tầng trình bày được phát triển bằng HTML, CSS và JavaScript thông qua thư viện React, tầng ứng dụng được phát triển bằng Java và framework Spring boot, tầng dữ liệu sử dụng cơ sở dữ liệu PostgreSQL. 
+
+\subsection{Thiết kế tổng quan}
+
 
 \begin{figure}[H]
     \centering
-    \includegraphics{Hinhve/Picture2.png}
-    \caption{Ví dụ thiết kế gói}
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ phụ thuộc gói.png}
+    \caption{Biểu đồ phụ thuộc gói}
+    \label{fig:Fig1}
+\end{figure}
+
+Hình 4.2 là biểu đồ phụ thuộc gói của hệ thống, với mục đích/nhiệm vụ của từng
+gói được nêu ở bảng 4.1.
+
+\begin{table}[H]
+\centering
+
+\label{tab:package_desc}
+\begin{tabular}{|c|p{3cm}|p{8cm}|}
+\hline
+\textbf{STT} & \textbf{Tên gói} & \textbf{Mục đích/Nhiệm vụ} \\ \hline
+1 & View & Gồm các thành phần tạo nên những giao diện trực quan giúp người dùng tương tác và sử dụng hệ thống. Trong gói View gồm các gói con pages, api, components, styles, hooks, utils, icons. \\ \hline
+2 & Pages & Là thiết kế giao diện của các màn hình trong hệ thống. Mỗi một class trong gói tương ứng với một màn hình của hệ thống. \\ \hline
+3 & Components & Là những thành phần nhỏ giúp hiển thị giao diện hoặc xử lý logic cấu thành nên một page. \\ \hline
+4 & Styles & Là tập hợp các tập tin giúp cải thiện chất lượng giao diện, làm đẹp hơn, đảm bảo các tính chất khi thiết kế giao diện và trải nghiệm người dùng trên các màn hình của hệ thống. \\ \hline
+5 & Hooks & Tập hợp các hook tự phát triển (Hook - được định nghĩa và giải thích trong phần 3.1.3). \\ \hline
+6 & Api & Thực hiện các yêu cầu xử lý, truy vấn dữ liệu của client đến server. Nhận phản hồi từ server và xử lý. \\ \hline
+7 & Utils & Tập hợp các tiện ích, các hằng số được sử dụng trong các component. \\ \hline
+8 & Icons & Tập hợp các icon được sử dụng trong các component. \\ \hline
+9 & Controller & Nhận các yêu cầu từ Client gửi đến, phân quyền, xác thực danh tính và gửi xuống Service để xử lý. \\ \hline
+10 & Service & Gồm các lớp xử lý logic các yêu cầu từ controller gửi xuống, sử dụng các phương thức được cung cấp bởi repository để truy vấn đến cơ sở dữ liệu. \\ \hline
+11 & Repository & Gồm các class cung cấp những phương thức thực hiện các câu truy vấn đến cơ sở dữ liệu. \\ \hline
+12 & Model & Tập hợp các lớp định nghĩa thông tin cơ bản của các đối tượng trong hệ thống, mỗi class tương ứng với một bảng trong database. \\ \hline
+
+\end{tabular}
+\caption{Mục đích/Nhiệm vụ của các gói trong hệ thống}
+\end{table}
+
+\subsection{Thiết kế chi tiết gói}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Model.png}
+    \caption{Biểu đồ thiết kế gói Model}
     \label{fig:Fig2}
 \end{figure}
 
+Hình 4.3 là biểu đồ thiết kế cho gói Model. Gói Model tập hợp các lớp định nghĩa thông tin cơ bản của các đối tượng bao gồm User - người dùng, Order - đơn hàng, OrderItem - đơn hàng chi tiết, Product - sản phẩm, Role - vai trò của người dùng. Mỗi đối tượng User (như nhân viên thu ngân hoặc quản lý) có quan hệ kết tập  với một hoặc nhiều Role để xác định quyền hạn trong hệ thống. Một User bao gồm thông tin về các Role mà họ đảm nhận. Mỗi Order (đơn hàng) được tạo ra bởi một User (thường là nhân viên thu ngân hoặc khách hàng đã đăng nhập), do đó Order có mối quan hệ liên kết với User để lưu vết người tạo đơn. Lớp Order có quan hệ hợp thành chặt chẽ với OrderItem. Một đơn hàng bao gồm danh sách các món ăn chi tiết OrderItem. Nếu đơn hàng bị xóa, các chi tiết món ăn đi kèm cũng không còn ý nghĩa tồn tại. Mỗi OrderItem tham chiếu đến một Product cụ thể để xác định đó là món ăn gì (ví dụ: Suất 30k, Trà đá).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Controller.png}
+    \caption{Biểu đồ thiết kế gói Controller}
+    \label{fig:Fig2}
+\end{figure}
+
+Hình 4.4 là biểu đồ thiết kế cho gói Controller, Service, Repository. Các lớp trong gói Controller có nhiệm vụ là nhận yêu cầu từ client thông qua giao thức HTTP, sau đó chuyển xuống cho các lớp Service tương ứng của nó xử lý. Ví dụ lớp OrderController có một thuộc tính là một đối tượng OrderService, khi nhận được yêu cầu tạo đơn hàng nhanh từ client (máy POS), OrderController sẽ sử dụng các phương thức được cung cấp bởi OrderService để xử lý yêu cầu đó. Các lớp trong gói Service có nhiệm vụ xử lý logic nghiệp vụ. Lớp ProductService đảm nhận vai trò xử lý logic với những yêu cầu liên quan đến quản lý thực đơn và cập nhật trạng thái món ăn. Để thao tác với dữ liệu về món ăn trong cơ sở dữ liệu, nó sẽ sử dụng những phương thức được cung cấp bởi ProductRepository. Tương tự, OrderService đảm nhận vai trò xử lý logic nghiệp vụ phức tạp liên quan đến quy trình bán hàng và thanh toán. Để lưu trữ và thao tác với dữ liệu đơn hàng trong cơ sở dữ liệu, nó gọi đến những phương thức được cung cấp bởi OrderRepository. Ngoài ra, để đảm bảo tính toàn vẹn dữ liệu khi tạo đơn hàng (như lấy thông tin giá hiện tại của món ăn hay kiểm tra trạng thái tồn kho), OrderService sẽ gọi đến các phương thức mà ProductRepository (hoặc ProductService) cung cấp; đồng thời để ghi nhận nhân viên thực hiện giao dịch, nó cũng tương tác với UserRepository. Thiết kế này đảm bảo rằng, tất cả các lớp Controller sẽ chỉ có một nhiệm vụ duy nhất là nhận và điều phối yêu cầu từ client, việc xử lý logic nghiệp vụ sẽ do lớp Service của chính nó đảm nhận, và các đối tượng Repository chỉ cung cấp các phương thức truy xuất dữ liệu cơ bản. Để thực hiện các nghiệp vụ phức tạp liên quan đến nhiều thực thể, Service sẽ gọi tới Repository của chính nó hoặc sử dụng phương thức do các Service/Repository khác cung cấp.
+
 \section{Thiết kế chi tiết}
 \subsection{Thiết kế giao diện}
-Phần này có độ dài từ hai đến ba trang. Sinh viên đặc tả thông tin về màn hình mà ứng dụng của mình hướng tới, bao gồm độ phân giải màn hình, kích thước màn hình, số lượng màu sắc hỗ trợ, v.v. Tiếp đến, sinh viên đưa ra các thống nhất/chuẩn hóa của mình khi thiết kế giao diện như thiết kế nút, điều khiển, vị trí hiển thị thông điệp phản hồi, phối màu, v.v. Sau cùng sinh viên đưa ra một số hình ảnh minh họa thiết kế giao diện cho các chức năng quan trọng nhất. Lưu ý, sinh viên không nhầm lẫn giao diện thiết kế với giao diện của sản phẩm sau cùng.
+Hệ thống được thiết kế tối ưu cho máy tính để bàn và laptop có màn hình từ 14 inch trở lên với độ phân giải khuyến nghị 1440x900 pixels, nhằm đảm bảo không gian hiển thị rộng rãi cho các nghiệp vụ xử lý đơn hàng phức tạp. Về mặt thị giác, giao diện sử dụng màu xanh dương làm chủ đạo để tạo cảm giác chuyên nghiệp, với các nút bấm được chuẩn hóa đồng nhất (cao 36px, bo góc 4px, không viền) và cơ chế thông báo phản hồi trạng thái (thành công màu xanh, thất bại màu đỏ) đặt tại góc trái dưới màn hình. Các chức năng cốt lõi như Thực đơn điện tử, Giỏ hàng và đặc biệt là phân hệ POS bán hàng tại quầy đều tuân thủ nguyên tắc tối giản, chia bố cục rõ ràng thành các khu vực chức năng riêng biệt và hỗ trợ các thao tác nhanh (như phím tắt, gợi ý mệnh giá tiền) để đáp ứng áp lực phục vụ lớn trong giờ cao điểm.
+
+Dưới đây là một số hình ảnh minh họa thiết kế giao diện của hệ thống: 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện bán hàng chính.png}
+    \caption{Giao diện bán hàng chính}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện báo cáo thống kê.png}
+    \caption{Giao diện báo cáo thống kê}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện đặt hàng.png}
+    \caption{Giao diện đặt hàng}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện giỏ hàng.png}
+    \caption{Giao diện giỏ hàng}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện popup thanh toán nhanh.png}
+    \caption{Giao diện popup thanh toán nhanh}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý bàn ăn.png}
+    \caption{Giao diện quản lý bàn ăn}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý đơn hàng.png}
+    \caption{Giao diện quản lý đơn hàng}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý nhân viên.png}
+    \caption{Giao diện quản lý nhân viên}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý thực đơn.png}
+    \caption{Giao diện quản lý thực đơn}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý tổng quan.png}
+    \caption{Giao diện tổng quan}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện trạng thái đơn hàng.png}
+    \caption{Giao diện trạng thái đơn hàng}
+    \label{fig:Fig2}
+\end{figure}
+
+
+
 \subsection{Thiết kế lớp}
-Phần này có độ dài từ ba đến bốn trang. Sinh viên trình bày thiết kế chi tiết các thuộc tính và phương thức cho một số lớp chủ đạo/quan trọng nhất của ứng dụng (từ 2-4 lớp). Thiết kế chi tiết cho các lớp khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
 
-Để minh họa thiết kế lớp, sinh viên thiết kế luồng truyền thông điệp giữa các đối tượng tham gia cho 2 đến 3 use case quan trọng nào đó bằng biểu đồ trình tự (hoặc biểu đồ giao tiếp).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp Order.png}
+    \caption{Thiết kế lớp Order}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp OrderService.png}
+    \caption{Thiết kế lớp OrderService}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp Product.png}
+    \caption{Thiết kế lớp Product}
+    \label{fig:Fig2}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png}
+    \caption{Biểu đồ trình tự Tạo đơn hàng nhanh}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ trình tự Thanh toán.png}
+    \caption{Biểu đồ trình tự Thanh toán}
+    \label{fig:Fig2}
+\end{figure}
+
 \subsection{Thiết kế cơ sở dữ liệu}
-Phần này có độ dài từ hai đến bốn trang. Sinh viên thiết kế, vẽ và giải thích biểu đồ thực thể liên kết (E-R diagram). Từ đó, sinh viên thiết kế cơ sở dữ liệu tùy theo hệ quản trị cơ sở dữ liệu mà mình sử dụng (SQL, NoSQL, Firebase, v.v.)
 
-\section{Xây dựng ứng dụng}
-\subsection{Thư viện và công cụ sử dụng}
-Sinh viên liệt kê các công cụ, ngôn ngữ lập trình, API, thư viện, IDE, công cụ kiểm thử, v.v. mà mình sử dụng để phát triển ứng dụng. Mỗi công cụ phải được chỉ rõ phiên bản sử dụng. SV nên kẻ bảng mô tả tương tự như Bảng \ref{table:my_label}. Nếu có nhiều nội dung trình bày, sinh viên cần xoay ngang bảng.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thực thể liên kết.png}
+    \caption{Biểu đồ thực thể liên kết}
+    \label{fig:Fig2}
+\end{figure}
+Hình 4.5 là biểu đồ thực thể liên kết của hệ thống, gồm các thực thể chính là người dùng, vai trò, sản phẩm và đơn hàng. Mỗi người dùng (\texttt{users}) có \texttt{user\_id} riêng biệt, \texttt{username} và \texttt{password} dùng để đăng nhập và xác thực quyền truy cập vào hệ thống, \texttt{full\_name} dùng để hiển thị tên nhân viên trên hóa đơn. Mỗi người dùng được gán một vai trò (\texttt{roles}) nhất định thông qua \texttt{role\_id} để phân biệt quyền hạn quản trị hoặc nhân viên thu ngân.
 
+Thực thể sản phẩm (\texttt{products}) đại diện cho các món ăn trong thực đơn, bao gồm \texttt{product\_id} để định danh, \texttt{name} là tên món ăn, \texttt{price} là giá bán hiện tại. Đặc biệt, hệ thống sử dụng trường \texttt{is\_active} để quản lý việc hiển thị món ăn trên thực đơn theo ngày và \texttt{stock\_quantity} để kiểm soát số lượng suất ăn còn lại trong kho, giúp nhân viên biết được món nào còn hay hết theo thời gian thực.
+
+Về nghiệp vụ bán hàng, một đơn hàng (\texttt{orders}) bao gồm \texttt{order\_id} riêng biệt để phân biệt các giao dịch, \texttt{total\_amount} là tổng giá trị thanh toán, \texttt{status} thể hiện trạng thái đơn hàng (chờ thanh toán, đã thanh toán, hủy) và \texttt{payment\_method} lưu phương thức thanh toán. Một người dùng (nhân viên) có thể tạo ra nhiều đơn hàng, nhưng một đơn hàng luôn được tạo bởi một và chỉ một người dùng cụ thể để phục vụ việc truy vết trách nhiệm.
+
+Ngoài ra, một đơn hàng có thể bao gồm nhiều món ăn khác nhau, và một món ăn có thể xuất hiện trong nhiều đơn hàng. Vì thế, chúng tôi tạo thêm một thực thể trung gian là chi tiết đơn hàng (\texttt{order\_items}). Mỗi chi tiết đơn hàng là một thể hiện cụ thể của một món ăn nằm trong một đơn hàng tương ứng. Chi tiết đơn hàng liên kết với đơn hàng qua \texttt{order\_id} và món ăn qua \texttt{product\_id}, lưu trữ \texttt{quantity} là số lượng khách gọi. Quan trọng nhất, thực thể này có trường \texttt{price\_at\_purchase} dùng để lưu trữ giá bán tại thời điểm giao dịch, đảm bảo tính toàn vẹn của dữ liệu doanh thu lịch sử ngay cả khi giá gốc của sản phẩm (\texttt{products}) có sự thay đổi trong tương lai.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế db.png}
+    \caption{Biểu đồ thiết kế cơ sở dữ liệu}
+    \label{fig:Fig2}
+\end{figure}
+
+% --- Cần khai báo các gói này ở đầu file main.tex ---
+% \usepackage{float}
+% \usepackage{array}
+% \usepackage{longtable}
+
+\section{Thiết kế chi tiết cơ sở dữ liệu}
+\section{Thiết kế chi tiết cơ sở dữ liệu}
+Dưới đây là mô tả chi tiết ý nghĩa các bảng và các trường dữ liệu được sử dụng trong hệ thống.
+
+% --- Bảng 1: Users ---
 \begin{table}[H]
-\centering{}
-    \begin{tabular}{lll}
+    \centering
+    \caption{Mô tả bảng Người dùng (users)}
+    \label{tab:users}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
         \hline
-        \textbf{Mục đích} & \textbf{Công cụ}       & \textbf{Địa chỉ URL}    \\ \hline
-        IDE lập trình     & Eclipse Oxygen a64 bit & http://www.eclipse.org/ \\ \hline
-        v.v.              & v.v.                   & v.v.                    \\ \hline
-        \end{tabular}
-    \caption{Danh sách thư viện và công cụ sử dụng}
-    \label{fig:my_label}
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \hline
+        user\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của nhân viên trong hệ thống. \\
+        \hline
+        username & VARCHAR(50) & Tên đăng nhập dùng để xác thực danh tính khi truy cập hệ thống. \\
+        \hline
+        password & VARCHAR(255) & Mật khẩu đăng nhập (được lưu dưới dạng mã hóa BCrypt). \\
+        \hline
+        full\_name & VARCHAR(100) & Họ và tên đầy đủ của nhân viên, dùng để hiển thị trên hóa đơn và giao diện. \\
+        \hline
+        role\_id & BIGINT & Khóa ngoại (FK) liên kết với bảng roles, xác định quyền hạn của nhân viên. \\
+        \hline
+        created\_at & TIMESTAMP & Thời gian tài khoản được tạo. \\
+        \hline
+    \end{tabular}
 \end{table}
 
-\subsection{Kết quả đạt được}
-Sinh viên trước tiên mô tả kết quả đạt được của mình là gì, ví dụ như các sản phẩm được đóng gói là gì, bao gồm những thành phần nào, ý nghĩa, vai trò?
+% --- Bảng 2: Roles ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Vai trò (roles)}
+    \label{tab:roles}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \hline
+        role\_id & BIGINT & Khóa chính (PK), mã định danh của vai trò. \\
+        \hline
+        role\_name & VARCHAR(20) & Tên vai trò (Ví dụ: ADMIN, STAFF), dùng để phân quyền chức năng. \\
+        \hline
+    \end{tabular}
+\end{table}
 
-Sinh viên cần thống kê các thông tin về ứng dụng của mình như: số dòng code, số lớp, số gói, dung lượng toàn bộ mã nguồn, dung lượng của từng sản phẩm đóng gói, v.v. Tương tự như phần liệt kê về công cụ sử dụng, sinh viên cũng nên dùng bảng để mô tả phần thông tin thống kê này.
+% --- Bảng 3: Products ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Sản phẩm/Món ăn (products)}
+    \label{tab:products}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \hline
+        product\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của món ăn. \\
+        \hline
+        name & VARCHAR(100) & Tên món ăn hiển thị trên thực đơn (Menu). \\
+        \hline
+        price & DECIMAL(10,2) & Giá bán hiện tại của món ăn. \\
+        \hline
+        image\_url & VARCHAR(255) & Đường dẫn tới hình ảnh minh họa cho món ăn. \\
+        \hline
+        is\_active & BOOLEAN & Trạng thái hiển thị. Nếu true, món ăn sẽ xuất hiện trên menu bán hàng hôm nay. \\
+        \hline
+        stock\_quantity & INTEGER & Số lượng suất ăn ước tính còn lại trong kho, dùng để cảnh báo hết hàng. \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\subsection{Minh họa các chức năng chính}
-Sinh viên lựa chọn và đưa ra màn hình cho các chức năng chính, quan trọng, và thú vị nhất. Mỗi giao diện cần phải có lời giải thích ngắn gọn. Khi giải thích, sinh viên có thể kết hợp với các chú thích ở trong hình ảnh giao diện.
+% --- Bảng 4: Orders ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Đơn hàng (orders)}
+    \label{tab:orders}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \hline
+        order\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của giao dịch/đơn hàng. \\
+        \hline
+        user\_id & BIGINT & Khóa ngoại (FK), xác định nhân viên nào đã tạo đơn hàng này. \\
+        \hline
+        total\_amount & DECIMAL(15,2) & Tổng giá trị thanh toán cuối cùng của đơn hàng. \\
+        \hline
+        status & VARCHAR(20) & Trạng thái đơn hàng (Ví dụ: PENDING, PAID, CANCELLED). \\
+        \hline
+        payment\_method & VARCHAR(20) & Phương thức khách hàng dùng để thanh toán (Tiền mặt, Chuyển khoản). \\
+        \hline
+        order\_date & TIMESTAMP & Thời gian chính xác khi đơn hàng được khởi tạo. \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\section{Kiểm thử}
-Phần này có độ dài từ hai đến ba trang. Sinh viên thiết kế các trường hợp kiểm thử cho hai đến ba chức năng quan trọng nhất. Sinh viên cần chỉ rõ các kỹ thuật kiểm thử đã sử dụng. Chi tiết các trường hợp kiểm thử khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
-Sinh viên sau cùng tổng kết về số lượng các trường hợp kiểm thử và kết quả kiểm thử. Sinh viên cần phân tích lý do nếu kết quả kiểm thử không đạt.
-\section{Triển khai}
-Sinh viên trình bày mô hình và/hoặc cách thức triển khai thử nghiệm/thực tế. Ứng dụng của sinh viên được triển khai trên server/thiết bị gì, cấu hình như thế nào. Kết quả triển khai thử nghiệm nếu có (số lượng người dùng, số lượng truy cập, thời gian phản hồi, phản hồi người dùng, khả năng chịu tải, các thống kê, v.v.)
+% --- Bảng 5: Order Items ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Chi tiết đơn hàng (order\_items)}
+    \label{tab:order_items}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \hline
+        item\_id & BIGINT & Khóa chính (PK), định danh dòng chi tiết. \\
+        \hline
+        order\_id & BIGINT & Khóa ngoại (FK), liên kết chi tiết này thuộc về đơn hàng nào. \\
+        \hline
+        product\_id & BIGINT & Khóa ngoại (FK), xác định món ăn nào được gọi. \\
+        \hline
+        quantity & INTEGER & Số lượng món ăn khách hàng gọi trong đơn hàng này. \\
+        \hline
+        price\_at\_purchase & DECIMAL(10,2) & Giá bán của món ăn \textbf{tại thời điểm mua}. Lưu trữ giá trị này để đảm bảo lịch sử doanh thu không bị sai lệch khi giá gốc thay đổi. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+
+
+
+
+
+% \section{Xây dựng ứng dụng}
+% \subsection{Thư viện và công cụ sử dụng}
+% Sinh viên liệt kê các công cụ, ngôn ngữ lập trình, API, thư viện, IDE, công cụ kiểm thử, v.v. mà mình sử dụng để phát triển ứng dụng. Mỗi công cụ phải được chỉ rõ phiên bản sử dụng. SV nên kẻ bảng mô tả tương tự như Bảng \ref{table:my_label}. Nếu có nhiều nội dung trình bày, sinh viên cần xoay ngang bảng.
+
+% \begin{table}[H]
+% \centering{}
+%     \begin{tabular}{lll}
+%         \hline
+%         \textbf{Mục đích} & \textbf{Công cụ}       & \textbf{Địa chỉ URL}    \\ \hline
+%         IDE lập trình     & Eclipse Oxygen a64 bit & http://www.eclipse.org/ \\ \hline
+%         v.v.              & v.v.                   & v.v.                    \\ \hline
+%         \end{tabular}
+%     \caption{Danh sách thư viện và công cụ sử dụng}
+%     \label{fig:my_label}
+% \end{table}
+
+% \subsection{Kết quả đạt được}
+% Sinh viên trước tiên mô tả kết quả đạt được của mình là gì, ví dụ như các sản phẩm được đóng gói là gì, bao gồm những thành phần nào, ý nghĩa, vai trò?
+
+% Sinh viên cần thống kê các thông tin về ứng dụng của mình như: số dòng code, số lớp, số gói, dung lượng toàn bộ mã nguồn, dung lượng của từng sản phẩm đóng gói, v.v. Tương tự như phần liệt kê về công cụ sử dụng, sinh viên cũng nên dùng bảng để mô tả phần thông tin thống kê này.
+
+% \subsection{Minh họa các chức năng chính}
+% Sinh viên lựa chọn và đưa ra màn hình cho các chức năng chính, quan trọng, và thú vị nhất. Mỗi giao diện cần phải có lời giải thích ngắn gọn. Khi giải thích, sinh viên có thể kết hợp với các chú thích ở trong hình ảnh giao diện.
+
+% \section{Kiểm thử}
+% Phần này có độ dài từ hai đến ba trang. Sinh viên thiết kế các trường hợp kiểm thử cho hai đến ba chức năng quan trọng nhất. Sinh viên cần chỉ rõ các kỹ thuật kiểm thử đã sử dụng. Chi tiết các trường hợp kiểm thử khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
+% Sinh viên sau cùng tổng kết về số lượng các trường hợp kiểm thử và kết quả kiểm thử. Sinh viên cần phân tích lý do nếu kết quả kiểm thử không đạt.
+% \section{Triển khai}
+% Sinh viên trình bày mô hình và/hoặc cách thức triển khai thử nghiệm/thực tế. Ứng dụng của sinh viên được triển khai trên server/thiết bị gì, cấu hình như thế nào. Kết quả triển khai thử nghiệm nếu có (số lượng người dùng, số lượng truy cập, thời gian phản hồi, phản hồi người dùng, khả năng chịu tải, các thống kê, v.v.)
 
 \end{document}

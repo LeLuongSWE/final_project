@@ -1,12 +1,18 @@
-\documentclass[../DoAn.tex]{subfiles}
+\documentclass[../20232006p.tex]{subfiles}
 \begin{document}
 \section{Kết luận}
-Sinh viên so sánh kết quả nghiên cứu hoặc sản phẩm của mình với các nghiên cứu hoặc sản phẩm tương tự.
 
-Sinh viên phân tích trong suốt quá trình thực hiện ĐATN, mình đã làm được gì, chưa làm được gì, các đóng góp nổi bật là gì, và tổng hợp những bài học kinh nghiệm rút ra nếu có.
+Đồ án tốt nghiệp với đề tài ``Xây dựng hệ thống quản lý vận hành và bán hàng cho nhà hàng cơm bình dân'' đã hoàn thành trọn vẹn các mục tiêu đề ra ban đầu, bao gồm việc nghiên cứu cơ sở lý thuyết, phân tích đặc thù nghiệp vụ và xây dựng thành công một sản phẩm phần mềm hoàn chỉnh có khả năng ứng dụng thực tiễn. Quá trình thực hiện đồ án là sự kết hợp chặt chẽ giữa quy trình phát triển phần mềm chuẩn mực và việc áp dụng linh hoạt các công nghệ tiên tiến nhằm giải quyết các bài toán cụ thể của mô hình kinh doanh dịch vụ ăn uống bình dân.
 
-\section{Hướng phát triển}
-Trong phần này, sinh viên trình bày định hướng công việc trong tương lai để hoàn thiện sản phẩm hoặc nghiên cứu của mình.
+Về mặt nghiệp vụ, hệ thống đã giải quyết triệt để bài toán quản lý thực đơn động biến thiên theo ngày và tối ưu hóa quy trình bán hàng tại quầy với tốc độ xử lý giao dịch dưới 30 giây. Việc chuyển đổi từ quy trình quản lý thủ công sang quy trình số hóa khép kín không chỉ giúp các chủ cửa hàng kiểm soát chặt chẽ nguồn thu, giảm thiểu thất thoát mà còn nâng cao đáng kể năng suất làm việc của nhân viên trong các khung giờ cao điểm. Giao diện người dùng được thiết kế chuyên biệt cho thao tác chạm đã chứng minh được tính hiệu quả trong việc giảm thiểu sai sót và rút ngắn thời gian đào tạo nhân viên mới.
 
-Trước tiên, sinh viên trình bày các công việc cần thiết để hoàn thiện các chức năng/nhiệm vụ đã làm. Sau đó sinh viên phân tích các hướng đi mới cho phép cải thiện và nâng cấp các chức năng/nhiệm vụ đã làm.
+Về mặt kỹ thuật, đồ án đã xây dựng được một kiến trúc hệ thống phân tầng bền vững, tuân thủ các nguyên tắc thiết kế hướng đối tượng và bảo mật dữ liệu. Việc tích hợp thành công các công nghệ như Redis cho tầng đệm dữ liệu và WebSocket cho giao tiếp thời gian thực đã đảm bảo hệ thống vận hành mượt mà với độ trễ thấp, đáp ứng tốt các yêu cầu phi chức năng về hiệu năng. Quan trọng hơn, cơ chế lưu trữ snapshot dữ liệu giá tại thời điểm giao dịch đã đảm bảo tính toàn vẹn và chính xác tuyệt đối cho các báo cáo tài chính, khắc phục hoàn toàn nhược điểm của các hệ thống quản lý bán hàng đơn giản trước đây. Kết quả thực nghiệm và kiểm thử cho thấy hệ thống hoạt động ổn định, chịu tải tốt và sẵn sàng cho việc triển khai vào môi trường thực tế.
+
+\section{Hạn chế và hướng phát triển}
+
+Mặc dù đã đạt được những kết quả khả quan, trong khuôn khổ giới hạn về thời gian và nguồn lực của một đồ án tốt nghiệp kỹ sư, hệ thống vẫn tồn tại một số hạn chế nhất định và mở ra nhiều dư địa cho việc nghiên cứu, phát triển trong tương lai. Hiện tại, hệ thống mới chỉ tập trung tối ưu hóa cho mô hình cửa hàng đơn lẻ và chưa hỗ trợ đầy đủ các tính năng quản lý chuỗi cung ứng phức tạp hay các báo cáo phân tích chuyên sâu đa chiều.
+
+Hướng phát triển tiềm năng nhất trong tương lai là việc tích hợp các mô hình Trí tuệ nhân tạo (AI) và Học máy (Machine Learning) để giải quyết bài toán dự báo nhu cầu. Dựa trên dữ liệu lịch sử bán hàng được hệ thống thu thập, ta có thể xây dựng các mô hình dự đoán số lượng suất ăn tiêu thụ cho từng món trong ngày tiếp theo, kết hợp với các yếu tố ngoại cảnh như thời tiết hay ngày lễ. Điều này sẽ hỗ trợ đắc lực cho bộ phận bếp trong việc lên kế hoạch nhập nguyên liệu và sơ chế, giúp giảm thiểu tối đa lượng thức ăn thừa - một trong những vấn đề gây lãng phí lớn nhất của ngành kinh doanh ẩm thực. Đây là một bài toán tối ưu hóa phức tạp đòi hỏi năng lực tính toán cao và là tiền đề tốt cho các nghiên cứu chuyên sâu về dữ liệu lớn sau này.
+
+Bên cạnh đó, về mặt kiến trúc phần mềm, hệ thống có thể được nâng cấp từ mô hình nguyên khối (Monolithic) sang kiến trúc vi dịch vụ (Microservices) để tăng cường khả năng mở rộng linh hoạt (Scalability). Việc tách nhỏ các mô-đun như Quản lý đơn hàng, Quản lý kho, và Báo cáo thành các dịch vụ độc lập sẽ cho phép triển khai hệ thống trên các nền tảng điện toán đám mây với công nghệ Containerization như Docker và Kubernetes. Đồng thời, việc phát triển thêm ứng dụng di động (Mobile App) dành riêng cho người quản lý để theo dõi doanh thu và điều hành cửa hàng từ xa cũng là một hướng đi thiết thực nhằm hoàn thiện hệ sinh thái phần mềm, mang lại trải nghiệm toàn diện và tiện ích hơn cho người sử dụng.
 \end{document}

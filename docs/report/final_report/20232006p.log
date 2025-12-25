@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.9)  15 DEC 2025 20:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.9)  25 DEC 2025 08:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -978,7 +978,7 @@ Package: xparse 2023-10-10 L3 Experimental document command parser
 Package: blx-case-expl3 2023/03/05 v3.19 expl3 case changing code for biblatex
 ))
 
-LaTeX Warning: \include should only be used after \begin{document} on input line 62.
+LaTeX Warning: \include should only be used after \begin{document} on input line 61.
 
 No file lstlisting.
 (./Tu_viet_tat.tex) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
@@ -1074,7 +1074,7 @@ Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 \c@example=\count489
 \@quotelevel=\count490
 \@quotereset=\count491
-LaTeX Font Info:    Trying to load font information for T5+ptm on input line 166.
+LaTeX Font Info:    Trying to load font information for T5+ptm on input line 165.
  (/usr/share/texlive/texmf-dist/tex/latex/vntex/t5ptm.fd
 File: t5utm.fd 2005/08/24 Fontinst v1.929 font definitions for T5/ptm.
 )
@@ -1084,31 +1084,88 @@ LaTeX Warning: Unused global option(s):
 
 (./20232006p.aux
 
-LaTeX Warning: Label `fig:Bia' multiply defined.
+LaTeX Warning: Label `fig:Fig1' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:Fig2' multiply defined.
 
 )
 \openout1 = `20232006p.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 166.
-LaTeX Font Info:    ... okay on input line 166.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 165.
+LaTeX Font Info:    ... okay on input line 165.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1197,9 +1254,9 @@ Package biblatex Info: Data encoding 'utf8' specified.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file '20232006p.bbl' found.
  (./20232006p.bbl)
-Package biblatex Info: Reference section=0 on input line 166.
-Package biblatex Info: Reference segment=0 on input line 166.
-Package hyperref Info: Link coloring OFF on input line 166.
+Package biblatex Info: Reference section=0 on input line 165.
+Package biblatex Info: Reference segment=0 on input line 165.
+Package hyperref Info: Link coloring OFF on input line 165.
  (./20232006p.out) (./20232006p.out)
 \@outlinefile=\write5
 \openout5 = `20232006p.out'.
@@ -1249,9 +1306,6 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/vntex/t5.enc}]) (./Bia_lot.tex
-Underfull \vbox (badness 2401) has occurred while \output is active []
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1260,7 +1314,7 @@ l.45 \end{titlepage}
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.192 \newpage
+l.191 \newpage
                [1] (./20232006p.toc
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1284,7 +1338,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-Package glossaries Warning: Empty glossary for \printnoidxglossary[type={main}]. Rerun may be required (or you may have forgotten to use commands like \gls) on input line 248.
+Package glossaries Warning: Empty glossary for \printnoidxglossary[type={main}]. Rerun may be required (or you may have forgotten to use commands like \gls) on input line 247.
 
 Using TeX to sort glossary entries---this may take a while
 [4
@@ -1331,11 +1385,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [4
 
 ]
-<Hinhve/Hinh_ve_Use_case_tong_quat.png, id=373, 577.40718pt x 919.18407pt>
-File: Hinhve/Hinh_ve_Use_case_tong_quat.png Graphic file (type png)
-<use Hinhve/Hinh_ve_Use_case_tong_quat.png>
-Package pdftex.def Info: Hinhve/Hinh_ve_Use_case_tong_quat.png  used on input line 20.
-(pdftex.def)             Requested size: 320.0935pt x 509.57816pt.
+<Hinhve/Biểu đồ Use Case.png, id=465, 6452.105pt x 10691.945pt>
+File: Hinhve/Biểu đồ Use Case.png Graphic file (type png)
+<use Hinhve/Biểu đồ Use Case.png>
+Package pdftex.def Info: Hinhve/Biểu đồ Use Case.png  used on input line 20.
+(pdftex.def)             Requested size: 320.0935pt x 530.38678pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1347,7 +1401,16 @@ Package fancyhdr Warning: \headheight is too small (10.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
-[5 <./Hinhve/Hinh_ve_Use_case_tong_quat.png>])
+[5 <./Hinhve/Biểu đồ Use Case.png>]
+<Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png, id=472, 2063.71pt x 3256.165pt>
+File: Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png Graphic file (type png)
+<use Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png>
+Package pdftex.def Info: Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png  used on input line 31.
+(pdftex.def)             Requested size: 320.0935pt x 505.04816pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (10.0pt): 
 (fancyhdr)                Make it at least 17.97902pt, for example:
@@ -1356,36 +1419,228 @@ Package fancyhdr Warning: \headheight is too small (10.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
 [6]
+<Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png, id=477, 2063.71pt x 3256.165pt>
+File: Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png Graphic file (type png)
+<use Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png>
+Package pdftex.def Info: Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png  used on input line 43.
+(pdftex.def)             Requested size: 320.0935pt x 505.04816pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[7 <./Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png>]
+<Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png, id=483, 2063.71pt x 2372.865pt>
+File: Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png Graphic file (type png)
+<use Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png>
+Package pdftex.def Info: Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png  used on input line 55.
+(pdftex.def)             Requested size: 320.0935pt x 368.04373pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[8 <./Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png>]
+<Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png, id=489, 2621.795pt x 4139.465pt>
+File: Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png Graphic file (type png)
+<use Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png>
+Package pdftex.def Info: Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png  used on input line 67.
+(pdftex.def)             Requested size: 320.0935pt x 505.36772pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[9 <./Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png>]
+<Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png, id=495, 2854.665pt x 5062.915pt>
+File: Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png Graphic file (type png)
+<use Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png>
+Package pdftex.def Info: Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png  used on input line 81.
+(pdftex.def)             Requested size: 320.0935pt x 567.66066pt.
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[10 <./Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png>]
+<Hinhve/Biểu đồ hoạt động tạo đơn hàng.png, id=502, 4420.515pt x 5464.415pt>
+File: Hinhve/Biểu đồ hoạt động tạo đơn hàng.png Graphic file (type png)
+<use Hinhve/Biểu đồ hoạt động tạo đơn hàng.png>
+Package pdftex.def Info: Hinhve/Biểu đồ hoạt động tạo đơn hàng.png  used on input line 89.
+(pdftex.def)             Requested size: 320.0935pt x 395.63882pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[11 <./Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--125
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 99--140
+ [] [] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[12 <./Hinhve/Biểu đồ hoạt động tạo đơn hàng.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 158--158
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--169
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 146--181
+ [] [] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 199--199
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--211
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 187--227
+ [] [] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 245--245
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 257--257
+[]|\T5/ptm/b/n/13 Lu�ng s� ki�n
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 233--268
+ [] [] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[15])
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[16]
 Ch\uhorn \ohorn ng 3.
-(./Chuong/3_Cong_nghe.tex) [7
+(./Chuong/3_Cong_nghe.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17
 
 ]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 15.977pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.977pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-5.977pt}.
+
+[18])
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 15.977pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.977pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-5.977pt}.
+
+[19]
 Ch\uhorn \ohorn ng 4.
 (./Chuong/4_Ket_qua_thuc_nghiem.tex
-<Hinhve/Picture1.png, id=390, 234.8775pt x 179.6895pt>
-File: Hinhve/Picture1.png Graphic file (type png)
-<use Hinhve/Picture1.png>
-Package pdftex.def Info: Hinhve/Picture1.png  used on input line 13.
-(pdftex.def)             Requested size: 234.87692pt x 179.68906pt.
- [8
+<Hinhve/Mô hình 3 tầng.png, id=593, 3216.015pt x 405.515pt>
+File: Hinhve/Mô hình 3 tầng.png Graphic file (type png)
+<use Hinhve/Mô hình 3 tầng.png>
+Package pdftex.def Info: Hinhve/Mô hình 3 tầng.png  used on input line 10.
+(pdftex.def)             Requested size: 320.0935pt x 40.35587pt.
+ [20
 
- <./Hinhve/Picture1.png>]
-<Hinhve/Picture2.png, id=398, 238.64156pt x 299.61937pt>
-File: Hinhve/Picture2.png Graphic file (type png)
-<use Hinhve/Picture2.png>
-Package pdftex.def Info: Hinhve/Picture2.png  used on input line 26.
-(pdftex.def)             Requested size: 238.64096pt x 299.61864pt.
+ <./Hinhve/Mô hình 3 tầng.png>]
+<Hinhve/Biểu đồ phụ thuộc gói.png, id=602, 4139.465pt x 6709.065pt>
+File: Hinhve/Biểu đồ phụ thuộc gói.png Graphic file (type png)
+<use Hinhve/Biểu đồ phụ thuộc gói.png>
+Package pdftex.def Info: Hinhve/Biểu đồ phụ thuộc gói.png  used on input line 34.
+(pdftex.def)             Requested size: 320.0935pt x 518.7187pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Package fancyhdr Warning: \headheight is too small (10.0pt): 
-(fancyhdr)                Make it at least 17.97902pt, for example:
-(fancyhdr)                \setlength{\headheight}{17.97902pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
-
-[9 <./Hinhve/Picture2.png>]
-
-LaTeX Warning: Reference `table:my_label' on page 10 undefined on input line 43.
 
 
 Package fancyhdr Warning: \headheight is too small (10.0pt): 
@@ -1394,7 +1649,16 @@ Package fancyhdr Warning: \headheight is too small (10.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
-[10])
+[21 <./Hinhve/Biểu đồ phụ thuộc gói.png>]
+<Hinhve/Biểu đồ thiết kế gói Model.png, id=608, 3657.665pt x 3416.765pt>
+File: Hinhve/Biểu đồ thiết kế gói Model.png Graphic file (type png)
+<use Hinhve/Biểu đồ thiết kế gói Model.png>
+Package pdftex.def Info: Hinhve/Biểu đồ thiết kế gói Model.png  used on input line 71.
+(pdftex.def)             Requested size: 320.0935pt x 298.99748pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (10.0pt): 
 (fancyhdr)                Make it at least 17.97902pt, for example:
@@ -1402,57 +1666,339 @@ Package fancyhdr Warning: \headheight is too small (10.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
-[11]
-Ch\uhorn \ohorn ng 5.
-(./Chuong/5_Giai_phap_dong_gop.tex
-LaTeX Font Info:    Calculating math sizes for size <10.83347> on input line 4.
+[22]
+<Hinhve/Biểu đồ thiết kế gói Controller.png, id=614, 5657.135pt x 6548.465pt>
+File: Hinhve/Biểu đồ thiết kế gói Controller.png Graphic file (type png)
+<use Hinhve/Biểu đồ thiết kế gói Controller.png>
+Package pdftex.def Info: Hinhve/Biểu đồ thiết kế gói Controller.png  used on input line 80.
+(pdftex.def)             Requested size: 320.0935pt x 370.50856pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <7.58339> not available
-(Font)              size <8> substituted on input line 4.
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[23 <./Hinhve/Biểu đồ thiết kế gói Model.png>]
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[24 <./Hinhve/Biểu đồ thiết kế gói Controller.png>]
+<Hinhve/Giao diện bán hàng chính.png, id=626, 2826.56pt x 1541.76pt>
+File: Hinhve/Giao diện bán hàng chính.png Graphic file (type png)
+<use Hinhve/Giao diện bán hàng chính.png>
+Package pdftex.def Info: Hinhve/Giao diện bán hàng chính.png  used on input line 95.
+(pdftex.def)             Requested size: 320.0935pt x 174.5815pt.
+<Hinhve/Giao diện báo cáo thống kê.png, id=627, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện báo cáo thống kê.png Graphic file (type png)
+<use Hinhve/Giao diện báo cáo thống kê.png>
+Package pdftex.def Info: Hinhve/Giao diện báo cáo thống kê.png  used on input line 102.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.41673> not available
-(Font)              size <5> substituted on input line 4.
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[25 <./Hinhve/Giao diện bán hàng chính.png (PNG copy)>]
+<Hinhve/Giao diện đặt hàng.png, id=632, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện đặt hàng.png Graphic file (type png)
+<use Hinhve/Giao diện đặt hàng.png>
+Package pdftex.def Info: Hinhve/Giao diện đặt hàng.png  used on input line 109.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+<Hinhve/Giao diện giỏ hàng.png, id=633, 2826.56pt x 1541.76pt>
+File: Hinhve/Giao diện giỏ hàng.png Graphic file (type png)
+<use Hinhve/Giao diện giỏ hàng.png>
+Package pdftex.def Info: Hinhve/Giao diện giỏ hàng.png  used on input line 116.
+(pdftex.def)             Requested size: 320.0935pt x 174.5815pt.
+<Hinhve/Giao diện popup thanh toán nhanh.png, id=634, 2119.92pt x 1156.32pt>
+File: Hinhve/Giao diện popup thanh toán nhanh.png Graphic file (type png)
+<use Hinhve/Giao diện popup thanh toán nhanh.png>
+Package pdftex.def Info: Hinhve/Giao diện popup thanh toán nhanh.png  used on input line 123.
+(pdftex.def)             Requested size: 320.0935pt x 174.58737pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <7.58339> not available
-(Font)              size <8> substituted on input line 4.
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[26 <./Hinhve/Giao diện báo cáo thống kê.png> <./Hinhve/Giao diện đặt hàng.png> <./Hinhve/Giao diện giỏ hàng.png (PNG copy)>]
+<Hinhve/Giao diện quản lý bàn ăn.png, id=639, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện quản lý bàn ăn.png Graphic file (type png)
+<use Hinhve/Giao diện quản lý bàn ăn.png>
+Package pdftex.def Info: Hinhve/Giao diện quản lý bàn ăn.png  used on input line 130.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+<Hinhve/Giao diện quản lý đơn hàng.png, id=640, 2826.56pt x 1541.76pt>
+File: Hinhve/Giao diện quản lý đơn hàng.png Graphic file (type png)
+<use Hinhve/Giao diện quản lý đơn hàng.png>
+Package pdftex.def Info: Hinhve/Giao diện quản lý đơn hàng.png  used on input line 137.
+(pdftex.def)             Requested size: 320.0935pt x 174.5815pt.
+<Hinhve/Giao diện quản lý nhân viên.png, id=641, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện quản lý nhân viên.png Graphic file (type png)
+<use Hinhve/Giao diện quản lý nhân viên.png>
+Package pdftex.def Info: Hinhve/Giao diện quản lý nhân viên.png  used on input line 144.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <5.41673> not available
-(Font)              size <5> substituted on input line 4.
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[27 <./Hinhve/Giao diện popup thanh toán nhanh.png> <./Hinhve/Giao diện quản lý bàn ăn.png> <./Hinhve/Giao diện quản lý đơn hàng.png (PNG copy)>]
+<Hinhve/Giao diện quản lý thực đơn.png, id=647, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện quản lý thực đơn.png Graphic file (type png)
+<use Hinhve/Giao diện quản lý thực đơn.png>
+Package pdftex.def Info: Hinhve/Giao diện quản lý thực đơn.png  used on input line 151.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+<Hinhve/Giao diện quản lý tổng quan.png, id=648, 1027.84pt x 561.09625pt>
+File: Hinhve/Giao diện quản lý tổng quan.png Graphic file (type png)
+<use Hinhve/Giao diện quản lý tổng quan.png>
+Package pdftex.def Info: Hinhve/Giao diện quản lý tổng quan.png  used on input line 158.
+(pdftex.def)             Requested size: 320.0935pt x 174.73427pt.
+<Hinhve/Giao diện trạng thái đơn hàng.png, id=649, 2826.56pt x 1541.76pt>
+File: Hinhve/Giao diện trạng thái đơn hàng.png Graphic file (type png)
+<use Hinhve/Giao diện trạng thái đơn hàng.png>
+Package pdftex.def Info: Hinhve/Giao diện trạng thái đơn hàng.png  used on input line 165.
+(pdftex.def)             Requested size: 320.0935pt x 174.5815pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <7.58339> not available
-(Font)              size <8> substituted on input line 4.
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[28 <./Hinhve/Giao diện quản lý nhân viên.png> <./Hinhve/Giao diện quản lý thực đơn.png> <./Hinhve/Giao diện quản lý tổng quan.png>]
+<Hinhve/Lớp Order.png, id=655, 2095.83pt x 1939.245pt>
+File: Hinhve/Lớp Order.png Graphic file (type png)
+<use Hinhve/Lớp Order.png>
+Package pdftex.def Info: Hinhve/Lớp Order.png  used on input line 176.
+(pdftex.def)             Requested size: 320.0935pt x 296.17088pt.
+<Hinhve/Lớp OrderService.png, id=656, 3139.73pt x 935.495pt>
+File: Hinhve/Lớp OrderService.png Graphic file (type png)
+<use Hinhve/Lớp OrderService.png>
+Package pdftex.def Info: Hinhve/Lớp OrderService.png  used on input line 183.
+(pdftex.def)             Requested size: 320.0935pt x 95.36783pt.
+<Hinhve/Lớp Product.png, id=657, 2256.43pt x 1650.165pt>
+File: Hinhve/Lớp Product.png Graphic file (type png)
+<use Hinhve/Lớp Product.png>
+Package pdftex.def Info: Hinhve/Lớp Product.png  used on input line 190.
+(pdftex.def)             Requested size: 320.0935pt x 234.06824pt.
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.41673> not available
-(Font)              size <5> substituted on input line 4.
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[29 <./Hinhve/Giao diện trạng thái đơn hàng.png (PNG copy)> <./Hinhve/Lớp Order.png> <./Hinhve/Lớp OrderService.png>]
+<Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png, id=664, 686.565pt x 376.40625pt>
+File: Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png Graphic file (type png)
+<use Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png>
+Package pdftex.def Info: Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png  used on input line 198.
+(pdftex.def)             Requested size: 320.0935pt x 175.48657pt.
+<Hinhve/Biểu đồ trình tự Thanh toán.png, id=665, 572.1375pt x 302.12875pt>
+File: Hinhve/Biểu đồ trình tự Thanh toán.png Graphic file (type png)
+<use Hinhve/Biểu đồ trình tự Thanh toán.png>
+Package pdftex.def Info: Hinhve/Biểu đồ trình tự Thanh toán.png  used on input line 205.
+(pdftex.def)             Requested size: 320.0935pt x 169.0342pt.
+<Hinhve/Biểu đồ thực thể liên kết.png, id=666, 8455.59pt x 5183.365pt>
+File: Hinhve/Biểu đồ thực thể liên kết.png Graphic file (type png)
+<use Hinhve/Biểu đồ thực thể liên kết.png>
+Package pdftex.def Info: Hinhve/Biểu đồ thực thể liên kết.png  used on input line 214.
+(pdftex.def)             Requested size: 320.0935pt x 196.14737pt.
 
 
-LaTeX Font Warning: Font shape `U/lasy/m/n' in size <7.58339> not available
-(Font)              size <8> substituted on input line 4.
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
-
-LaTeX Font Warning: Font shape `U/lasy/m/n' in size <5.41673> not available
-(Font)              size <5> substituted on input line 4.
-
-) [12
-
-]
-Ch\uhorn \ohorn ng 6.
-(./Chuong/6_Ket_luan.tex) [13
-
-] (./Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-LaTeX Font Info:    Trying to load font information for T5+pcr on input line 5.
+[30 <./Hinhve/Lớp Product.png> <./Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png (PNG copy)> <./Hinhve/Biểu đồ trình tự Thanh toán.png (PNG copy)>]
+LaTeX Font Info:    Trying to load font information for T5+pcr on input line 218.
  (/usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 File: t5ucr.fd 2005/08/24 Fontinst v1.929 font definitions for T5/pcr.
 )
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[31 <./Hinhve/Biểu đồ thực thể liên kết.png>]
+<Hinhve/Biểu đồ thiết kế db.png, id=678, 483.8075pt x 766.865pt>
+File: Hinhve/Biểu đồ thiết kế db.png Graphic file (type png)
+<use Hinhve/Biểu đồ thiết kế db.png>
+Package pdftex.def Info: Hinhve/Biểu đồ thiết kế db.png  used on input line 228.
+(pdftex.def)             Requested size: 320.0935pt x 507.38452pt.
+
+Overfull \hbox (4.2117pt too wide) in paragraph at lines 255--255
+[]|\T5/ptm/m/n/13 VARCHAR(255)| 
+ []
+
+
+Overfull \hbox (4.2117pt too wide) in paragraph at lines 257--257
+[]|\T5/ptm/m/n/13 VARCHAR(100)| 
+ []
+
+
+Overfull \hbox (9.14719pt too wide) in paragraph at lines 247--264
+ [][] 
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[32 <./Hinhve/Biểu đồ thiết kế db.png (PNG copy)>]
+Overfull \hbox (9.14719pt too wide) in paragraph at lines 271--280
+ [][] 
+ []
+
+
+Overfull \hbox (4.2117pt too wide) in paragraph at lines 293--293
+[]|\T5/ptm/m/n/13 VARCHAR(100)| 
+ []
+
+
+Underfull \hbox (badness 2119) in paragraph at lines 293--294
+[]|\T5/ptm/m/n/13 T�n m�n �n hi�n th� tr�n th�c ^^_�n
+ []
+
+
+Overfull \hbox (5.2647pt too wide) in paragraph at lines 295--295
+[]|\T5/ptm/m/n/13 DECIMAL(10,2)| 
+ []
+
+
+Overfull \hbox (4.2117pt too wide) in paragraph at lines 297--297
+[]|\T5/ptm/m/n/13 VARCHAR(255)| 
+ []
+
+
+Overfull \hbox (9.14719pt too wide) in paragraph at lines 287--304
+ [][] 
+ []
+
+
+Overfull \hbox (5.2647pt too wide) in paragraph at lines 319--319
+[]|\T5/ptm/m/n/13 DECIMAL(15,2)| 
+ []
+
+
+Overfull \hbox (9.14719pt too wide) in paragraph at lines 311--328
+ [][] 
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[33]
+Overfull \hbox (5.2647pt too wide) in paragraph at lines 347--347
+[]|\T5/ptm/m/n/13 DECIMAL(10,2)| 
+ []
+
+
+Overfull \hbox (9.14719pt too wide) in paragraph at lines 335--350
+ [][] 
+ []
+
+)
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.97902pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97902pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
+
+[34]
+Ch\uhorn \ohorn ng 5.
+(./Chuong/5_Giai_phap_dong_gop.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.47202pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.47202pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.47202pt}.
+
+[36]
+Overfull \hbox (0.28467pt too wide) in paragraph at lines 29--30
+\T5/ptm/m/n/13 t�i th�i ^^_i�m giao d�ch, bao g�m: t�n m�n �n v� ^^_�n gi� (\T5/pcr/m/n/13 price_at_purchase\T5/ptm/m/n/13 ).
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.47202pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.47202pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.47202pt}.
+
+[37])
+
+Package fancyhdr Warning: \headheight is too small (10.0pt): 
+(fancyhdr)                Make it at least 17.47202pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.47202pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-7.47202pt}.
+
+[38]
+Ch\uhorn \ohorn ng 6.
+(./Chuong/6_Ket_luan.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [39
 
 ])
 
@@ -1462,97 +2008,7 @@ Package fancyhdr Warning: \headheight is too small (10.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
 
-[15]
-Overfull \hbox (5.92743pt too wide) in paragraph at lines 313--313
-[]\T5/ptm/m/n/13 T. Berners-Lee, \T5/ptm/m/it/13 Hy-per-text trans-fer pro-to-col (HTTP)\T5/ptm/m/n/13 . [On-line]. Avail-able: []$\T5/pcr/m/n/13 ftp :
- []
-
-
-Overfull \hbox (3.15694pt too wide) in paragraph at lines 313--313
-[]\T5/ptm/m/n/13 Princeton Uni-ver-sity, \T5/ptm/m/it/13 Word-net\T5/ptm/m/n/13 . [On-line]. Avail-able: []$\T5/pcr/m/n/13 http : / / www . cogsci .
- []
-
-[16
-
-] [17
-
-]
-Ph\d {u} l\d {u}c A.
-(./Chuong/Phu_luc_A.tex
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 18.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [18
-
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-Package fancyhdr Warning: \headheight is too small (10.0pt): 
-(fancyhdr)                Make it at least 17.97902pt, for example:
-(fancyhdr)                \setlength{\headheight}{17.97902pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
-
-[19]
-<Hinhve/IoT.png, id=480, 931.48pt x 523.9575pt>
-File: Hinhve/IoT.png Graphic file (type png)
-<use Hinhve/IoT.png>
-Package pdftex.def Info: Hinhve/IoT.png  used on input line 80.
-(pdftex.def)             Requested size: 320.0935pt x 180.05399pt.
-
-
-Package fancyhdr Warning: \headheight is too small (10.0pt): 
-(fancyhdr)                Make it at least 17.97902pt, for example:
-(fancyhdr)                \setlength{\headheight}{17.97902pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
-
-[20 <./Hinhve/IoT.png>]
-
-LaTeX Warning: Citation 'scott2013sdn' on page 21 undefined on input line 92.
-
-
-LaTeX Warning: Citation 'ashton2009internet' on page 21 undefined on input line 92.
-
-
-Overfull \hbox (14.86223pt too wide) in paragraph at lines 92--93
-[]\T5/ptm/m/n/13 . C� th�, sinh vi�n s� d�ng l�nh [][]\T5/pcr/m/n/13 \cite{} []\T5/ptm/m/n/13 nh� sau [].
- []
-
-<Hinhve/Bia.PNG, id=492, 313.77225pt x 331.83975pt>
-File: Hinhve/Bia.PNG Graphic file (type png)
-<use Hinhve/Bia.PNG>
-Package pdftex.def Info: Hinhve/Bia.PNG  used on input line 111.
-(pdftex.def)             Requested size: 213.39568pt x 225.68349pt.
-<Hinhve/GayBia.PNG, id=493, 420.97275pt x 479.99326pt>
-File: Hinhve/GayBia.PNG Graphic file (type png)
-<use Hinhve/GayBia.PNG>
-Package pdftex.def Info: Hinhve/GayBia.PNG  used on input line 123.
-(pdftex.def)             Requested size: 213.39568pt x 243.31384pt.
-)
-
-Package fancyhdr Warning: \headheight is too small (10.0pt): 
-(fancyhdr)                Make it at least 17.97902pt, for example:
-(fancyhdr)                \setlength{\headheight}{17.97902pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
-
-[21]
-
-Package fancyhdr Warning: \headheight is too small (10.0pt): 
-(fancyhdr)                Make it at least 17.97902pt, for example:
-(fancyhdr)                \setlength{\headheight}{17.97902pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-7.97902pt}.
-
-[22 <./Hinhve/Bia.PNG> <./Hinhve/GayBia.png>]
-Ph\d {u} l\d {u}c B.
-(./Chuong/Phu_luc_B.tex) [23
+[40] [41
 
 ] (./20232006p.aux)
  ***********
@@ -1571,7 +2027,7 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `20232006p.out' has not changed.
-(rerunfilecheck)             Checksum: 91961D62CB54C7576D588E803ED957AB;9005.
+(rerunfilecheck)             Checksum: 48B88D79EC14FA8C62CD645F085B1C6C;10595.
 
 Package biblatex Warning: Please (re)run BibTeX on the file(s):
 (biblatex)                20232006p
@@ -1582,18 +2038,18 @@ Package logreq Info: Writing requests to '20232006p.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29771 strings out of 474222
- 511826 string characters out of 5748733
- 1937975 words of memory out of 5000000
- 51371 multiletter control sequences out of 15000+600000
- 610129 words of font info for 96 fonts, out of 8000000 for 9000
+ 30009 strings out of 474222
+ 523017 string characters out of 5748733
+ 1944975 words of memory out of 5000000
+ 51514 multiletter control sequences out of 15000+600000
+ 593356 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,12n,107p,2552b,1264s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmbi8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb>
-Output written on 20232006p.pdf (32 pages, 982604 bytes).
+ 108i,12n,107p,2600b,1251s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmbi8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb>
+Output written on 20232006p.pdf (50 pages, 28784568 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 476 compressed objects within 5 object streams
- 106 named destinations out of 1000 (max. 500000)
- 415 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 806 PDF objects out of 1000 (max. 8388607)
+ 643 compressed objects within 7 object streams
+ 201 named destinations out of 1000 (max. 500000)
+ 538 words of extra memory for PDF output out of 10000 (max. 10000000)
 

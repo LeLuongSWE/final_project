@@ -1,0 +1,66 @@
+@startuml
+' --- CẤU HÌNH GIAO DIỆN CHUNG ---
+skinparam conditionStyle diamond
+skinparam shadowing false
+skinparam handwritten false
+
+' Cấu hình cho các khối hoạt động (Activity box)
+skinparam activity {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' --- CẤU HÌNH CHO CÁC LÀN (SWIMLANES) ---
+' Đây là phần quan trọng để tạo khung như bạn muốn
+skinparam swimlane {
+
+    BorderColor Black
+    
+   
+    TitleBackgroundColor White
+    
+
+    TitleFontColor Black
+}
+' ---------------------------------------
+
+' Định nghĩa các làn và bắt đầu vẽ
+|Người dùng|
+start
+:Chọn tạo cuộc gặp;
+
+|Hệ thống|
+:Hiển thị form tạo cuộc gặp;
+
+|Người dùng|
+:Nhập thông tin cho\ncuộc gặp mới, rồi ấn\ntạo cuộc gặp;
+
+|Hệ thống|
+:Tạo cuộc gặp và\nthông báo thành công;
+
+|Người dùng|
+:Mở danh sách cuộc\ngặp;
+
+|Hệ thống|
+:Hiển thị danh sách\ncuộc gặp của người\ndùng;
+
+|Người dùng|
+:Sửa, xóa cuộc gặp,\nmời người dùng khác\ntham gia vào cuộc\ngặp;
+
+' Khối điều kiện rẽ nhánh
+if () then (Yêu cầu)
+    |Hệ thống|
+    :Cập nhật thông tin\ncuộc gặp/mời người\ndùng khác vào cuộc\ngặp;
+else (Không yêu cầu)
+    
+endif
+
+|Người dùng|
+:Nhấn nút tham gia\ncuộc gặp;
+
+|Hệ thống|
+:Đưa người dùng\ntham gia cuộc gặp;
+
+stop
+@enduml

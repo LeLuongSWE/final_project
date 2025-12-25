@@ -1,17 +1,54 @@
-\documentclass[../DoAn.tex]{subfiles}
+\documentclass[../20232006p.tex]{subfiles}
 \begin{document}
 
-Chương này có độ dài không quá 10 trang. Nếu cần trình bày dài hơn, sinh viên đưa vào phần phụ lục. Chú ý đây là kiến thức đã có sẵn; SV sau khi tìm hiểu được thì phân tích và tóm tắt lại. Sinh viên không trình bày dài dòng, chi tiết. 
+\section{Java}
 
-Với đồ án ứng dụng, sinh viên để tên chương là “Công nghệ sử dụng”. Trong chương này, sinh viên giới thiệu về các công nghệ, nền tảng sử dụng trong đồ án. Sinh viên cũng có thể trình bày thêm nền tảng lý thuyết nào đó nếu cần dùng tới.
+Java \cite{java} là một trong những ngông ngữ lập trình phổ biến nhất trên thế giới hiện nay. Sau hơn hai thập kỉ tồn tại và phát triển, những đặc điểm hấp dẫn của nó cùng sự tiến hóa không ngừng đã giúp Java giữ vững vị trí quan trọng của mình trong cộng đồng lập trình viên toàn cầu. Có thể kể đến những điểm mạnh của Java như sau:
 
-Với đồ án nghiên cứu, sinh viên đổi tên chương thành “Cơ sở lý thuyết”. Khi đó, nội dung cần trình bày bao gồm: Kiến thức nền tảng, cơ sở lý thuyết, các thuật toán, phương pháp nghiên cứu, v.v.
+\begin{enumerate}[label=(\roman*)]
+    \item Java là nền tảng độc lập, hoạt động trên mát ảo JVM vì thế có thể chạy mã Java trên bất kỳ loại máy tính chạy hệ điều hành MacOS, Windows và Linux, từ đó mã nguồn viết bằng Java có thể dễ dàng triển khai cũng như bảo trì.
+    \item Java là ngôn ngữ lập trình hướng đối tượng, hỗ trợ đầy đủ các tình chất của hướng đối tượng như trừu tượng hóa, đóng gói, kế thừa, đa hình.
+    \item  Quản lý bộ nhớ, dọn dẹp các ngăn nhớ không được sử dụng một cách tự động, ngăn chặn các phương thức tấn công liên quan đến bộ nhớ.
+\end{enumerate}
 
-Với từng công nghệ/nền tảng/lý thuyết được trình bày, sinh viên phải phân tích rõ công nghệ/nền tảng/lý thuyết đó dùng để để giải quyết vấn đề/yêu cầu cụ thể nào ở Chương 2. Hơn nữa, với từng vấn đề/yêu cầu, sinh viên phải liệt kê danh sách các công nghệ/hướng tiếp cận tương tự có thể dùng làm lựa chọn thay thế, rồi giải thích rõ sự lựa chọn của mình.
+\section{Spring Boot}
 
-Lưu ý: Nội dung ĐATN phải có tính chất liên kết, liền mạch, và nhất quán. Vì vậy, các công nghệ/thuật toán trình bày trong chương này phải khớp với nội dung giới thiệu của sinh viên ở phần trước đó. 
+Spring Boot \cite{springboot} là framework của Java được giới thiệu vào năm 2012 và vẫn đang được phát triển từ đó đến nay. Một trong những điểm mạnh của Spring Boot là:
 
-Trong chương này, để tăng tính khoa học và độ tin cậy, sinh viên nên chỉ rõ nguồn kiến thức mình thu thập được ở tài liệu nào, đồng thời đưa tài liệu đó vào trong danh sách tài liệu tham khảo rồi tạo các tham chiếu chéo (xem hướng dẫn ở phụ lục A.7).
+\begin{enumerate}[label=(\roman*)]
+    \item  Hỗ trợ mô hình MVC giúp cho lập trình viên dễ dàng xây dựng và phát triển một ứng dụng web.
+    \item Tomcat engine được cấu hình sẵn trong Spring Boot nên lập trình viên không cần phải cấu hình lại.
+    \item Hỗ trợ tốt truy vấn cơ sở dữ liệu quan hệ như Mysql, Postgres, Oracle.
+\end{enumerate}
 
 
+\section{React}
+React \cite{react} là một thư viện JavaScript mã nguồn mở được ra mắt lần đầu vào năm 2013. Đây là một trong những công cụ phổ biến nhất hiện nay để xây dựng giao diện người dùng, đặc biệt là các ứng dụng web tương tác cao.
+
+Điểm cốt lõi làm nên sức mạnh của React là việc sử dụng mô hình Virtual DOM (DOM ảo). Thay vì thao tác trực tiếp lên DOM thực của trình duyệt - vốn là một tác vụ tốn kém về mặt hiệu năng, React tạo ra một bản sao của DOM trong bộ nhớ. Khi trạng thái của ứng dụng thay đổi, React sẽ so sánh DOM ảo mới với DOM ảo cũ  để xác định chính xác những thành phần nào cần cập nhật, sau đó mới thực hiện thay đổi tối thiểu lên DOM thực. Cơ chế này giúp tối ưu hóa hiệu suất render, mang lại trải nghiệm mượt mà cho người dùng.
+
+Trong đồ án này, React được sử dụng để xây dựng ứng dụng theo kiến trúc Single Page Application (SPA). Khác với các ứng dụng web truyền thống phải tải lại toàn bộ trang mỗi khi người dùng chuyển hướng, SPA chỉ tải một trang HTML duy nhất ban đầu. Các tài nguyên như CSS, JavaScript cũng được tải một lần hoặc tải theo nhu cầu. Khi người dùng tương tác, JavaScript sẽ chặn các yêu cầu chuyển trang, thay vào đó nó sẽ gửi yêu cầu (thường là AJAX/Fetch) để lấy dữ liệu (thường là JSON) từ máy chủ và cập nhật lại nội dung giao diện một cách động. Kiến trúc này mang lại hai lợi ích lớn:  Ứng dụng phản hồi gần như tức thì, không có hiện tượng "chớp" trang trắng khi chuyển đổi giữa các màn hình, tạo cảm giác giống như đang sử dụng một ứng dụng native trên máy tính; máy chủ không cần phải render giao diện (HTML) cho mỗi yêu cầu mà chỉ cần cung cấp dữ liệu thô qua API, giúp tiết kiệm băng thông và tài nguyên tính toán.
+
+
+\section{PostgreSQL}
+
+PostgreSQL \cite{postgresql} là một hệ thống cơ sở dữ liệu quan hệ đối tượng mã nguồn mở mạnh mẽ, sử dụng và mở rộng ngôn ngữ SQL kết hợp với nhiều tính năng giúp lưu trữ và chia tỷ lệ một cách an toàn các khối lượng công việc dữ liệu phức tạp nhất. Nguồn gốc của PostgreSQL có từ năm 1986 như một phần của dự án POSTGRES tại Đại học California ở Berkeley và đã có hơn 30 năm phát triển tích cực trên nền tảng cốt lõi. 
+
+PostgreSQL đã tạo được danh tiếng mạnh mẽ về kiến trúc đã được chứng minh, độ tin cậy, tính toàn vẹn của dữ liệu, bộ tính năng mạnh mẽ, khả năng mở rộng và sự cống hiến của cộng đồng nguồn mở đằng sau phần mềm để liên tục cung cấp các giải pháp hiệu quả và sáng tạo. PostgreSQL chạy trên tất cả các hệ điều hành chính , đã tuân thủ ACID từ năm 2001 và có các tiện ích bổ sung mạnh mẽ như bộ mở rộng cơ sở dữ liệu không gian địa lý PostGIS phổ biến . Không có gì ngạc nhiên khi PostgreSQL đã trở thành cơ sở dữ liệu quan hệ nguồn mở được nhiều người và tổ chức lựa chọn.
+
+
+
+\subsection{Redis}
+
+Để đảm bảo tốc độ phản hồi cực nhanh cho các thao tác bán hàng - yêu cầu tối quan trọng của hệ thống POS, đồ án sử dụng Redis \cite{redis} (Remote Dictionary Server) làm giải pháp caching (lưu trữ đệm). Redis là một hệ quản trị cơ sở dữ liệu in-memory (lưu trữ trong bộ nhớ RAM) mã nguồn mở, hỗ trợ cấu trúc dữ liệu dạng key-value với hiệu năng truy xuất cực cao (độ trễ thường dưới 1 mili-giây).
+
+Trong hệ thống này, Redis được ứng dụng vào hai bài toán chính: các thông tin về thực đơn và giá bán là dữ liệu ít thay đổi nhưng được truy xuất rất nhiều lần mỗi giây bởi các máy POS. Việc lưu trữ các dữ liệu này vào Redis giúp giảm tải đáng kể cho cơ sở dữ liệu chính (PostgreSQL) và tăng tốc độ hiển thị thực đơn lên màn hình POS gần như tức thì; Redis được dùng để lưu trữ thông tin phiên đăng nhập của nhân viên và khách hàng, đảm bảo tính nhất quán và khả năng mở rộng (scalability) khi hệ thống cần triển khai trên nhiều máy chủ (Clustering).
+
+
+\section{WebSocket}
+Đối với mô hình nhà hàng cơm bình dân, việc đồng bộ thông tin trạng thái món ăn giữa Bếp, Thu ngân và Khách hàng đặt online cần diễn ra theo thời gian thực. Để giải quyết vấn đề này, hệ thống sử dụng giao thức WebSocket \cite{pimentel2012communicating}.
+
+Khác với giao thức HTTP truyền thống hoạt động theo cơ chế Request-Response (Client hỏi - Server trả lời), WebSocket cung cấp một kênh giao tiếp hai chiều (Full-duplex) liên tục giữa Client và Server qua một kết nối TCP duy nhất. Điều này cho phép Server chủ động đẩy dữ liệu xuống Client ngay khi có sự kiện xảy ra mà không cần Client phải gửi yêu cầu.
+
+Ứng dụng cụ thể trong đồ án: khi nhân viên bếp cập nhật một món đã hết trên thiết bị của họ, Server sẽ ngay lập tức gửi tín hiệu qua WebSocket tới tất cả các máy POS và ứng dụng của khách hàng để làm mờ món đó, ngăn chặn việc nhận đơn hàng ảo; khi có đơn đặt hàng online, máy POS của thu ngân sẽ nhận được thông báo ngay lập tức kèm âm thanh cảnh báo mà không cần phải tải lại trang.
 \end{document}

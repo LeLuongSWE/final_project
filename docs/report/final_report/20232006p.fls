@@ -423,7 +423,6 @@ INPUT ./Chuong/0_3_Tom_tat_noi_dung.tex
 INPUT Chuong/0_3_Tom_tat_noi_dung.tex
 INPUT ./Chuong/0_3_Tom_tat_noi_dung.tex
 INPUT Chuong/0_3_Tom_tat_noi_dung.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmri8v.tfm
 INPUT ./20232006p.toc
 INPUT ./20232006p.toc
 INPUT 20232006p.toc
@@ -449,13 +448,43 @@ INPUT Chuong/2_Khao_sat.tex
 INPUT ./Chuong/2_Khao_sat.tex
 INPUT ./Chuong/2_Khao_sat.tex
 INPUT Chuong/2_Khao_sat.tex
-INPUT ./Hinhve/Hinh_ve_Use_case_tong_quat.png
-INPUT ./Hinhve/Hinh_ve_Use_case_tong_quat.png
-INPUT Hinhve/Hinh_ve_Use_case_tong_quat.png
-INPUT ./Hinhve/Hinh_ve_Use_case_tong_quat.png
-INPUT ./Hinhve/Hinh_ve_Use_case_tong_quat.png
+INPUT ./Hinhve/Biểu đồ Use Case.png
+INPUT ./Hinhve/Biểu đồ Use Case.png
+INPUT Hinhve/Biểu đồ Use Case.png
+INPUT ./Hinhve/Biểu đồ Use Case.png
+INPUT ./Hinhve/Biểu đồ Use Case.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmb8v.tfm
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png
+INPUT Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png
+INPUT Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png
+INPUT Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png
+INPUT Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png
+INPUT ./Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png
+INPUT ./Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png
+INPUT ./Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png
+INPUT Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png
+INPUT ./Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png
+INPUT ./Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png
+INPUT ./Hinhve/Biểu đồ hoạt động tạo đơn hàng.png
+INPUT ./Hinhve/Biểu đồ hoạt động tạo đơn hàng.png
+INPUT Hinhve/Biểu đồ hoạt động tạo đơn hàng.png
+INPUT ./Hinhve/Biểu đồ hoạt động tạo đơn hàng.png
+INPUT ./Hinhve/Biểu đồ hoạt động tạo đơn hàng.png
 INPUT ./Chuong/3_Cong_nghe.tex
 INPUT ./Chuong/3_Cong_nghe.tex
 INPUT Chuong/3_Cong_nghe.tex
@@ -468,112 +497,141 @@ INPUT Chuong/4_Ket_qua_thuc_nghiem.tex
 INPUT ./Chuong/4_Ket_qua_thuc_nghiem.tex
 INPUT ./Chuong/4_Ket_qua_thuc_nghiem.tex
 INPUT Chuong/4_Ket_qua_thuc_nghiem.tex
-INPUT ./Hinhve/Picture1.png
-INPUT ./Hinhve/Picture1.png
-INPUT Hinhve/Picture1.png
-INPUT ./Hinhve/Picture1.png
-INPUT ./Hinhve/Picture1.png
-INPUT ./Hinhve/Picture2.png
-INPUT ./Hinhve/Picture2.png
-INPUT Hinhve/Picture2.png
-INPUT ./Hinhve/Picture2.png
-INPUT ./Hinhve/Picture2.png
-INPUT ./Chuong/5_Giai_phap_dong_gop.tex
-INPUT ./Chuong/5_Giai_phap_dong_gop.tex
-INPUT Chuong/5_Giai_phap_dong_gop.tex
-INPUT ./Chuong/5_Giai_phap_dong_gop.tex
-INPUT ./Chuong/5_Giai_phap_dong_gop.tex
-INPUT Chuong/5_Giai_phap_dong_gop.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/latex-fonts/lasy10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/latex-fonts/lasy8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/latex-fonts/lasy5.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
-INPUT ./Chuong/6_Ket_luan.tex
-INPUT ./Chuong/6_Ket_luan.tex
-INPUT Chuong/6_Ket_luan.tex
-INPUT ./Chuong/6_Ket_luan.tex
-INPUT ./Chuong/6_Ket_luan.tex
-INPUT Chuong/6_Ket_luan.tex
-INPUT ./Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-INPUT ./Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-INPUT Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-INPUT ./Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-INPUT ./Chuong/7_Luu_y_tai_lieu_tham_khao.tex
-INPUT Chuong/7_Luu_y_tai_lieu_tham_khao.tex
+INPUT ./Hinhve/Mô hình 3 tầng.png
+INPUT ./Hinhve/Mô hình 3 tầng.png
+INPUT Hinhve/Mô hình 3 tầng.png
+INPUT ./Hinhve/Mô hình 3 tầng.png
+INPUT ./Hinhve/Mô hình 3 tầng.png
+INPUT ./Hinhve/Biểu đồ phụ thuộc gói.png
+INPUT ./Hinhve/Biểu đồ phụ thuộc gói.png
+INPUT Hinhve/Biểu đồ phụ thuộc gói.png
+INPUT ./Hinhve/Biểu đồ phụ thuộc gói.png
+INPUT ./Hinhve/Biểu đồ phụ thuộc gói.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Model.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Model.png
+INPUT Hinhve/Biểu đồ thiết kế gói Model.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Model.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Model.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Controller.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Controller.png
+INPUT Hinhve/Biểu đồ thiết kế gói Controller.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Controller.png
+INPUT ./Hinhve/Biểu đồ thiết kế gói Controller.png
+INPUT ./Hinhve/Giao diện bán hàng chính.png
+INPUT ./Hinhve/Giao diện bán hàng chính.png
+INPUT Hinhve/Giao diện bán hàng chính.png
+INPUT ./Hinhve/Giao diện bán hàng chính.png
+INPUT ./Hinhve/Giao diện bán hàng chính.png
+INPUT ./Hinhve/Giao diện báo cáo thống kê.png
+INPUT ./Hinhve/Giao diện báo cáo thống kê.png
+INPUT Hinhve/Giao diện báo cáo thống kê.png
+INPUT ./Hinhve/Giao diện báo cáo thống kê.png
+INPUT ./Hinhve/Giao diện báo cáo thống kê.png
+INPUT ./Hinhve/Giao diện đặt hàng.png
+INPUT ./Hinhve/Giao diện đặt hàng.png
+INPUT Hinhve/Giao diện đặt hàng.png
+INPUT ./Hinhve/Giao diện đặt hàng.png
+INPUT ./Hinhve/Giao diện đặt hàng.png
+INPUT ./Hinhve/Giao diện giỏ hàng.png
+INPUT ./Hinhve/Giao diện giỏ hàng.png
+INPUT Hinhve/Giao diện giỏ hàng.png
+INPUT ./Hinhve/Giao diện giỏ hàng.png
+INPUT ./Hinhve/Giao diện giỏ hàng.png
+INPUT ./Hinhve/Giao diện popup thanh toán nhanh.png
+INPUT ./Hinhve/Giao diện popup thanh toán nhanh.png
+INPUT Hinhve/Giao diện popup thanh toán nhanh.png
+INPUT ./Hinhve/Giao diện popup thanh toán nhanh.png
+INPUT ./Hinhve/Giao diện popup thanh toán nhanh.png
+INPUT ./Hinhve/Giao diện quản lý bàn ăn.png
+INPUT ./Hinhve/Giao diện quản lý bàn ăn.png
+INPUT Hinhve/Giao diện quản lý bàn ăn.png
+INPUT ./Hinhve/Giao diện quản lý bàn ăn.png
+INPUT ./Hinhve/Giao diện quản lý bàn ăn.png
+INPUT ./Hinhve/Giao diện quản lý đơn hàng.png
+INPUT ./Hinhve/Giao diện quản lý đơn hàng.png
+INPUT Hinhve/Giao diện quản lý đơn hàng.png
+INPUT ./Hinhve/Giao diện quản lý đơn hàng.png
+INPUT ./Hinhve/Giao diện quản lý đơn hàng.png
+INPUT ./Hinhve/Giao diện quản lý nhân viên.png
+INPUT ./Hinhve/Giao diện quản lý nhân viên.png
+INPUT Hinhve/Giao diện quản lý nhân viên.png
+INPUT ./Hinhve/Giao diện quản lý nhân viên.png
+INPUT ./Hinhve/Giao diện quản lý nhân viên.png
+INPUT ./Hinhve/Giao diện quản lý thực đơn.png
+INPUT ./Hinhve/Giao diện quản lý thực đơn.png
+INPUT Hinhve/Giao diện quản lý thực đơn.png
+INPUT ./Hinhve/Giao diện quản lý thực đơn.png
+INPUT ./Hinhve/Giao diện quản lý thực đơn.png
+INPUT ./Hinhve/Giao diện quản lý tổng quan.png
+INPUT ./Hinhve/Giao diện quản lý tổng quan.png
+INPUT Hinhve/Giao diện quản lý tổng quan.png
+INPUT ./Hinhve/Giao diện quản lý tổng quan.png
+INPUT ./Hinhve/Giao diện quản lý tổng quan.png
+INPUT ./Hinhve/Giao diện trạng thái đơn hàng.png
+INPUT ./Hinhve/Giao diện trạng thái đơn hàng.png
+INPUT Hinhve/Giao diện trạng thái đơn hàng.png
+INPUT ./Hinhve/Giao diện trạng thái đơn hàng.png
+INPUT ./Hinhve/Giao diện trạng thái đơn hàng.png
+INPUT ./Hinhve/Lớp Order.png
+INPUT ./Hinhve/Lớp Order.png
+INPUT Hinhve/Lớp Order.png
+INPUT ./Hinhve/Lớp Order.png
+INPUT ./Hinhve/Lớp Order.png
+INPUT ./Hinhve/Lớp OrderService.png
+INPUT ./Hinhve/Lớp OrderService.png
+INPUT Hinhve/Lớp OrderService.png
+INPUT ./Hinhve/Lớp OrderService.png
+INPUT ./Hinhve/Lớp OrderService.png
+INPUT ./Hinhve/Lớp Product.png
+INPUT ./Hinhve/Lớp Product.png
+INPUT Hinhve/Lớp Product.png
+INPUT ./Hinhve/Lớp Product.png
+INPUT ./Hinhve/Lớp Product.png
+INPUT ./Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png
+INPUT ./Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png
+INPUT Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png
+INPUT ./Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png
+INPUT ./Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png
+INPUT ./Hinhve/Biểu đồ trình tự Thanh toán.png
+INPUT ./Hinhve/Biểu đồ trình tự Thanh toán.png
+INPUT Hinhve/Biểu đồ trình tự Thanh toán.png
+INPUT ./Hinhve/Biểu đồ trình tự Thanh toán.png
+INPUT ./Hinhve/Biểu đồ trình tự Thanh toán.png
+INPUT ./Hinhve/Biểu đồ thực thể liên kết.png
+INPUT ./Hinhve/Biểu đồ thực thể liên kết.png
+INPUT Hinhve/Biểu đồ thực thể liên kết.png
+INPUT ./Hinhve/Biểu đồ thực thể liên kết.png
+INPUT ./Hinhve/Biểu đồ thực thể liên kết.png
 INPUT /usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/ucrr8v.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmb8v.tfm
-INPUT ./Chuong/Phu_luc_A.tex
-INPUT ./Chuong/Phu_luc_A.tex
-INPUT Chuong/Phu_luc_A.tex
-INPUT ./Chuong/Phu_luc_A.tex
-INPUT ./Chuong/Phu_luc_A.tex
-INPUT Chuong/Phu_luc_A.tex
-INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc
-INPUT ./Hinhve/IoT.png
-INPUT ./Hinhve/IoT.png
-INPUT Hinhve/IoT.png
-INPUT ./Hinhve/IoT.png
-INPUT ./Hinhve/IoT.png
-INPUT ./Hinhve/Bia.PNG
-INPUT ./Hinhve/Bia.PNG
-INPUT Hinhve/Bia.PNG
-INPUT ./Hinhve/Bia.PNG
-INPUT ./Hinhve/Bia.PNG
-INPUT ./Hinhve/GayBia.png
-INPUT ./Hinhve/GayBia.png
-INPUT Hinhve/GayBia.png
-INPUT ./Hinhve/GayBia.png
-INPUT ./Hinhve/GayBia.png
-INPUT ./Chuong/Phu_luc_B.tex
-INPUT ./Chuong/Phu_luc_B.tex
-INPUT Chuong/Phu_luc_B.tex
-INPUT ./Chuong/Phu_luc_B.tex
-INPUT ./Chuong/Phu_luc_B.tex
-INPUT Chuong/Phu_luc_B.tex
+INPUT ./Hinhve/Biểu đồ thiết kế db.png
+INPUT ./Hinhve/Biểu đồ thiết kế db.png
+INPUT Hinhve/Biểu đồ thiết kế db.png
+INPUT ./Hinhve/Biểu đồ thiết kế db.png
+INPUT ./Hinhve/Biểu đồ thiết kế db.png
+INPUT ./Chuong/5_Giai_phap_dong_gop.tex
+INPUT ./Chuong/5_Giai_phap_dong_gop.tex
+INPUT Chuong/5_Giai_phap_dong_gop.tex
+INPUT ./Chuong/5_Giai_phap_dong_gop.tex
+INPUT ./Chuong/5_Giai_phap_dong_gop.tex
+INPUT Chuong/5_Giai_phap_dong_gop.tex
+INPUT ./Chuong/6_Ket_luan.tex
+INPUT ./Chuong/6_Ket_luan.tex
+INPUT Chuong/6_Ket_luan.tex
+INPUT ./Chuong/6_Ket_luan.tex
+INPUT ./Chuong/6_Ket_luan.tex
+INPUT Chuong/6_Ket_luan.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/vntex/urwvn/utmri8v.tfm
 INPUT 20232006p.aux
 INPUT ./20232006p.out
 INPUT ./20232006p.out
 INPUT 20232006p.run.xml
 OUTPUT 20232006p.run.xml
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmbi8v.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb

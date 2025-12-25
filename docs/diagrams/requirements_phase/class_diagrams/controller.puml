@@ -1,0 +1,101 @@
+@startuml
+' Cấu hình giao diện academic
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam handwritten false
+
+' Định nghĩa gói Controller (Tầng Giao tiếp)
+package "Controller" {
+    class AuthController {
+        + login()
+        + register()
+    }
+    
+    class UserController {
+        + getAllUsers()
+        + createUser()
+        + updateUser()
+        + deleteUser()
+    }
+
+    class ProductController {
+        + getMenuToday()
+        + createProduct()
+        + updatePrice()
+    }
+
+    class OrderController {
+        + createOrder()
+        + processPayment()
+        + getOrderHistory()
+    }
+}
+
+' Định nghĩa gói Service (Tầng Nghiệp vụ)
+package "Service" {
+    class AuthService {
+        + authenticateUser()
+        + generateToken()
+    }
+
+    class UserService {
+        + createNewStaff()
+        + validateUser()
+    }
+
+    class ProductService {
+        + updateDailyMenu()
+        + checkInventory()
+    }
+
+    class OrderService {
+        + calculateTotal()
+        + processTransaction()
+        + printInvoice()
+    }
+}
+
+' Định nghĩa gói Repository (Tầng Truy xuất dữ liệu)
+package "Repository" {
+    interface UserRepository <<Interface>> {
+        + findByUsername()
+        + existsByEmail()
+    }
+
+    interface RoleRepository <<Interface>> {
+        + findByName()
+    }
+
+    interface ProductRepository <<Interface>> {
+        + findAllByActiveTrue()
+        + findById()
+    }
+
+    interface OrderRepository <<Interface>> {
+        + save()
+        + findByDate()
+    }
+}
+
+' Định nghĩa mối quan hệ phụ thuộc (Dependency)
+' Controller phụ thuộc vào Service
+AuthController ..> AuthService : uses
+UserController ..> UserService : uses
+ProductController ..> ProductService : uses
+OrderController ..> OrderService : uses
+
+' Service phụ thuộc vào Repository
+AuthService ..> UserRepository : uses
+AuthService ..> RoleRepository : uses
+UserService ..> UserRepository : uses
+UserService ..> RoleRepository : uses
+
+ProductService ..> ProductRepository : uses
+
+OrderService ..> OrderRepository : uses
+OrderService ..> ProductRepository : uses
+OrderService ..> UserRepository : uses
+
+note right of Repository : Extends JpaRepository\n(Spring Data JPA)
+@enduml

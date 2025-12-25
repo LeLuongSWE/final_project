@@ -1,0 +1,17 @@
+@startuml Biểu đồ use case phân rã Quản lý thực đơn và giá
+
+
+:Quản lý: as manager
+left to right direction
+
+usecase "Xem danh sách món ăn trong thực đơn" as uc1
+usecase "Thêm món ăn vào thực đơn" as uc2
+usecase "Xóa món ăn khỏi thực đơn" as uc3
+usecase "Sửa thông tin món ăn" as uc4
+
+manager --> uc1
+manager --> uc2
+manager --> uc3
+manager --> uc4
+
+@enduml

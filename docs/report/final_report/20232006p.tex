@@ -27,7 +27,6 @@
 \usepackage{fancyhdr} % Cho phép tùy biến header và footer
 % \usepackage[natbib,backend=biber,style=ieee]{biblatex} % Giúp chèn tài liệu tham khảo
 \usepackage{appendix}
-
 \usepackage[font=small,labelfont=bf]{caption}
 
 \usepackage{listings}
@@ -46,18 +45,18 @@
 
 \usepackage{blindtext}
 \usepackage{outlines}
-
+\usepackage{longtable}
 % ===================================================
 
-\renewcommand{\bibname}{Danh_sach_tai_lieu_tham_khao} 
+\renewcommand{\bibname}{Danh_sach_tai_lieu_tham_khao}
 \usepackage[backend=bibtex,style=ieee]{biblatex}  %backend=biber is 'better'
 
-\renewcommand\appendixname{PHỤ LỤC}
-\renewcommand\appendixpagename{PHỤ LỤC}
-\renewcommand\appendixtocname{PHỤ LỤC}
+% \renewcommand\appendixname{PHỤ LỤC}
+% \renewcommand\appendixpagename{PHỤ LỤC}
+% \renewcommand\appendixtocname{PHỤ LỤC}
 
 
-\addbibresource{Danh_sach_tai_lieu_tham_khao.bib} % chèn file chứa danh mục tài liệu tham khảo vào 
+\addbibresource{Danh_sach_tai_lieu_tham_khao.bib} % chèn file chứa danh mục tài liệu tham khảo vào
 
 \include{lstlisting} % Phần này cho phép chèn code và formatting code như C, C++, Python
 
@@ -80,7 +79,7 @@
 % ===================================================
 \titleformat{\chapter}[hang]{\centering\bfseries}{CHƯƠNG \thechapter.\ }{0pt}{}[]
 
-\titleformat 
+\titleformat
     {\chapter} % command
     [hang] % shape
     {\centering\bfseries} % format
@@ -138,7 +137,7 @@
 \hypersetup{pdfborder = {0 0 0}} %
 \hypersetup{pdftitle={\TITLE},
 	pdfauthor={\AUTHOR}}
-	
+
 \usepackage[all]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
 
 \graphicspath{{figures/}{../figures/}} % Thư mục chứa các hình ảnh
@@ -202,14 +201,14 @@
     {}         % unnumbered format
     {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
 
-    
+
 \titlecontents{section}
     [0.0cm]             % left margin
     {\vspace{0.3cm}}                  % above code
     {\thecontentslabel \ } % numbered format
     {}         % unnumbered format
     {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
-    
+
 \titlecontents{subsection}
     [1.0cm]             % left margin
     {\vspace{0.3cm}}                  % above code
@@ -219,7 +218,7 @@
 
  % Tạo mục lục tự động
 \addtocontents{toc}{\protect\thispagestyle{empty}}
-\tableofcontents 
+\tableofcontents
 \thispagestyle{empty}
 \cleardoublepage
 
@@ -228,7 +227,7 @@
 \renewcommand{\listfigurename}{DANH MỤC HÌNH VẼ}
 {\let\oldnumberline\numberline
 \renewcommand{\numberline}{Hình~\oldnumberline}
-\listoffigures} 
+\listoffigures}
 % \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC HÌNH VẼ}
 \newpage
 
@@ -240,7 +239,7 @@
 \listoftables}
 % \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC BẢNG BIỂU}
 
-\glsaddall 
+\glsaddall
 \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
 \renewcommand*{\acronymname}{DANH MỤC THUẬT NGỮ VÀ TỪ VIẾT TẮT}
 \renewcommand*{\entryname}{Thuật ngữ}
@@ -249,10 +248,10 @@
  %\phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC THUẬT NGỮ VÀ TỪ VIẾT TẮT}
 
 % \newpage
- %\subfile{chapters/0_5_Danh_muc_viet_tat.tex}
+% \subfile{Chuong/0_5_Danh_muc_viet_tat.tex}
 
 % \newpage
-% \subfile{chapters/0_6_Thuat_ngu.tex}
+% \subfile{Chuong/0_6_Thuat_ngu.tex}
 % ===================================================
 
 
@@ -299,11 +298,11 @@
 \label{chapter:conclusion}
 \subfile{Chuong/6_Ket_luan}
 
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter*{MỘT SỐ LƯU Ý VỀ TÀI LIỆU THAM KHẢO} %Kết luận và hướng phát triển}
-\label{chapter:reference}
-\subfile{Chuong/7_Luu_y_tai_lieu_tham_khao}
+% \newpage
+% %\pagestyle{fancy} % Áp dụng header và footer
+% \chapter*{MỘT SỐ LƯU Ý VỀ TÀI LIỆU THAM KHẢO} %Kết luận và hướng phát triển}
+% \label{chapter:reference}
+% \subfile{Chuong/7_Luu_y_tai_lieu_tham_khao}
 
 
 % ===================================================
@@ -312,25 +311,25 @@
 \printbibliography
 \phantomsection\addcontentsline{toc}{chapter}{TÀI LIỆU THAM KHẢO}
 
-\appendixpage
-\appendices
-\addappheadtotoc
+% \appendixpage
+% \appendices
+% \addappheadtotoc
 
 % \chapter*{PHỤ LỤC} %Kết luận và hướng phát triển}
 
 %\mainmatter
-\titleformat{\chapter}[hang]{\centering\bfseries}{ \thechapter.\ }{0pt}{}[]
-\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+% \titleformat{\chapter}[hang]{\centering\bfseries}{ \thechapter.\ }{0pt}{}[]
+% \titlespacing*{\chapter}{0pt}{-20pt}{20pt}
 
-\titlecontents{chapter}
-    [0.0cm]             % left margin
-    {\bfseries\vspace{0.3cm}}                  % above code
-    {{\bfseries{\scshape} \thecontentslabel.\ }} % numbered format
-    {}         % unnumbered format
-    {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
-\chapter{HƯỚNG DẪN VIẾT ĐỒ ÁN TỐT NGHIỆP}
-\subfile{Chuong/Phu_luc_A}
-\newpage
-\chapter{ĐẶC TẢ USE CASE}
-\subfile{Chuong/Phu_luc_B}
+% \titlecontents{chapter}
+%     [0.0cm]             % left margin
+%     {\bfseries\vspace{0.3cm}}                  % above code
+%     {{\bfseries{\scshape} \thecontentslabel.\ }} % numbered format
+%     {}         % unnumbered format
+%     {\titlerule*[0.3pc]{.}\contentspage}         % filler-page-format, e.g dots
+% \chapter{HƯỚNG DẪN VIẾT ĐỒ ÁN TỐT NGHIỆP}
+% \subfile{Chuong/Phu_luc_A}
+% \newpage
+% \chapter{ĐẶC TẢ USE CASE}
+% \subfile{Chuong/Phu_luc_B}
 \end{document}

@@ -1,0 +1,61 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+package "model" {
+
+    class User {
+        - Long id
+        - String username
+        - String password
+        - String fullName
+        - String phoneNumber
+        + getters()
+        + setters()
+    }
+
+    class Role {
+        - Long id
+        - String name
+        + getters()
+        + setters()
+    }
+
+    class Product {
+        - Long id
+        - String name
+        - Double price
+        - String imageUrl
+        - String category
+        - Boolean isAvailable
+        - Integer stockQuantity
+        + getters()
+        + setters()
+    }
+
+    class Order {
+        - Long id
+        - LocalDateTime orderTime
+        - Double totalAmount
+        - String status
+        - String paymentMethod
+        - String customerName
+        + getters()
+        + setters()
+    }
+
+    class OrderItem {
+        - Long id
+        - Integer quantity
+        - Double subTotal
+        + getters()
+        + setters()
+    }
+
+    
+    User "1" *-- "1..*" Role : has >
+    Order "1" *-- "1..*" OrderItem : contains >
+    OrderItem "1" --> "1" Product : refers to >
+    Order "1" --> "0..1" User : created by >
+
+}
+@enduml

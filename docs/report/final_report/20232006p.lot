@@ -1,12 +1,18 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Đặc tả chức năng Đặt hàng trực tuyến}}{13}{Item.11}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả chức năng Tạo đơn hàng nhanh}}{14}{Item.19}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Đặc tả chức năng Thanh toán}}{15}{Item.29}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Đặc tả chức năng Thêm nhân viên}}{16}{Item.37}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Danh sách thư viện và công cụ sử dụng}}{10}{table.caption.11}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Mục đích/Nhiệm vụ của các gói trong hệ thống}}{22}{table.caption.17}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Mô tả bảng Người dùng (users)}}{33}{table.caption.38}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Mô tả bảng Vai trò (roles)}}{33}{table.caption.39}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Mô tả bảng Sản phẩm/Món ăn (products)}}{33}{table.caption.40}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Mô tả bảng Đơn hàng (orders)}}{34}{table.caption.41}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Mô tả bảng Chi tiết đơn hàng (order\_items)}}{34}{table.caption.42}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Table to test captions and labels.}}{20}{table.caption.16}%
 \addvspace {10\p@ }
 \contentsfinish 
 \contentsfinish 

@@ -1,0 +1,40 @@
+@startuml
+title Biểu đồ trình tự: Tạo đơn hàng nhanh
+actor "Nhân viên" as Staff
+participant ":OrderView (React)" as View
+participant ":OrderController" as Controller
+participant ":OrderService" as Service
+participant ":ProductRepository" as ProdRepo
+participant ":OrderRepository" as OrderRepo
+
+Staff -> View : 1. Chọn món ăn và nhấn "Tạo đơn"
+activate View
+View -> Controller : 2. POST /api/orders (items, staffId)
+activate Controller
+
+Controller -> Service : 3. createOrder(items, staffId)
+activate Service
+
+loop Duyệt từng món trong danh sách
+    Service -> ProdRepo : 4. findById(productId)
+    activate ProdRepo
+    ProdRepo --> Service : Trả về thông tin Product (giá, tồn kho)
+    deactivate ProdRepo
+    Service -> Service : 5. Kiểm tra tồn kho & Tính thành tiền
+end
+
+Service -> Service : 6. calculateTotalAmount()
+Service -> OrderRepo : 7. save(newOrder)
+activate OrderRepo
+OrderRepo --> Service : Trả về Order đã lưu
+deactivate OrderRepo
+
+Service --> Controller : Trả về Order DTO
+deactivate Service
+
+Controller --> View : 8. JSON (Thông tin đơn hàng)
+deactivate Controller
+
+View -> Staff : 9. Hiển thị chi tiết đơn hàng & Tổng tiền
+deactivate View
+@enduml

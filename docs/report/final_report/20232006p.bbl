@@ -17,162 +17,141 @@
 \endgroup
 
 \datalist[entry]{none/global//global/global}
-  \entry{hovy1993automated}{article}{}
-    \name{author}{1}{}{%
-      {{hash=HEH}{%
-         family={Hovy},
-         familyi={H\bibinitperiod},
-         given={Eduard\bibnamedelima H},
-         giveni={E\bibinitperiod\bibinitdelim H\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Elsevier Science Publishers}%
-    }
-    \strng{namehash}{HEH1}
-    \strng{fullhash}{HEH1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{number}{1-2}
-    \field{pages}{341\bibrangedash 385}
-    \field{title}{Automated discourse generation using discourse structure relations}
-    \field{volume}{63}
-    \field{journaltitle}{Artificial intelligence}
-    \field{year}{1993}
-  \endentry
-
-  \entry{peterson2007computer}{book}{}
+  \entry{tanenbaum2010computer}{book}{}
     \name{author}{2}{}{%
-      {{hash=PLL}{%
-         family={Peterson},
-         familyi={P\bibinitperiod},
-         given={Larry\bibnamedelima L},
-         giveni={L\bibinitperiod\bibinitdelim L\bibinitperiod},
+      {{hash=TAS}{%
+         family={Tanenbaum},
+         familyi={T\bibinitperiod},
+         given={Andrew\bibnamedelima S},
+         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
       }}%
-      {{hash=DBS}{%
-         family={Davie},
-         familyi={D\bibinitperiod},
-         given={Bruce\bibnamedelima S},
-         giveni={B\bibinitperiod\bibinitdelim S\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Elsevier}%
-    }
-    \strng{namehash}{PLLDBS1}
-    \strng{fullhash}{PLLDBS1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{title}{Computer networks: a systems approach}
-    \field{year}{2007}
-  \endentry
-
-  \entry{NguyenThucHai}{book}{}
-    \name{author}{1}{}{%
-      {{hash=HNT}{%
-         family={Hải},
-         familyi={H\bibinitperiod},
-         given={Nguyễn\bibnamedelima Thúc},
-         giveni={N\bibinitperiod\bibinitdelim T\bibinitperiod},
+      {{hash=WDJ}{%
+         family={Wetherall},
+         familyi={W\bibinitperiod},
+         given={David\bibnamedelima J},
+         giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
       }}%
     }
     \list{publisher}{1}{%
-      {Nhà xuất bản giáo dục}%
+      {Pearson Prentice Hall}%
     }
-    \strng{namehash}{HNT1}
-    \strng{fullhash}{HNT1}
+    \strng{namehash}{TASWDJ1}
+    \strng{fullhash}{TASWDJ1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Mạng máy tính và các hệ thống mở}
-    \field{year}{1999}
+    \field{edition}{5th}
+    \field{title}{Computer Networks}
+    \field{year}{2010}
   \endentry
 
-  \entry{poesio2001discourse}{inproceedings}{}
-    \name{author}{2}{}{%
-      {{hash=PM}{%
-         family={Poesio},
-         familyi={P\bibinitperiod},
-         given={Massimo},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=DEB}{%
-         family={Di\bibnamedelima Eugenio},
-         familyi={D\bibinitperiod\bibinitdelim E\bibinitperiod},
-         given={Barbara},
-         giveni={B\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{PMDEB1}
-    \strng{fullhash}{PMDEB1}
-    \field{labelnamesource}{author}
+  \entry{react}{misc}{}
     \field{labeltitlesource}{title}
-    \field{booktitle}{{ESSLLI} workshop on information structure, discourse structure and discourse semantics, Copenhagen, Denmark}
-    \field{pages}{129\bibrangedash 143}
-    \field{title}{Discourse structure and anaphoric accessibility}
-    \field{year}{2001}
+    \field{title}{{React}}
+    \verb{url}
+    \verb https://react.dev/
+    \endverb
   \endentry
 
-  \entry{knott1996data}{thesis}{}
+  \entry{springboot}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{Spring Boot}}
+    \verb{url}
+    \verb https://spring.io/projects/spring-boot
+    \endverb
+  \endentry
+
+  \entry{postgresql}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{PostgreSQL}}
+    \verb{url}
+    \verb https://www.postgresql.org/
+    \endverb
+  \endentry
+
+  \entry{fielding2000restful}{thesis}{}
     \name{author}{1}{}{%
-      {{hash=KA}{%
-         family={Knott},
-         familyi={K\bibinitperiod},
-         given={Alistair},
-         giveni={A\bibinitperiod},
+      {{hash=R}{%
+         family={R.T.Fielding},
+         familyi={R\bibinitperiod},
       }}%
     }
-    \strng{namehash}{KA1}
-    \strng{fullhash}{KA1}
+    \strng{namehash}{R1}
+    \strng{fullhash}{R1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{A data-driven methodology for motivating a set of coherence relations}
+    \field{title}{Architectural styles and the design of network-based software architectures}
     \list{institution}{1}{%
-      {The University of Edinburgh, {UK}}%
+      {University of California, Irvine}%
     }
     \field{type}{phdthesis}
-    \field{year}{1996}
+    \field{year}{2000}
   \endentry
 
-  \entry{BernersTim}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=BLT}{%
-         family={Berners-Lee},
-         familyi={B\bibinithyphendelim L\bibinitperiod},
-         given={Tim},
-         giveni={T\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{BLT1}
-    \strng{fullhash}{BLT1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{title}{Hypertext Transfer Protocol ({HTTP})}
-    \verb{url}
-    \verb ftp:/info.cern.ch/pub/www/doc/http-spec.txt.Z
-    \endverb
-    \field{urlday}{30}
-    \field{urlmonth}{09}
-    \field{urlyear}{2010}
-  \endentry
-
-  \entry{LectureA}{misc}{}
-    \name{author}{1}{}{%
-      {{hash=P}{%
-         family={{Princeton University}},
+  \entry{pimentel2012communicating}{article}{}
+    \name{author}{2}{}{%
+      {{hash=PV}{%
+         family={Pimentel},
          familyi={P\bibinitperiod},
+         given={V.},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=NBG}{%
+         family={Nickerson},
+         familyi={N\bibinitperiod},
+         given={B.\bibnamedelima G.},
+         giveni={B\bibinitperiod\bibinitdelim G\bibinitperiod},
       }}%
     }
-    \strng{namehash}{P1}
-    \strng{fullhash}{P1}
+    \strng{namehash}{PVNBG1}
+    \strng{fullhash}{PVNBG1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{WordNet}
+    \field{number}{4}
+    \field{pages}{45\bibrangedash 53}
+    \field{title}{Communicating and displaying real-time data with websocket}
+    \field{volume}{16}
+    \field{journaltitle}{IEEE Internet Computing}
+    \field{year}{2012}
+  \endentry
+
+  \entry{redis}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{Redis}}
     \verb{url}
-    \verb http://www.cogsci.princeton.edu/~wn/index.shtml
+    \verb https://redis.io/
     \endverb
-    \field{urlday}{30}
-    \field{urlmonth}{09}
-    \field{urlyear}{2010}
+  \endentry
+
+  \entry{ipos}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{IPOS}}
+    \verb{url}
+    \verb https://ipos.vn/
+    \endverb
+  \endentry
+
+  \entry{cukcuk}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{Cuk Cuk}}
+    \verb{url}
+    \verb https://www.cukcuk.vn/
+    \endverb
+  \endentry
+
+  \entry{kiotviet}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{KiotViet}}
+    \verb{url}
+    \verb https://www.kiotviet.vn/
+    \endverb
+  \endentry
+
+  \entry{java}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{{Advantages java}}
+    \verb{url}
+    \verb https://www.ibm.com/docs/en/aix/7.1?topic=monitoring-advantages-java
+    \endverb
   \endentry
 \enddatalist
 \endinput

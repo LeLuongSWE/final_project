@@ -1,12 +1,12 @@
-\documentclass[../DoAn.tex]{subfiles}
+\documentclass[../20232006p.tex]{subfiles}
 \begin{document}
 \section{Khảo sát hiện trạng}
 \label{section:2.1}
 Dựa trên thông tin khảo sát hiện trạng tại các quán cơm bình dân trên địa bàn Hà Nội, chúng tôi nhận thấy đa số các cơ sở vẫn vận hành theo quy trình truyền thống: khách hàng xếp hàng, trực tiếp chọn món tại quầy, nhân viên phục vụ múc đồ và báo giá ngay tại chỗ. Việc thanh toán thường diễn ra sau khi khách ăn xong dựa trên trí nhớ hoặc thẻ tạm. Quy trình này bộc lộ rõ những hạn chế vào giờ cao điểm, đặc biệt là tình trạng ùn tắc do tốc độ phục vụ chậm, rủi ro thất thoát doanh thu do sai sót trong tính toán, và khó khăn trong việc kiểm soát định lượng nguyên liệu tiêu hao so với số lượng suất ăn thực tế.
 
-Qua phân tích các giải pháp phần mềm quản lý nhà hàng phổ biến như iPOS, CukCuk, và KiotViet, mặc dù các hệ thống này sở hữu tính năng mạnh mẽ và chuyên nghiệp, nhưng khi áp dụng vào mô hình cơm bình dân lại bộc lộ những bất cập nhất định. iPOS có chi phí đầu tư cao và quy trình thiết lập phức tạp, không phù hợp với quy mô nhỏ; CukCuk dù thân thiện hơn nhưng vẫn thiên về quản lý thực đơn cố định, gây khó khăn khi thay đổi món ăn hàng ngày; KiotViet mạnh về bán lẻ nhưng chưa tối ưu cho việc quản lý định lượng suất ăn chế biến với sự biến động nguyên liệu thường xuyên.
+Qua phân tích các giải pháp phần mềm quản lý nhà hàng phổ biến như iPOS \cite{ipos}, CukCuk \cite{cukcuk}, và KiotViet \cite{kiotviet}, mặc dù các hệ thống này sở hữu tính năng mạnh mẽ và chuyên nghiệp, nhưng khi áp dụng vào mô hình cơm bình dân lại bộc lộ những bất cập nhất định. iPOS có chi phí đầu tư cao và quy trình thiết lập phức tạp, không phù hợp với quy mô nhỏ; CukCuk dù thân thiện hơn nhưng vẫn thiên về quản lý thực đơn cố định, gây khó khăn khi thay đổi món ăn hàng ngày; KiotViet mạnh về bán lẻ nhưng chưa tối ưu cho việc quản lý định lượng suất ăn chế biến với sự biến động nguyên liệu thường xuyên.
 
-Từ những phân tích trên, có thể khẳng định nhu cầu cấp thiết về một hệ thống quản lý chuyên biệt cho mô hình cơm bình dân. Hệ thống này cần tập trung giải quyết triệt để bài toán về tốc độ xử lý giao dịch (dưới 30 giây/đơn), đơn giản hóa tối đa quy trình quản lý thực đơn động theo ngày, và cung cấp cơ chế kiểm soát tồn kho suất ăn trực quan, hiệu quả, giúp chủ quán tối ưu hóa vận hành và giảm thiểu thất thoát.
+Từ những phân tích trên, có thể khẳng định nhu cầu cấp thiết về một hệ thống quản lý chuyên biệt cho mô hình cơm bình dân. Hệ thống này cần tập trung giải quyết bài toán về tốc độ xử lý giao dịch (dưới 30 giây/đơn), đơn giản hóa tối đa quy trình quản lý thực đơn động theo ngày, và cung cấp cơ chế kiểm soát tồn kho suất ăn trực quan, hiệu quả, giúp chủ quán tối ưu hóa vận hành và giảm thiểu thất thoát.
 \section{Tổng quan chức năng}
 \label{section:2.2}
 
@@ -17,35 +17,260 @@ Sau khi thu thập ý kiến của các chủ quán ăn bình dân, bạn bè (n
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Hinh_ve_Use_case_tong_quat.png}
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ Use Case.png}
     \caption{Biểu đồ use case tổng quát}
   
 \end{figure}
 
-\subsection{Biểu đồ use case phân rã XYZ}
-\label{subsection:2.2.2}
-Với mỗi use case mức cao trong biểu đồ use case tổng quan, sinh viên tạo một mục riêng như mục \ref{subsection:2.2.2} và tiến hành phân rã use case đó. Lưu ý tên use case cần phân rã trong biểu đồ use case tổng quan phải khớp với tên đề mục.
+Hình 2.1 là biểu đồ use case tổng quát của hệ thống với các use case chính là đặt hàng trực tuyến, xem thực đơn hôm nay với tác nhân là người dùng, đặc biệt với tác nhân là khách hàng đã được đăng nhập được gọi là khách hàng thành viên thì sẽ có thể xem lịch sử mua hàng và gửi feedback cho bữa ăn mà mình đã đặt. Với tác nhân là nhân viên thu ngân và quản lý, mọi công việc được thực hiện trên hệ thống đều phải đăng nhập trước. Đối với tác nhân là nhân viên thu ngân sau khi đăng nhập, nhân viên thu ngân có thể tạo đơn hàng nhanh và thực hiện thanh toán cho đơn hàng đó. Sau mỗi ca làm việc, nhân viên sẽ đóng ca làm việc để hệ thống sẽ tính toán các báo cáo theo ca làm việc. Cuối cùng,  tác nhân quản lý sau khi đăng nhập sẽ có thể thể quản lý thực đơn và giá của từng món trên thực đơn, quản lý nhân viên và tạo báo cáo về việc kinh doanh của mình.
 
-Trong mỗi mục như vậy, sinh viên vẽ và giải thích ngắn gọn các use case phân rã.
+\subsection{Biểu đồ use case phân rã quản lý nhân viên}
+\label{subsection:2.2.2}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ use case phân rã Quản lý nhân viên.png}
+    \caption{Biểu đồ use case phân rã Quản lý nhân viên}
+  
+\end{figure}
+
+Hình 2.2 là biểu đồ use case phân ra quản lý nhân viên. Quản lý có thể xem danh sách nhân viên đang làm việc tại quán của mình, thêm nhân viên mới, xóa nhân viên và sửa thông tin nhân viên đã tồn tại trong hệ thống.  
+
+
+\subsection{Biểu đồ use case phân rã Quản lý thực đơn}
+\label{subsection:2.2.3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ use case phân rã Quản lý thực đơn và giá.png}
+    \caption{Biểu đồ use case Quản lý thực đơn và giá}
+  
+\end{figure}
+
+Hình 2.3 là biểu đồ use case phân ra quản lý thực đơn. Quản lý có thể xem danh sách món ăn trong thực đơn hiện tại, thêm món ăn mới vào thực đơn, xóa món ăn khỏi thực đơn và sửa thông tin món ăn đã tồn tại trong thực đơn. 
+
+
+\subsection{Biểu đồ use case phân rã Quản lý bàn ăn}
+\label{subsection:2.2.4}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ use case phân rã Quản lý bàn ăn.png}
+    \caption{Biểu đồ use case Quản lý bàn ăn}
+  
+\end{figure}
+
+Hình 2.3 là biểu đồ use case phân ra quản lý bàn ăn. Quản lý có thể xem số lượng bàn ăn đang có hiện tại, thêm số lượng bàn ăn và xóa bớt số lượng bàn ăn. 
+
+
+\subsection{Biểu đồ use case phân rã Quản lý đơn hàng}
+\label{subsection:2.2.5}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ use case phân rã Quản lý đơn hàng.png}
+    \caption{Biểu đồ use case Quản lý đơn hàng}
+  
+\end{figure}
+
+Hình 2.3 là biểu đồ use case phân ra quản lý đơn hàng. Nhân viên có thể xem danh sách đơn hàng hiện tại, xóa đơn hàng khỏi hàng chờ, thêm đơn hàng mới và chỉnh sửa đơn hàng
 
 \subsection{Quy trình nghiệp vụ}
-\label{subsection:2.2.3}
-Nếu sản phẩm/hệ thống cần xây dựng có quy trình nghiệp vụ quan trọng/đáng chú ý, sinh viên cần mô tả và vẽ biểu đồ hoạt động minh họa quy trình nghiệp vụ đó. Sinh viên lưu ý đây không phải là luồng sự kiện của từng use case, mà là luồng hoạt động kết hợp nhiều use case để thực hiện một nghiệp vụ nào đó.
+\label{subsection:2.2.6}
 
-Ví dụ, một hệ thống quản lý thư viện có quy trình nghiệp vụ mượn trả với mô tả sơ bộ như sau: Sinh viên làm thẻ mượn, sau đó sinh viên đăng ký mượn sách, thủ thư cho mượn, và cuối cùng sinh viên trả lại sách cho thư viện. Một hệ thống có thể có một vài quy trình nghiệp vụ quan trọng như vậy.
+Dưới đây là 2 biểu đồ hoạt động minh họa cho các chức năng chính của hệ thống bao gồm đặt hàng online trên web; gọi món, tạo đơn thanh toán nhanh và chọn phương thức thanh toán.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ hoạt động đặt hàng trực tuyến.png}
+    \caption{Biểu đồ hoạt động minh họa đặt hàng trực tuyến}
+  
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ hoạt động tạo đơn hàng.png}
+    \caption{Biểu đồ hoạt động minh họa gọi món, tạo đơn thanh toán nhanh và chọn phương thức thanh toán}
+  
+\end{figure}
+
 \section{Đặc tả chức năng}
 \label{section:2.3}
-Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ án để đặc tả chi tiết. Mỗi đặc tả bao gồm ít nhất các thông tin sau: (i) Tên use case, (ii) Luồng sự kiện (chính và phát sinh), (iii) Tiền điều kiện, và (iv) Hậu điều kiện. Sinh viên chỉ vẽ bổ sung biểu đồ hoạt động khi đặc tả use case phức tạp.
-\subsection{Đặc tả use case A}
+
+\subsection{Đặc tả use case Đặt hàng trực tuyến}
+\begin{center}
+    \begin{longtable}{|p{3.5cm}|p{\dimexpr\textwidth-3.5cm-4\tabcolsep\relax}|}
+        \hline
+        \textbf{Mã ca sử dụng} & UC\_01 \\ 
+        \hline
+        \textbf{Tên ca sử dụng} & Đặt hàng trực tuyến \\ 
+        \hline
+        \textbf{Tên tác nhân} & Khách hàng \\ 
+        \hline
+        \textbf{Mô tả} & Cho phép khách hàng  gửi yêu cầu đặt hàng đến hệ thống của nhà hàng. \\ 
+        \hline
+        \textbf{Tiền điều kiện} & Khách hàng đăng nhập vào hệ thống. \\ 
+        \hline
+        \textbf{Luồng sự kiện chính} & 
+        \begin{enumerate}[leftmargin=*, nosep, after=\vspace{\baselineskip}]
+            \item Khách hàng xem danh sách thực đơn và chọn món ăn mong muốn.
+            \item Hệ thống hiển thị chi tiết món ăn (tên, giá, mô tả).
+            \item Khách hàng nhập số lượng và nhấn "Thêm vào giỏ hàng".
+            \item Khách hàng truy cập giỏ hàng và nhấn "Đặt hàng".
+            \item Khách hàng nhập thông tin nhận hàng (Địa chỉ, Số điện thoại, Ghi chú).
+            \item Hệ thống hiển thị tổng tiền và phí vận chuyển (nếu có).
+            \item Khách hàng nhấn "Xác nhận đặt hàng".
+            \item Hệ thống lưu đơn hàng, thông báo đặt hàng thành công và gửi đơn đến nhân viên bán hàng.
+        \end{enumerate} \\ 
+        \hline
+        \textbf{Hậu điều kiện} & Một đơn hàng mới được tạo trong cơ sở dữ liệu với trạng thái "Chờ xác nhận". \\ 
+        \hline
+        \textbf{Luồng sự kiện thay thế} & 
+        \begin{enumerate}[leftmargin=1.8em, nosep, after=\vspace{\baselineskip}]
+            \item[3.1.] Nếu món ăn đã hết:
+            \begin{enumerate}[label=3.1.\arabic*., leftmargin=2.5em, nosep]
+                \item Hệ thống thông báo món ăn hiện tại không khả dụng.
+                \item Yêu cầu khách hàng chọn món khác hoặc quay lại sau.
+            \end{enumerate}
+            \item[5.1.] Nếu khách hàng đã đăng nhập:
+            \begin{enumerate}[label=5.1.\arabic*., leftmargin=2.5em, nosep]
+                \item Hệ thống tự động điền thông tin địa chỉ và số điện thoại đã lưu.
+            \end{enumerate}
+        \end{enumerate} \\ 
+        \hline
+        \caption{Đặc tả chức năng Đặt hàng trực tuyến}
+        \label{tab:uc_online_order}
+    \end{longtable}
+\end{center}
 \hfill
-\subsection{Đặc tả use case B}
+
+\subsection{Đặc tả use case Tạo đơn hàng nhanh}
+\begin{center}
+    \begin{longtable}{|p{3.5cm}|p{\dimexpr\textwidth-3.5cm-4\tabcolsep\relax}|}
+        \hline
+        \textbf{Mã ca sử dụng} & UC\_02 \\ 
+        \hline
+        \textbf{Tên ca sử dụng} & Tạo đơn hàng nhanh \\ 
+        \hline
+        \textbf{Tên tác nhân} & Nhân viên thu ngân \\ 
+        \hline
+        \textbf{Mô tả} & Hỗ trợ nhân viên thu ngân tạo đơn hàng tại quầy. \\ 
+        \hline
+        \textbf{Tiền điều kiện} & Nhân viên thu ngân đã đăng nhập vào hệ thống và đang ở màn hình bán hàng. \\ 
+        \hline
+        \textbf{Luồng sự kiện chính} & 
+        \begin{enumerate}[leftmargin=*, nosep, after=\vspace{\baselineskip}]
+            \item Nhân viên chọn các món ăn khách gọi trên giao diện.
+            \item Hệ thống tự động thêm món vào danh sách chờ và tính tạm tính.
+            \item Nhân viên điều chỉnh số lượng món ăn (nếu khách gọi nhiều suất) hoặc thêm ghi chú.
+            \item Hệ thống cập nhật lại tổng tiền theo thời gian thực và đẩy đơn hàng vào hàng đợi.
+            \item Nhân viên nhấn nút "Thanh toán" để chuyển sang use case thanh toán.
+        \end{enumerate} \\ 
+        \hline
+        \textbf{Hậu điều kiện} & Đơn hàng được chuyển sang trạng thái "Chờ thanh toán". \\ 
+        \hline
+        \textbf{Luồng sự kiện thay thế} & 
+        \begin{enumerate}[leftmargin=1.8em, nosep, after=\vspace{\baselineskip}]
+            \item[3.1.] Khách hàng đổi ý bỏ bớt món:
+            \begin{enumerate}[label=3.1.\arabic*., leftmargin=2.5em, nosep]
+                \item Nhân viên chọn món cần xóa trong danh sách chờ.
+                \item Nhấn nút "Xóa" hoặc phím tắt tương ứng.
+                \item Hệ thống loại bỏ món và tính lại tổng tiền.
+            \end{enumerate}
+        \end{enumerate} \\ 
+        \hline
+        \caption{Đặc tả chức năng Tạo đơn hàng nhanh}
+        \label{tab:uc_quick_order}
+    \end{longtable}
+\end{center}
+\hfill
+
+\subsection{Đặc tả use case Thanh toán}
+\begin{center}
+    \begin{longtable}{|p{3.5cm}|p{\dimexpr\textwidth-3.5cm-4\tabcolsep\relax}|}
+        \hline
+        \textbf{Mã ca sử dụng} & UC\_03 \\ 
+        \hline
+        \textbf{Tên ca sử dụng} & Thanh toán \\ 
+        \hline
+        \textbf{Tên tác nhân} & Nhân viên thu ngân \\ 
+        \hline
+        \textbf{Mô tả} & Xử lý giao dịch thanh toán cho đơn hàng, hỗ trợ tính tiền thừa. \\ 
+        \hline
+        \textbf{Tiền điều kiện} & Một đơn hàng đã được tạo và đang ở trạng thái chờ thanh toán. \\ 
+        \hline
+        \textbf{Luồng sự kiện chính} & 
+        \begin{enumerate}[leftmargin=*, nosep, after=\vspace{\baselineskip}]
+            \item Hệ thống hiển thị tổng số tiền khách cần trả.
+            \item Nhân viên chọn phương thức thanh toán (tiền mặt, chuyển khoản).
+            \item Nhân viên nhập số tiền khách đưa (đối với tiền mặt).
+            \item Hệ thống tự động tính toán và hiển thị số tiền thừa cần trả lại khách.
+            \item Nhân viên nhấn "Hoàn tất".
+            \item Hệ thống lưu trạng thái đơn hàng là "Đã thanh toán", cập nhật doanh thu.
+        \end{enumerate} \\ 
+        \hline
+        \textbf{Hậu điều kiện} & Đơn hàng hoàn tất, doanh thu được lưu trong hệ thống. \\ 
+        \hline
+        \textbf{Luồng sự kiện thay thế} & 
+        \begin{enumerate}[leftmargin=1.8em, nosep, after=\vspace{\baselineskip}]
+            \item[3.1.] Khách thanh toán bằng chuyển khoản ngân hàng:
+            \begin{enumerate}[label=3.1.\arabic*., leftmargin=2.5em, nosep]
+                \item Hệ thống hiển thị mã QR động theo số tiền đơn hàng.
+                \item Hệ thống xác nhận giao dịch thành công.
+            \end{enumerate}
+            \item[3.2.] Số tiền khách đưa không đủ:
+            \begin{enumerate}[label=3.2.\arabic*., leftmargin=2.5em, nosep]
+                \item Hệ thống cảnh báo số tiền thiếu.
+                \item Yêu cầu nhập lại số tiền hợp lệ.
+            \end{enumerate}
+        \end{enumerate} \\ 
+        \hline
+        \caption{Đặc tả chức năng Thanh toán}
+        \label{tab:uc_payment}
+    \end{longtable}
+\end{center}
+\hfill
+
+\subsection{Đặc tả use case Thêm nhân viên}
+\begin{center}
+    \begin{longtable}{|p{3.5cm}|p{\dimexpr\textwidth-3.5cm-4\tabcolsep\relax}|}
+        \hline
+        \textbf{Mã ca sử dụng} & UC\_04 \\ 
+        \hline
+        \textbf{Tên ca sử dụng} & Thêm nhân viên \\ 
+        \hline
+        \textbf{Tên tác nhân} & Quản lý \\ 
+        \hline
+        \textbf{Mô tả} & Tạo tài khoản mới cho nhân viên (thu ngân, phục vụ) \\ 
+        \hline
+        \textbf{Tiền điều kiện} & Quản lý đã đăng nhập với quyền Admin cao nhất. \\ 
+        \hline
+        \textbf{Luồng sự kiện chính} & 
+        \begin{enumerate}[leftmargin=*, nosep, after=\vspace{\baselineskip}]
+            \item Quản lý truy cập vào mục "Quản lý nhân viên".
+            \item Nhấn nút "Thêm nhân viên".
+            \item Nhập thông tin cá nhân (Họ tên, SĐT, CCCD/CMND) và thông tin tài khoản (Tên đăng nhập, Mật khẩu).
+            \item Nhấn nút "Tạo tài khoản".
+            \item Hệ thống xác thực thông tin và lưu tài khoản mới.
+            \item Hệ thống thông báo thành công và hiển thị nhân viên trong danh sách.
+        \end{enumerate} \\ 
+        \hline
+        \textbf{Hậu điều kiện} & Nhân viên mới có thể sử dụng tài khoản vừa tạo để đăng nhập vào hệ thống. \\ 
+        \hline
+        \textbf{Luồng sự kiện thay thế} & 
+        \begin{enumerate}[leftmargin=1.8em, nosep, after=\vspace{\baselineskip}]
+            \item[6.1.] Tên đăng nhập đã tồn tại trong hệ thống:
+            \begin{enumerate}[label=6.1.\arabic*., leftmargin=2.5em, nosep]
+                \item Hệ thống báo lỗi "Tên đăng nhập đã được sử dụng".
+                \item Yêu cầu nhập tên đăng nhập khác.
+            \end{enumerate}
+        \end{enumerate} \\ 
+        \hline
+        \caption{Đặc tả chức năng Thêm nhân viên}
+        \label{tab:uc_add_employee}
+    \end{longtable}
+\end{center}
 \hfill
 
 \section{Yêu cầu phi chức năng}
 \label{section:2.4}
-Trong phần này, sinh viên đưa ra các yêu cầu khác nếu có, bao gồm các yêu cầu phi chức năng như hiệu năng, độ tin cậy, tính dễ dùng, tính dễ bảo trì, hoặc các yêu cầu về mặt kỹ thuật như về CSDL, công nghệ sử dụng, v.v.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Đây là hệ thống quản lý bán hàng tốc độ cao phục vụ giờ cao điểm nên yêu cầu phi chức năng quan trọng nhất là thời gian phản hồi (tính từ lúc nhân viên thao tác trên màn hình chạm cho đến khi hệ thống ghi nhận và cập nhật trạng thái). Để đảm bảo giải tỏa nhanh chóng lượng khách trong khung giờ trưa (11h00 – 13h00), độ trễ của các thao tác cốt lõi như thêm món và xác nhận thanh toán phải nhỏ hơn 0,5 giây, đồng thời hệ thống phải hoạt động ổn định với tối thiểu 50 kết nối đồng thời mà không bị suy giảm hiệu năng. Giao diện POS cần được thiết kế tối ưu cho thao tác chạm  với sự đồng nhất về bố cục, màu sắc định danh cho từng gói giá, kích thước nút bấm lớn và sử dụng ngôn ngữ tiếng Việt để nhân viên có thể thao tác chính xác mà không cần quan sát lâu. Ngoài ra, hệ thống cần đảm bảo tính toàn vẹn dữ liệu  cho mọi giao dịch tài chính để tránh thất thoát doanh thu và sử dụng giao thức HTTPS để bảo mật luồng thông tin giữa các thiết bị.
 
 \end{document}

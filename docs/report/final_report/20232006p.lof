@@ -1,16 +1,37 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Biểu đồ use case tổng quát}}{5}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Biểu đồ use case phân rã Quản lý nhân viên}}{7}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Biểu đồ use case Quản lý thực đơn và giá}}{8}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Biểu đồ use case Quản lý bàn ăn}}{9}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Biểu đồ use case Quản lý đơn hàng}}{10}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Biểu đồ hoạt động minh họa đặt hàng trực tuyến}}{11}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Biểu đồ hoạt động minh họa gọi món, tạo đơn thanh toán nhanh và chọn phương thức thanh toán}}{12}{figure.caption.14}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Ví dụ biểu đồ phụ thuộc gói}}{8}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Ví dụ thiết kế gói}}{9}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Mô hình 3 tầng}}{20}{figure.caption.15}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Biểu đồ phụ thuộc gói}}{21}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Biểu đồ thiết kế gói Model}}{23}{figure.caption.18}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Biểu đồ thiết kế gói Controller}}{24}{figure.caption.19}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Giao diện bán hàng chính}}{25}{figure.caption.20}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Giao diện báo cáo thống kê}}{26}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Giao diện đặt hàng}}{26}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Giao diện giỏ hàng}}{26}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Giao diện popup thanh toán nhanh}}{27}{figure.caption.24}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Giao diện quản lý bàn ăn}}{27}{figure.caption.25}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Giao diện quản lý đơn hàng}}{27}{figure.caption.26}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Giao diện quản lý nhân viên}}{28}{figure.caption.27}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Giao diện quản lý thực đơn}}{28}{figure.caption.28}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Giao diện tổng quan}}{28}{figure.caption.29}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Giao diện trạng thái đơn hàng}}{29}{figure.caption.30}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Thiết kế lớp Order}}{29}{figure.caption.31}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Thiết kế lớp OrderService}}{29}{figure.caption.32}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Thiết kế lớp Product}}{30}{figure.caption.33}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Biểu đồ trình tự Tạo đơn hàng nhanh}}{30}{figure.caption.34}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Biểu đồ trình tự Thanh toán}}{30}{figure.caption.35}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Biểu đồ thực thể liên kết}}{31}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Biểu đồ thiết kế cơ sở dữ liệu}}{32}{figure.caption.37}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Internet vạn vật}}{20}{figure.caption.17}%
-\contentsline {figure}{\numberline {A.2}{\ignorespaces Qui cách đóng quyển đồ án}}{22}{figure.caption.20}%
-\contentsline {figure}{\numberline {A.3}{\ignorespaces Qui cách đóng quyển đồ án}}{22}{figure.caption.21}%
 \addvspace {10\p@ }
 \contentsfinish 
 \contentsfinish 

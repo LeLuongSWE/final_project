@@ -1,0 +1,81 @@
+@startuml
+' --- CẤU HÌNH GIAO DIỆN HỌC THUẬT (ACADEMIC STYLE) ---
+' Chuyển sang chế độ đen trắng để in ấn rõ nét
+skinparam monochrome true
+' Tắt bóng đổ để hình vẽ phẳng, hiện đại
+skinparam shadowing false
+' Sử dụng đường kẻ vuông góc (thay vì đường cong) cho gọn gàng
+skinparam linetype ortho
+' Cấu hình Font chữ (có thể đổi thành Times New Roman nếu đồ án yêu cầu)
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+hide circle
+' Cấu hình hiển thị bảng
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+
+' --- KHAI BÁO CÁC BẢNG (ENTITIES) ---
+
+entity "users" as users {
+    *user_id : BIGINT <<PK>>
+    --
+    username : VARCHAR(50)
+    password : VARCHAR(255)
+    full_name : VARCHAR(100)
+    role_id : BIGINT <<FK>>
+    created_at : TIMESTAMP
+}
+
+entity "roles" as roles {
+    *role_id : BIGINT <<PK>>
+    --
+    role_name : VARCHAR(20)
+}
+
+entity "products" as products {
+    *product_id : BIGINT <<PK>>
+    --
+    name : VARCHAR(100)
+    price : DECIMAL(10, 2)
+    image_url : VARCHAR(255)
+    is_active : BOOLEAN
+}
+
+entity "orders" as orders {
+    *order_id : BIGINT <<PK>>
+    --
+    user_id : BIGINT <<FK>>
+    order_date : TIMESTAMP
+    total_amount : DECIMAL(15, 2)
+    status : VARCHAR(20)
+    payment_method : VARCHAR(20)
+}
+
+entity "order_items" as order_items {
+    *item_id : BIGINT <<PK>>
+    --
+    order_id : BIGINT <<FK>>
+    product_id : BIGINT <<FK>>
+    quantity : INTEGER
+    price_at_purchase : DECIMAL(10, 2)
+}
+
+' --- ĐỊNH NGHĨA QUAN HỆ (RELATIONSHIPS) ---
+' Ký hiệu Crow's Foot (Chân chim) chuẩn thiết kế CSDL
+
+' Một Role có nhiều User (1 - n)
+roles ||..|{ users
+
+' Một User tạo nhiều Order (1 - n)
+users ||..|{ orders
+
+' Một Order có nhiều Order Items (1 - n)
+orders ||..|{ order_items 
+
+' Một Product nằm trong nhiều Order Items (1 - n)
+products ||..|{ order_items 
+
+@enduml
