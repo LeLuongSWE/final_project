@@ -1,0 +1,72 @@
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: rice_shop_db
+    environment:
+      POSTGRES_DB: rice_shop
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./source_code/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - rice_shop_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d rice_shop" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Spring Boot Application
+  backend:
+    build:
+      context: ./source_code/backend
+      dockerfile: Dockerfile
+    container_name: rice_shop_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/rice_shop
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SERVER_PORT: 8080
+      TZ: Asia/Ho_Chi_Minh
+      JAVA_OPTS: -Duser.timezone=Asia/Ho_Chi_Minh
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - rice_shop_network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend React Application
+  frontend:
+    build:
+      context: ./source_code/frontend
+      dockerfile: Dockerfile
+    container_name: rice_shop_frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - rice_shop_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  rice_shop_network:
+    driver: bridge
