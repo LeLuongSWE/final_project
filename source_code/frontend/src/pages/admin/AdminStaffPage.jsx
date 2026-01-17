@@ -39,7 +39,7 @@ const AdminStaffPage = () => {
     const fetchStaff = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:8080/api/admin/staff');
+            const response = await axios.get('http://192.168.1.161:8080/api/admin/staff');
             setStaff(response.data || []);
         } catch (error) {
             console.error('Error fetching staff:', error);
@@ -88,14 +88,14 @@ const AdminStaffPage = () => {
     const handleSave = async () => {
         try {
             if (editingStaff) {
-                await axios.put(`http://localhost:8080/api/admin/staff/${editingStaff.userId}`, {
+                await axios.put(`http://192.168.1.161:8080/api/admin/staff/${editingStaff.userId}`, {
                     fullName: formData.fullName,
                     phone: formData.phone,
                     roleId: formData.roleId,
                     password: formData.password || undefined
                 });
             } else {
-                await axios.post('http://localhost:8080/api/admin/staff', formData);
+                await axios.post('http://192.168.1.161:8080/api/admin/staff', formData);
             }
             fetchStaff();
             setShowModal(false);
@@ -111,7 +111,7 @@ const AdminStaffPage = () => {
 
     const confirmDeleteAction = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/admin/staff/${confirmDelete.id}`);
+            await axios.delete(`http://192.168.1.161:8080/api/admin/staff/${confirmDelete.id}`);
             fetchStaff();
         } catch (error) {
             console.error('Error deleting staff:', error);

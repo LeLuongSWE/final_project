@@ -32,7 +32,7 @@ const OrdersPage = () => {
             try {
                 setLoading(true);
                 console.log('OrdersPage - Fetching orders for userId:', user.userId);
-                const response = await axios.get(`http://localhost:8080/api/orders/user/${user.userId}`);
+                const response = await axios.get(`http://192.168.1.161:8080/api/orders/user/${user.userId}`);
                 console.log('OrdersPage - Orders response:', response.data);
                 setOrders(response.data || []);
                 setError(null);

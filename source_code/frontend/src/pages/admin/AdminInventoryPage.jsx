@@ -41,9 +41,9 @@ const AdminInventoryPage = () => {
         setLoading(true);
         try {
             const [materialsRes, transactionsRes, summaryRes] = await Promise.all([
-                axios.get('http://localhost:8080/api/inventory/materials'),
-                axios.get('http://localhost:8080/api/inventory/transactions'),
-                axios.get('http://localhost:8080/api/inventory/summary')
+                axios.get('http://192.168.1.161:8080/api/inventory/materials'),
+                axios.get('http://192.168.1.161:8080/api/inventory/transactions'),
+                axios.get('http://192.168.1.161:8080/api/inventory/summary')
             ]);
             setMaterials(materialsRes.data);
             setTransactions(transactionsRes.data);
@@ -87,7 +87,7 @@ const AdminInventoryPage = () => {
     const handleSubmit = async () => {
         try {
             if (modalType === 'add') {
-                await axios.post('http://localhost:8080/api/inventory/materials', {
+                await axios.post('http://192.168.1.161:8080/api/inventory/materials', {
                     name: formData.name,
                     unit: formData.unit,
                     unitPrice: parseFloat(formData.unitPrice) || 0,
@@ -95,21 +95,21 @@ const AdminInventoryPage = () => {
                     quantityInStock: 0
                 });
             } else if (modalType === 'edit') {
-                await axios.put(`http://localhost:8080/api/inventory/materials/${selectedMaterial.materialId}`, {
+                await axios.put(`http://192.168.1.161:8080/api/inventory/materials/${selectedMaterial.materialId}`, {
                     name: formData.name,
                     unit: formData.unit,
                     unitPrice: parseFloat(formData.unitPrice) || 0,
                     minStockLevel: parseFloat(formData.minStockLevel) || 0
                 });
             } else if (modalType === 'stock-in') {
-                await axios.post('http://localhost:8080/api/inventory/stock-in', {
+                await axios.post('http://192.168.1.161:8080/api/inventory/stock-in', {
                     materialId: selectedMaterial.materialId,
                     quantity: parseFloat(formData.quantity) || 0,
                     unitPrice: parseFloat(formData.unitPrice) || 0,
                     note: formData.note
                 });
             } else if (modalType === 'stock-out') {
-                await axios.post('http://localhost:8080/api/inventory/stock-out', {
+                await axios.post('http://192.168.1.161:8080/api/inventory/stock-out', {
                     materialId: selectedMaterial.materialId,
                     quantity: parseFloat(formData.quantity) || 0,
                     note: formData.note
@@ -128,7 +128,7 @@ const AdminInventoryPage = () => {
 
     const confirmDeleteAction = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/inventory/materials/${confirmDelete.id}`);
+            await axios.delete(`http://192.168.1.161:8080/api/inventory/materials/${confirmDelete.id}`);
             fetchData();
         } catch (error) {
             console.error('Lỗi:', error.response?.data?.error || error.message);

@@ -34,7 +34,7 @@ const AdminMenuPage = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products/all');
+            const response = await axios.get('http://192.168.1.161:8080/api/products/all');
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -108,9 +108,9 @@ const AdminMenuPage = () => {
     const handleSave = async () => {
         try {
             if (editingProduct) {
-                await axios.put(`http://localhost:8080/api/products/${editingProduct.productId}`, formData);
+                await axios.put(`http://192.168.1.161:8080/api/products/${editingProduct.productId}`, formData);
             } else {
-                await axios.post('http://localhost:8080/api/products', formData);
+                await axios.post('http://192.168.1.161:8080/api/products', formData);
             }
             fetchProducts();
             setShowModal(false);
@@ -127,7 +127,7 @@ const AdminMenuPage = () => {
     const confirmDeleteAction = async () => {
         try {
             // Use hard delete to permanently remove product
-            await axios.delete(`http://localhost:8080/api/products/${confirmDelete.id}/hard`);
+            await axios.delete(`http://192.168.1.161:8080/api/products/${confirmDelete.id}/hard`);
             fetchProducts();
         } catch (error) {
             console.error('Error deleting product:', error);
@@ -139,7 +139,7 @@ const AdminMenuPage = () => {
 
     const toggleStatus = async (product) => {
         try {
-            await axios.put(`http://localhost:8080/api/products/${product.productId}`, {
+            await axios.put(`http://192.168.1.161:8080/api/products/${product.productId}`, {
                 isActive: !product.isActive
             });
             fetchProducts();

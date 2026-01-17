@@ -15,7 +15,7 @@ const StaffLoginPage = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/login', {
+            const response = await axios.post('http://192.168.1.161:8080/api/auth/login', {
                 username,
                 password
             });
@@ -43,13 +43,13 @@ const StaffLoginPage = () => {
 
             // Start a new shift
             try {
-                const shiftResponse = await axios.post('http://localhost:8080/api/shifts/start', {
+                const shiftResponse = await axios.post('http://192.168.1.161:8080/api/shifts/start', {
                     cashierId: user.userId
                 });
                 sessionStorage.setItem('currentShift', JSON.stringify(shiftResponse.data));
             } catch (shiftError) {
                 // Check if already has active shift
-                const activeShift = await axios.get(`http://localhost:8080/api/shifts/active/${user.userId}`);
+                const activeShift = await axios.get(`http://192.168.1.161:8080/api/shifts/active/${user.userId}`);
                 sessionStorage.setItem('currentShift', JSON.stringify(activeShift.data));
             }
 

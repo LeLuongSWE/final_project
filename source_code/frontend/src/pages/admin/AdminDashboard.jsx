@@ -26,7 +26,7 @@ const AdminDashboard = () => {
     const fetchTodayStats = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:8080/api/admin/statistics?period=today');
+            const response = await axios.get('http://192.168.1.161:8080/api/admin/statistics?period=today');
             setStats(response.data);
         } catch (error) {
             console.error('Error fetching stats:', error);

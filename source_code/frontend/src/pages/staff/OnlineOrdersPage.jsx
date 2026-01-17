@@ -9,6 +9,9 @@ const OrderManagementPage = () => {
     const [loading, setLoading] = useState(true);
     const [staffUser, setStaffUser] = useState(null);
     const [currentShift, setCurrentShift] = useState(null);
+    const [onlineCount, setOnlineCount] = useState(0);
+    const [instoreCount, setInstoreCount] = useState(0);
+    const [paymentModal, setPaymentModal] = useState(null);
 
     useEffect(() => {
         const user = sessionStorage.getItem('staffUser');
@@ -24,23 +27,45 @@ const OrderManagementPage = () => {
             setCurrentShift(JSON.parse(shift));
         }
 
+        // Fetch counts for both tabs on initial load
+        fetchOrderCounts();
         fetchOrders();
 
         // Auto-refresh every 30 seconds
-        const interval = setInterval(fetchOrders, 30000);
+        const interval = setInterval(() => {
+            fetchOrderCounts();
+            fetchOrders();
+        }, 30000);
         return () => clearInterval(interval);
     }, [navigate, activeTab]);
+
+    const fetchOrderCounts = async () => {
+        try {
+            // Fetch online count
+            const onlineResponse = await axios.get('http://192.168.1.161:8080/api/orders/online/pending');
+            setOnlineCount(onlineResponse.data.length);
+
+            // Fetch instore count
+            const shift = JSON.parse(sessionStorage.getItem('currentShift'));
+            if (shift) {
+                const instoreResponse = await axios.get(`http://192.168.1.161:8080/api/orders/instore/shift/${shift.shiftId}`);
+                setInstoreCount(instoreResponse.data.length);
+            }
+        } catch (error) {
+            console.error('Error fetching order counts:', error);
+        }
+    };
 
     const fetchOrders = async () => {
         setLoading(true);
         try {
             let response;
             if (activeTab === 'ONLINE') {
-                response = await axios.get('http://localhost:8080/api/orders/online/pending');
+                response = await axios.get('http://192.168.1.161:8080/api/orders/online/pending');
             } else {
                 const shift = JSON.parse(sessionStorage.getItem('currentShift'));
                 if (shift) {
-                    response = await axios.get(`http://localhost:8080/api/orders/instore/shift/${shift.shiftId}`);
+                    response = await axios.get(`http://192.168.1.161:8080/api/orders/instore/shift/${shift.shiftId}`);
                 } else {
                     response = { data: [] };
                 }
@@ -51,6 +76,21 @@ const OrderManagementPage = () => {
             setOrders([]);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const confirmPayment = async (orderId, paymentMethod) => {
+        try {
+            await axios.put(`http://192.168.1.161:8080/api/orders/${orderId}/payment`, {
+                paymentMethod: paymentMethod,
+                status: 'COMPLETED'
+            });
+            setPaymentModal(null);
+            fetchOrders();
+            fetchOrderCounts();
+        } catch (error) {
+            console.error('Error confirming payment:', error);
+            alert('Có lỗi khi xác nhận thanh toán');
         }
     };
 
@@ -96,7 +136,7 @@ const OrderManagementPage = () => {
 
     const updateStatus = async (orderId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/orders/${orderId}/status`, {
+            await axios.put(`http://192.168.1.161:8080/api/orders/${orderId}/status`, {
                 status: newStatus
             });
             fetchOrders();
@@ -136,20 +176,20 @@ const OrderManagementPage = () => {
                     <button
                         onClick={() => setActiveTab('ONLINE')}
                         className={`px-6 py-3 rounded-t-lg font-bold transition ${activeTab === 'ONLINE'
-                                ? 'bg-orange-600 text-white'
-                                : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                            ? 'bg-orange-600 text-white'
+                            : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                             }`}
                     >
-                        📱 Đơn Online ({orders.filter(o => o.orderType === 'ONLINE' || activeTab === 'ONLINE').length})
+                        📱 Đơn Online ({onlineCount})
                     </button>
                     <button
                         onClick={() => setActiveTab('INSTORE')}
                         className={`px-6 py-3 rounded-t-lg font-bold transition ${activeTab === 'INSTORE'
-                                ? 'bg-orange-600 text-white'
-                                : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                            ? 'bg-orange-600 text-white'
+                            : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                             }`}
                     >
-                        🏪 Đơn tại quán ({activeTab === 'INSTORE' ? orders.length : 0})
+                        🏪 Đơn tại quán ({instoreCount})
                     </button>
                 </div>
             </div>
@@ -212,7 +252,7 @@ const OrderManagementPage = () => {
                                                 <span className="text-orange-400">{formatCurrency(order.totalAmount)} đ</span>
                                             </div>
                                             <div className="text-sm text-gray-400 mt-1">
-                                                <div>Thanh toán: {order.paymentMethod === 'VIETQR' ? '📱 Chuyển khoản' : '💵 Tiền mặt'}</div>
+                                                <div>Thanh toán: {order.paymentMethod === 'VIETQR' ? '📱 Chuyển khoản' : order.paymentMethod === 'PENDING' ? '⏳ Chờ thanh toán' : '💵 Tiền mặt'}</div>
                                                 {order.orderType === 'ONLINE' && order.estimatedPickupTime && (
                                                     <div>Dự kiến: {formatTime(order.estimatedPickupTime)}</div>
                                                 )}
@@ -245,6 +285,16 @@ const OrderManagementPage = () => {
                                                     ✓ Khách đã nhận hàng
                                                 </button>
                                             )}
+
+                                            {/* Payment button for INSTORE PENDING orders */}
+                                            {activeTab === 'INSTORE' && order.status === 'PENDING' && (
+                                                <button
+                                                    onClick={() => setPaymentModal(order)}
+                                                    className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-bold transition"
+                                                >
+                                                    💰 Xác nhận thanh toán
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -253,6 +303,50 @@ const OrderManagementPage = () => {
                     </div>
                 )}
             </div>
+
+            {/* Payment Modal */}
+            {paymentModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-sm w-full shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-4 flex justify-between items-center">
+                            <h2 className="text-xl font-bold">Xác nhận thanh toán</h2>
+                            <button
+                                onClick={() => setPaymentModal(null)}
+                                className="w-8 h-8 rounded-full bg-white bg-opacity-30 hover:bg-opacity-50 flex items-center justify-center text-xl font-bold"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-4">
+                            <div className="text-center">
+                                <p className="text-gray-600 font-medium">Đơn hàng: <span className="font-bold text-gray-900">{paymentModal.orderCode}</span></p>
+                                <p className="text-gray-600 font-medium">Bàn: <span className="font-bold text-gray-900">{paymentModal.tableNumber}</span></p>
+                                <p className="text-2xl font-bold text-green-600 mt-2">{formatCurrency(paymentModal.totalAmount)} đ</p>
+                            </div>
+
+                            <p className="text-center text-sm font-bold text-gray-800">Chọn phương thức thanh toán:</p>
+
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => confirmPayment(paymentModal.orderId, 'CASH')}
+                                    className="flex-1 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold flex flex-col items-center gap-1"
+                                >
+                                    <span className="text-2xl">💵</span>
+                                    <span>Tiền mặt</span>
+                                </button>
+                                <button
+                                    onClick={() => confirmPayment(paymentModal.orderId, 'VIETQR')}
+                                    className="flex-1 py-4 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-bold flex flex-col items-center gap-1"
+                                >
+                                    <span className="text-2xl">📱</span>
+                                    <span>Chuyển khoản</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

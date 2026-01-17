@@ -14,7 +14,7 @@ const OrderStatusPage = () => {
         const fetchOrderStatus = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:8080/api/orders/${orderId}`);
+                const response = await axios.get(`http://192.168.1.161:8080/api/orders/${orderId}`);
                 setOrderData(response.data);
                 setError(null);
             } catch (err) {

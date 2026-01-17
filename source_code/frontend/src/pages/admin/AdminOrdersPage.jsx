@@ -60,7 +60,7 @@ const AdminOrdersPage = () => {
             if (filterStatus) params.status = filterStatus;
             if (searchQuery) params.search = searchQuery;
 
-            const response = await axios.get('http://localhost:8080/api/orders/search', { params });
+            const response = await axios.get('http://192.168.1.161:8080/api/orders/search', { params });
             const data = response.data;
 
             if (reset) {

@@ -260,7 +260,43 @@ public class OrderController {
     @GetMapping("/instore/shift/{shiftId}")
     public ResponseEntity<?> getInstoreOrdersByShift(@PathVariable Long shiftId) {
         List<Order> orders = orderRepository.findByOrderTypeAndShiftIdOrderByOrderDateDesc("INSTORE", shiftId);
+        
+        // Populate items with product names for each order
+        for (Order order : orders) {
+            List<OrderItem> items = orderItemRepository.findByOrderOrderId(order.getOrderId());
+            for (OrderItem item : items) {
+                productRepository.findById(item.getProductId())
+                        .ifPresent(product -> item.setProductName(product.getName()));
+            }
+            order.setItems(items);
+        }
+        
         return ResponseEntity.ok(orders);
+    }
+    
+    @PutMapping("/{orderId}/payment")
+    public ResponseEntity<?> updateOrderPayment(
+            @PathVariable Long orderId,
+            @RequestBody Map<String, String> request) {
+        String newPaymentMethod = request.get("paymentMethod");
+        String newStatus = request.getOrDefault("status", "COMPLETED");
+        
+        return orderRepository.findById(orderId)
+                .map(order -> {
+                    order.setPaymentMethod(newPaymentMethod);
+                    order.setStatus(newStatus);
+                    orderRepository.save(order);
+                    
+                    // Add to status history
+                    OrderStatusHistory history = new OrderStatusHistory();
+                    history.setOrder(order);
+                    history.setStatus(newStatus);
+                    history.setChangedAt(LocalDateTime.now());
+                    orderStatusHistoryRepository.save(history);
+                    
+                    return ResponseEntity.ok(order);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/instore")
@@ -276,7 +312,7 @@ public class OrderController {
             order.setOrderType("INSTORE");
             order.setShiftId(request.getShiftId());
             order.setCashierId(request.getCashierId());
-            order.setStatus("COMPLETED"); // In-store orders are completed immediately
+            order.setStatus("PENDING"); // In-store orders start as PENDING, confirmed later
 
             Order savedOrder = orderRepository.save(order);
 
@@ -300,7 +336,7 @@ public class OrderController {
             // Create status history
             OrderStatusHistory history = new OrderStatusHistory();
             history.setOrder(savedOrder);
-            history.setStatus("COMPLETED");
+            history.setStatus("PENDING");
             history.setChangedAt(LocalDateTime.now());
             orderStatusHistoryRepository.save(history);
 

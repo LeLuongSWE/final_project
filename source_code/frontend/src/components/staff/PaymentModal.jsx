@@ -39,7 +39,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
         setIsProcessing(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/orders/instore', {
+            const response = await axios.post('http://192.168.1.161:8080/api/orders/instore', {
                 totalAmount: total,
                 paymentMethod: 'PENDING',
                 tableNumber: tableNumber,
@@ -65,7 +65,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
 
     const handleConfirmPayment = async () => {
         try {
-            await axios.put(`http://localhost:8080/api/orders/${orderData.orderId}/status`, {
+            await axios.put(`http://192.168.1.161:8080/api/orders/${orderData.orderId}/status`, {
                 status: 'COMPLETED'
             });
             onComplete();
@@ -108,8 +108,8 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
                                 <button
                                     onClick={() => setTableNumber('Mang về')}
                                     className={`flex-1 py-3 rounded-lg text-base font-bold transition ${tableNumber === 'Mang về'
-                                            ? 'bg-orange-500 text-white shadow-lg'
-                                            : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+                                        ? 'bg-orange-500 text-white shadow-lg'
+                                        : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
                                         }`}
                                 >
                                     📦 Mang về
@@ -117,8 +117,8 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
                                 <button
                                     onClick={() => setTableNumber('')}
                                     className={`flex-1 py-3 rounded-lg text-base font-bold transition ${tableNumber !== 'Mang về' && tableNumber !== ''
-                                            ? 'bg-blue-500 text-white shadow-lg'
-                                            : tableNumber === '' ? 'bg-blue-100 border-2 border-blue-500 text-blue-700' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+                                        ? 'bg-blue-500 text-white shadow-lg'
+                                        : tableNumber === '' ? 'bg-blue-100 border-2 border-blue-500 text-blue-700' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
                                         }`}
                                 >
                                     🪑 Tại quán
@@ -183,7 +183,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
 
                         {/* Order Info */}
                         <div className="text-center mb-4">
-                            <h2 className="text-xl font-black text-orange-600">HÓA ĐƠN THANH TOÁN</h2>
+                            <h2 className="text-xl font-black text-orange-600">HÓA ĐƠN TẠM TÍNH</h2>
                             <p className="text-base font-bold text-gray-800">Số: {orderData?.orderCode}</p>
                             <p className="text-sm font-medium text-gray-700">
                                 Ngày: {new Date(orderData?.orderDate).toLocaleString('vi-VN')}
@@ -233,7 +233,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
                         {/* Footer */}
                         <div className="text-center border-t-2 border-dashed border-gray-400 pt-4">
                             <p className="text-lg font-bold text-gray-800">Cảm ơn quý khách!</p>
-                            <p className="text-sm font-medium text-gray-600">Hẹn gặp lại</p>
+                            <p className="text-sm font-medium text-gray-600">Vui lòng thanh toán khi về</p>
                         </div>
                     </div>
 
@@ -246,65 +246,16 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
                             🖨️ In hóa đơn
                         </button>
 
-                        {/* Payment confirmation */}
-                        <div className="bg-white rounded-xl p-4 border-2 border-gray-300">
-                            <p className="text-sm font-bold text-gray-800 mb-2 text-center">Xác nhận phương thức thanh toán:</p>
-                            <div className="flex gap-2 mb-3">
-                                <button
-                                    onClick={() => setPaymentMethod('CASH')}
-                                    className={`flex-1 py-2 rounded-lg font-bold transition ${paymentMethod === 'CASH'
-                                        ? 'bg-green-500 text-white shadow'
-                                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                                        }`}
-                                >
-                                    💵 Tiền mặt
-                                </button>
-                                <button
-                                    onClick={() => setPaymentMethod('VIETQR')}
-                                    className={`flex-1 py-2 rounded-lg font-bold transition ${paymentMethod === 'VIETQR'
-                                        ? 'bg-purple-500 text-white shadow'
-                                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                                        }`}
-                                >
-                                    📱 Chuyển khoản
-                                </button>
-                            </div>
+                        <button
+                            onClick={() => { onComplete(); }}
+                            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-xl font-bold shadow-lg"
+                        >
+                            ✓ Hoàn tất - Món đã gửi bếp
+                        </button>
 
-                            {paymentMethod === 'CASH' && (
-                                <div className="space-y-2 mb-3">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm font-bold text-gray-800">Khách đưa:</span>
-                                        <input
-                                            type="text"
-                                            value={customerCash}
-                                            onChange={(e) => setCustomerCash(parseFloat(e.target.value.replace(/\D/g, '')) || 0)}
-                                            className="flex-1 px-3 py-2 border-2 border-gray-400 rounded-lg text-right font-bold text-gray-900"
-                                        />
-                                    </div>
-                                    <div className="flex gap-1">
-                                        {[50000, 100000, 200000, 500000].map(amount => (
-                                            <button
-                                                key={amount}
-                                                onClick={() => setQuickAmount(amount)}
-                                                className="flex-1 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm font-bold text-gray-800"
-                                            >
-                                                {amount / 1000}k
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <div className="text-center text-lg font-black text-green-600">
-                                        Tiền thừa: {formatCurrency(getChange())} đ
-                                    </div>
-                                </div>
-                            )}
-
-                            <button
-                                onClick={handleConfirmPayment}
-                                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-xl font-bold shadow-lg"
-                            >
-                                ✓ Xác nhận đã thanh toán
-                            </button>
-                        </div>
+                        <p className="text-center text-sm text-gray-600">
+                            💡 Khách ăn xong ra trả tiền → Vào "Quản lý đơn hàng" để xác nhận thanh toán
+                        </p>
                     </div>
                 </div>
             </div>

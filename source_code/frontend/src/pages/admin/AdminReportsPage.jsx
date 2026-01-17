@@ -35,16 +35,117 @@ ChartJS.register(
 const AdminReportsPage = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('sales');
+
+    // Get today's date in yyyy-mm-dd format
+    const getTodayString = () => {
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    };
+
     const [dateRange, setDateRange] = useState({
-        startDate: '2025-01-01',
-        endDate: '2025-12-31'
+        startDate: getTodayString(),
+        endDate: getTodayString()
     });
-    const [activePeriod, setActivePeriod] = useState('year'); // Quick filter selection
+    const [activePeriod, setActivePeriod] = useState('today'); // Default to today
     const [loading, setLoading] = useState(true);
+
+    // Display values for dd/mm/yyyy format
+    const formatToDisplay = (dateStr) => {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    const [startDateDisplay, setStartDateDisplay] = useState(formatToDisplay(getTodayString()));
+    const [endDateDisplay, setEndDateDisplay] = useState(formatToDisplay(getTodayString()));
+    const [dateError, setDateError] = useState('');
+
+    // Handle date change with validation
+    const handleStartDateChange = (e) => {
+        const newStartDate = e.target.value;
+        if (newStartDate > dateRange.endDate) {
+            setDateError('⚠️ Ngày bắt đầu không được lớn hơn ngày kết thúc!');
+            setTimeout(() => setDateError(''), 3000);
+            return;
+        }
+        setDateError('');
+        setDateRange({ ...dateRange, startDate: newStartDate });
+        setActivePeriod('custom');
+    };
+
+    const handleEndDateChange = (e) => {
+        const newEndDate = e.target.value;
+        if (newEndDate < dateRange.startDate) {
+            setDateError('⚠️ Ngày kết thúc không được nhỏ hơn ngày bắt đầu!');
+            setTimeout(() => setDateError(''), 3000);
+            return;
+        }
+        setDateError('');
+        setDateRange({ ...dateRange, endDate: newEndDate });
+        setActivePeriod('custom');
+    };
+
+    // Sync display values when dateRange changes (from quick filters)
+    useEffect(() => {
+        setStartDateDisplay(formatToDisplay(dateRange.startDate));
+        setEndDateDisplay(formatToDisplay(dateRange.endDate));
+    }, [dateRange.startDate, dateRange.endDate]);
+
+    // Navigate to previous/next period
+    const navigatePeriod = (direction) => {
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+
+        // Calculate the period length in days
+        const startDate = new Date(dateRange.startDate);
+        const endDate = new Date(dateRange.endDate);
+        const periodDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        let newStart, newEnd;
+
+        if (direction === 'prev') {
+            // Go to previous period
+            newEnd = new Date(startDate);
+            newEnd.setDate(newEnd.getDate() - 1);
+            newStart = new Date(newEnd);
+            newStart.setDate(newStart.getDate() - periodDays + 1);
+        } else {
+            // Go to next period
+            newStart = new Date(endDate);
+            newStart.setDate(newStart.getDate() + 1);
+            newEnd = new Date(newStart);
+            newEnd.setDate(newEnd.getDate() + periodDays - 1);
+
+            // Don't allow going beyond today
+            if (newStart > today) {
+                setDateError('⚠️ Không thể xem dữ liệu sau ngày hôm nay!');
+                setTimeout(() => setDateError(''), 3000);
+                return;
+            }
+
+            // Cap end date at today
+            if (newEnd > today) {
+                newEnd = today;
+            }
+        }
+
+        setDateRange({
+            startDate: newStart.toISOString().split('T')[0],
+            endDate: newEnd.toISOString().split('T')[0]
+        });
+        setActivePeriod('custom');
+    };
+
+    // Check if can navigate to next period
+    const canNavigateNext = () => {
+        const today = new Date();
+        const endDate = new Date(dateRange.endDate);
+        return endDate < today;
+    };
 
     // Quick date filter helper
     const setQuickDateRange = (period) => {
-        const today = new Date('2025-12-15'); // Using 2025 date for sample data
+        const today = new Date(); // Use actual current date
         let start, end;
 
         switch (period) {
@@ -71,8 +172,8 @@ const AdminReportsPage = () => {
                 end = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of prev month
                 break;
             case 'year':
-                start = new Date(2025, 0, 1);
-                end = new Date(2025, 11, 31);
+                start = new Date(today.getFullYear(), 0, 1);
+                end = new Date(today.getFullYear(), 11, 31);
                 break;
             default:
                 return;
@@ -138,11 +239,11 @@ const AdminReportsPage = () => {
             };
 
             const [kpi, timeSeries, channel, payment, topProducts] = await Promise.all([
-                axios.get('http://localhost:8080/api/analytics/sales/kpi', { params }),
-                axios.get('http://localhost:8080/api/analytics/sales/time-series', { params: { ...params, granularity: 'day' } }),
-                axios.get('http://localhost:8080/api/analytics/sales/channel-mix', { params }),
-                axios.get('http://localhost:8080/api/analytics/sales/payment-mix', { params }),
-                axios.get('http://localhost:8080/api/analytics/sales/top-products', { params: { ...params, limit: 50 } }) // Fetch 50 for pagination
+                axios.get('http://192.168.1.161:8080/api/analytics/sales/kpi', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/sales/time-series', { params: { ...params, granularity: 'day' } }),
+                axios.get('http://192.168.1.161:8080/api/analytics/sales/channel-mix', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/sales/payment-mix', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/sales/top-products', { params: { ...params, limit: 50 } }) // Fetch 50 for pagination
             ]);
 
             setKpiData(kpi.data);
@@ -167,10 +268,10 @@ const AdminReportsPage = () => {
             };
 
             const [kpi, abc, alerts, turnover] = await Promise.all([
-                axios.get('http://localhost:8080/api/analytics/supply-chain/kpi', { params }),
-                axios.get('http://localhost:8080/api/analytics/supply-chain/abc-analysis', { params }),
-                axios.get('http://localhost:8080/api/analytics/supply-chain/reorder-alerts'),
-                axios.get('http://localhost:8080/api/analytics/supply-chain/turnover', { params })
+                axios.get('http://192.168.1.161:8080/api/analytics/supply-chain/kpi', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/supply-chain/abc-analysis', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/supply-chain/reorder-alerts'),
+                axios.get('http://192.168.1.161:8080/api/analytics/supply-chain/turnover', { params })
             ]);
 
             setSupplyKpiData(kpi.data);
@@ -193,10 +294,10 @@ const AdminReportsPage = () => {
             };
 
             const [kpi, bcg, combo, trend] = await Promise.all([
-                axios.get('http://localhost:8080/api/analytics/product/kpi', { params }),
-                axios.get('http://localhost:8080/api/analytics/product/bcg-matrix', { params }),
-                axios.get('http://localhost:8080/api/analytics/product/combo-suggestions', { params: { limit: 10 } }),
-                axios.get('http://localhost:8080/api/analytics/product/weekly-trend', { params })
+                axios.get('http://192.168.1.161:8080/api/analytics/product/kpi', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/product/bcg-matrix', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/product/combo-suggestions', { params: { limit: 10 } }),
+                axios.get('http://192.168.1.161:8080/api/analytics/product/weekly-trend', { params })
             ]);
 
             setProductKpiData(kpi.data);
@@ -219,11 +320,11 @@ const AdminReportsPage = () => {
             };
 
             const [kpi, processTime, staffRanking, reconciliation, heatmap] = await Promise.all([
-                axios.get('http://localhost:8080/api/analytics/workforce/kpi', { params }),
-                axios.get('http://localhost:8080/api/analytics/workforce/process-time', { params }),
-                axios.get('http://localhost:8080/api/analytics/workforce/staff-ranking', { params }),
-                axios.get('http://localhost:8080/api/analytics/workforce/reconciliation', { params }),
-                axios.get('http://localhost:8080/api/analytics/workforce/hourly-heatmap', { params })
+                axios.get('http://192.168.1.161:8080/api/analytics/workforce/kpi', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/workforce/process-time', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/workforce/staff-ranking', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/workforce/reconciliation', { params }),
+                axios.get('http://192.168.1.161:8080/api/analytics/workforce/hourly-heatmap', { params })
             ]);
 
             setWorkforceKpiData(kpi.data);
@@ -240,6 +341,63 @@ const AdminReportsPage = () => {
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN').format(amount || 0);
+    };
+
+    // Format date to dd/mm/yyyy for Vietnamese display
+    const formatDateVN = (dateStr) => {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    // Parse dd/mm/yyyy back to yyyy-mm-dd for API
+    const parseDateVN = (dateStr) => {
+        if (!dateStr) return '';
+        const parts = dateStr.split('/');
+        if (parts.length !== 3) return dateStr;
+        const [day, month, year] = parts;
+        if (day && month && year && day.length === 2 && month.length === 2 && year.length === 4) {
+            return `${year}-${month}-${day}`;
+        }
+        return dateStr;
+    };
+
+    // Handle date input change with dd/mm/yyyy format
+    const handleDateChange = (field, value) => {
+        // Allow typing in dd/mm/yyyy format
+        let cleanValue = value.replace(/[^0-9/]/g, '');
+
+        // Auto-add slashes
+        if (cleanValue.length === 2 && !cleanValue.includes('/')) {
+            cleanValue = cleanValue + '/';
+        } else if (cleanValue.length === 5 && cleanValue.split('/').length === 2) {
+            cleanValue = cleanValue + '/';
+        }
+
+        // Limit length
+        if (cleanValue.length > 10) cleanValue = cleanValue.substring(0, 10);
+
+        // Update display value
+        if (field === 'start') {
+            setStartDateDisplay(cleanValue);
+            // If complete date, update dateRange
+            if (cleanValue.length === 10) {
+                const parsed = parseDateVN(cleanValue);
+                if (parsed !== cleanValue) {
+                    setDateRange({ ...dateRange, startDate: parsed });
+                    setActivePeriod('custom');
+                }
+            }
+        } else {
+            setEndDateDisplay(cleanValue);
+            if (cleanValue.length === 10) {
+                const parsed = parseDateVN(cleanValue);
+                if (parsed !== cleanValue) {
+                    setDateRange({ ...dateRange, endDate: parsed });
+                    setActivePeriod('custom');
+                }
+            }
+        }
     };
 
     const exportToExcel = async () => {
@@ -456,7 +614,7 @@ const AdminReportsPage = () => {
                         { id: 'lastWeek', label: 'Tuần trước' },
                         { id: 'month', label: 'Tháng này' },
                         { id: 'lastMonth', label: 'Tháng trước' },
-                        { id: 'year', label: 'Năm 2025' }
+                        { id: 'year', label: `Năm ${new Date().getFullYear()}` }
                     ].map(p => (
                         <button
                             key={p.id}
@@ -471,24 +629,62 @@ const AdminReportsPage = () => {
                     ))}
                 </div>
                 {/* Custom Date Range */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                     <span className="font-bold text-gray-700">Tùy chọn:</span>
-                    <input
-                        type="date"
-                        value={dateRange.startDate}
-                        onChange={(e) => { setDateRange({ ...dateRange, startDate: e.target.value }); setActivePeriod('custom'); }}
-                        className="px-3 py-2 border-2 border-gray-300 rounded-lg font-medium"
-                    />
+                    {/* Start Date with Calendar */}
+                    <div className="relative">
+                        <input
+                            type="date"
+                            value={dateRange.startDate}
+                            onChange={handleStartDateChange}
+                            className="px-3 py-2 border-2 border-gray-300 rounded-lg font-medium cursor-pointer hover:border-blue-400"
+                            style={{ colorScheme: 'light' }}
+                        />
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white pr-8 pointer-events-none font-medium">
+                            {startDateDisplay}
+                        </div>
+                    </div>
                     <span className="text-gray-600">→</span>
-                    <input
-                        type="date"
-                        value={dateRange.endDate}
-                        onChange={(e) => { setDateRange({ ...dateRange, endDate: e.target.value }); setActivePeriod('custom'); }}
-                        className="px-3 py-2 border-2 border-gray-300 rounded-lg font-medium"
-                    />
-                    <span className="text-sm text-gray-500 italic">
-                        ({dateRange.startDate} → {dateRange.endDate})
-                    </span>
+                    {/* End Date with Calendar */}
+                    <div className="relative">
+                        <input
+                            type="date"
+                            value={dateRange.endDate}
+                            onChange={handleEndDateChange}
+                            className="px-3 py-2 border-2 border-gray-300 rounded-lg font-medium cursor-pointer hover:border-blue-400"
+                            style={{ colorScheme: 'light' }}
+                        />
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white pr-8 pointer-events-none font-medium">
+                            {endDateDisplay}
+                        </div>
+                    </div>
+                    {/* Period Navigation Buttons */}
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={() => navigatePeriod('prev')}
+                            className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-bold transition-all flex items-center gap-1"
+                            title="Kỳ trước"
+                        >
+                            ◀ Kỳ trước
+                        </button>
+                        <button
+                            onClick={() => navigatePeriod('next')}
+                            disabled={!canNavigateNext()}
+                            className={`px-3 py-2 rounded-lg font-bold transition-all flex items-center gap-1 ${canNavigateNext()
+                                    ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                }`}
+                            title={canNavigateNext() ? "Kỳ sau" : "Không thể xem dữ liệu sau ngày hôm nay"}
+                        >
+                            Kỳ sau ▶
+                        </button>
+                    </div>
+                    {/* Date Error Message */}
+                    {dateError && (
+                        <span className="text-red-600 font-bold text-sm animate-pulse">
+                            {dateError}
+                        </span>
+                    )}
                     {activeTab === 'sales' && (
                         <button
                             onClick={exportToExcel}

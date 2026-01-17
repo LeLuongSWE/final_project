@@ -45,7 +45,7 @@ const CashierPOSPage = () => {
         // Check for new online orders every 15 seconds
         const checkOnlineOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/orders/online/pending');
+                const response = await axios.get('http://192.168.1.161:8080/api/orders/online/pending');
                 const pendingOrders = response.data || [];
                 const currentCount = pendingOrders.length;
 
@@ -109,7 +109,7 @@ const CashierPOSPage = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/products');
+            const response = await axios.get('http://192.168.1.161:8080/api/products');
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -191,7 +191,7 @@ const CashierPOSPage = () => {
 
     const confirmEndShift = async () => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/shifts/${currentShift.shiftId}/end`);
+            const response = await axios.put(`http://192.168.1.161:8080/api/shifts/${currentShift.shiftId}/end`);
             setShowEndShiftConfirm(false);
             // Show success and logout
             handleLogout();
