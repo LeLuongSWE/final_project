@@ -19,8 +19,7 @@ public class Product {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
+
 
     @Column(name = "image_data", columnDefinition = "TEXT")
     private String imageData;
@@ -52,10 +51,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, String imageUrl) {
+    public Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
-        this.imageUrl = imageUrl;
     }
 
     // Getters and Setters
@@ -83,13 +81,7 @@ public class Product {
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public Boolean getIsActive() {
         return isActive;

@@ -16,39 +16,35 @@ public class SupplyChainAnalyticsController {
         private JdbcTemplate jdbcTemplate;
 
         /**
+         * Helper: Tính giá trị tồn kho tại một thời điểm
+         */
+        private Number getInventoryValueAtDate(LocalDate date) {
+                Number result = jdbcTemplate.queryForObject(
+                        "SELECT fn_supply_inventory_value_at_date(?)",
+                        Number.class,
+                        date.atStartOfDay()
+                );
+                return result != null ? result : 0;
+        }
+
+        /**
          * 1. Inventory Turnover Analysis
-         * GET
-         * /api/analytics/supply-chain/turnover?startDate=2026-01-01&endDate=2026-01-31
+         * GET /api/analytics/supply-chain/turnover?startDate=&endDate=
          */
         @GetMapping("/turnover")
         public List<Map<String, Object>> getInventoryTurnover(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                String sql = "SELECT " +
-                                "    m.material_id, " +
-                                "    m.name, " +
-                                "    m.unit, " +
-                                "    SUM(CASE WHEN st.type = 'OUT' THEN st.quantity * st.unit_price ELSE 0 END) as cogs, "
-                                +
-                                "    AVG(m.quantity_in_stock * m.unit_price) as avg_inventory_value, " +
-                                "    ROUND( " +
-                                "        SUM(CASE WHEN st.type = 'OUT' THEN st.quantity * st.unit_price ELSE 0 END) /  "
-                                +
-                                "        NULLIF(AVG(m.quantity_in_stock * m.unit_price), 0),  " +
-                                "        2 " +
-                                "    ) as turnover_ratio " +
-                                "FROM materials m " +
-                                "LEFT JOIN stock_transactions st ON m.material_id = st.material_id " +
-                                "WHERE st.created_at >= ? AND st.created_at < ? " +
-                                "GROUP BY m.material_id, m.name, m.unit " +
-                                "ORDER BY turnover_ratio DESC NULLS LAST";
-
-                return jdbcTemplate.queryForList(sql, startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_supply_turnover(?, ?)",
+                        startDate.atStartOfDay(),
+                        endDate.plusDays(1).atStartOfDay()
+                );
         }
 
         /**
-         * 2. Purchase Price Variance (PPV)
-         * GET /api/analytics/supply-chain/price-variance?materialId=1 (optional)
+         * 2. Purchase Price Variance (PPV) - Biến động Giá nhập
+         * GET /api/analytics/supply-chain/price-variance?materialId=
          */
         @GetMapping("/price-variance")
         public List<Map<String, Object>> getPriceVariance(
@@ -58,10 +54,9 @@ public class SupplyChainAnalyticsController {
                                 "        material_id, " +
                                 "        created_at, " +
                                 "        unit_price, " +
-                                "        LAG(unit_price) OVER (PARTITION BY material_id ORDER BY created_at) as prev_price, "
-                                +
-                                "        LAG(created_at) OVER (PARTITION BY material_id ORDER BY created_at) as prev_date "
-                                +
+                                "        quantity, " +
+                                "        LAG(unit_price) OVER (PARTITION BY material_id ORDER BY created_at) as prev_price, " +
+                                "        LAG(created_at) OVER (PARTITION BY material_id ORDER BY created_at) as prev_date " +
                                 "    FROM stock_transactions " +
                                 "    WHERE type = 'IN' " +
                                 (materialId != null ? "      AND material_id = ? " : "") +
@@ -73,13 +68,13 @@ public class SupplyChainAnalyticsController {
                                 "    pc.unit_price as current_price, " +
                                 "    pc.prev_price, " +
                                 "    pc.prev_date, " +
+                                "    pc.quantity, " +
                                 "    (pc.unit_price - pc.prev_price) as variance, " +
-                                "    ROUND(((pc.unit_price - pc.prev_price) / NULLIF(pc.prev_price, 0)) * 100, 2) as variance_pct "
-                                +
+                                "    ROUND(((pc.unit_price - pc.prev_price) / NULLIF(pc.prev_price, 0)) * 100, 2) as variance_pct " +
                                 "FROM price_changes pc " +
                                 "JOIN materials m ON pc.material_id = m.material_id " +
                                 "WHERE pc.prev_price IS NOT NULL " +
-                                "ORDER BY pc.created_at DESC " +
+                                "ORDER BY ABS(pc.unit_price - pc.prev_price) DESC, pc.created_at DESC " +
                                 "LIMIT 50";
 
                 if (materialId != null) {
@@ -90,48 +85,18 @@ public class SupplyChainAnalyticsController {
         }
 
         /**
-         * 3. ABC Analysis
-         * GET
-         * /api/analytics/supply-chain/abc-analysis?startDate=2026-01-01&endDate=2026-01-31
+         * 3. ABC Analysis - Phân loại nguyên liệu theo giá trị tiêu thụ
+         * GET /api/analytics/supply-chain/abc-analysis?startDate=&endDate=
          */
         @GetMapping("/abc-analysis")
         public List<Map<String, Object>> getAbcAnalysis(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                String sql = "WITH material_usage AS ( " +
-                                "    SELECT  " +
-                                "        m.material_id, " +
-                                "        m.name, " +
-                                "        SUM(st.quantity * st.unit_price) as total_value, " +
-                                "        SUM(st.quantity) as total_quantity " +
-                                "    FROM materials m " +
-                                "    JOIN stock_transactions st ON m.material_id = st.material_id " +
-                                "    WHERE st.type = 'OUT'  " +
-                                "      AND st.created_at >= ?  " +
-                                "      AND st.created_at < ? " +
-                                "    GROUP BY m.material_id, m.name " +
-                                "), " +
-                                "ranked AS ( " +
-                                "    SELECT *, " +
-                                "        SUM(total_value) OVER (ORDER BY total_value DESC) as running_total, " +
-                                "        SUM(total_value) OVER () as grand_total " +
-                                "    FROM material_usage " +
-                                ") " +
-                                "SELECT  " +
-                                "    material_id, " +
-                                "    name, " +
-                                "    total_value, " +
-                                "    total_quantity, " +
-                                "    ROUND((running_total / NULLIF(grand_total, 0)) * 100, 2) as cumulative_pct, " +
-                                "    CASE  " +
-                                "        WHEN (running_total / NULLIF(grand_total, 0)) * 100 <= 80 THEN 'A' " +
-                                "        WHEN (running_total / NULLIF(grand_total, 0)) * 100 <= 95 THEN 'B' " +
-                                "        ELSE 'C' " +
-                                "    END as abc_class " +
-                                "FROM ranked " +
-                                "ORDER BY total_value DESC";
-
-                return jdbcTemplate.queryForList(sql, startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_supply_abc_analysis(?, ?)",
+                        startDate.atStartOfDay(),
+                        endDate.plusDays(1).atStartOfDay()
+                );
         }
 
         /**
@@ -140,127 +105,95 @@ public class SupplyChainAnalyticsController {
          */
         @GetMapping("/reorder-alerts")
         public List<Map<String, Object>> getReorderAlerts() {
-                String sql = "WITH daily_usage AS ( " +
-                                "    SELECT  " +
-                                "        material_id, " +
-                                "        DATE(created_at) as usage_date, " +
-                                "        SUM(quantity) as daily_out " +
-                                "    FROM stock_transactions " +
-                                "    WHERE type = 'OUT' " +
-                                "      AND created_at >= CURRENT_DATE - INTERVAL '30 days' " +
-                                "    GROUP BY material_id, DATE(created_at) " +
-                                "), " +
-                                "avg_usage AS ( " +
-                                "    SELECT  " +
-                                "        material_id, " +
-                                "        AVG(daily_out) as adu, " +
-                                "        STDDEV(daily_out) as std_dev " +
-                                "    FROM daily_usage " +
-                                "    GROUP BY material_id " +
-                                ") " +
-                                "SELECT  " +
-                                "    m.material_id, " +
-                                "    m.name, " +
-                                "    m.unit, " +
-                                "    m.quantity_in_stock, " +
-                                "    m.min_stock_level as current_min, " +
-                                "    ROUND(COALESCE(au.adu, 0), 2) as avg_daily_usage, " +
-                                "    ROUND(COALESCE(au.adu, 0) * 3 + COALESCE(au.adu, 0) * 1.5, 2) as suggested_reorder_point, "
-                                +
-                                "    CASE  " +
-                                "        WHEN au.adu > 0 THEN ROUND(m.quantity_in_stock / au.adu, 1) " +
-                                "        ELSE NULL " +
-                                "    END as days_until_stockout, " +
-                                "    CASE  " +
-                                "        WHEN m.quantity_in_stock <= COALESCE(au.adu, 0) * 3 + COALESCE(au.adu, 0) * 1.5 THEN 'URGENT' "
-                                +
-                                "        WHEN m.quantity_in_stock <= COALESCE(au.adu, 0) * 5 THEN 'WARNING' " +
-                                "        ELSE 'OK' " +
-                                "    END as alert_status " +
-                                "FROM materials m " +
-                                "LEFT JOIN avg_usage au ON m.material_id = au.material_id " +
-                                "ORDER BY  " +
-                                "    CASE  " +
-                                "        WHEN m.quantity_in_stock <= COALESCE(au.adu, 0) * 3 + COALESCE(au.adu, 0) * 1.5 THEN 1 "
-                                +
-                                "        WHEN m.quantity_in_stock <= COALESCE(au.adu, 0) * 5 THEN 2 " +
-                                "        ELSE 3 " +
-                                "    END, " +
-                                "    CASE WHEN au.adu > 0 THEN ROUND(m.quantity_in_stock / au.adu, 1) ELSE NULL END NULLS LAST";
-
-                return jdbcTemplate.queryForList(sql);
+                return jdbcTemplate.queryForList("SELECT * FROM fn_supply_reorder_alerts()");
         }
 
         /**
          * 5. Stock Movement Timeline
-         * GET
-         * /api/analytics/supply-chain/stock-movement?startDate=2026-01-01&endDate=2026-01-31
+         * GET /api/analytics/supply-chain/stock-movement?startDate=&endDate=
          */
         @GetMapping("/stock-movement")
         public List<Map<String, Object>> getStockMovement(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                String sql = "SELECT " +
-                                "    DATE(created_at) as movement_date, " +
-                                "    SUM(CASE WHEN type = 'IN' THEN quantity * unit_price ELSE 0 END) as total_in_value, "
-                                +
-                                "    SUM(CASE WHEN type = 'OUT' THEN quantity * unit_price ELSE 0 END) as total_out_value, "
-                                +
-                                "    SUM(CASE WHEN type = 'IN' THEN quantity ELSE 0 END) as total_in_quantity, " +
-                                "    SUM(CASE WHEN type = 'OUT' THEN quantity ELSE 0 END) as total_out_quantity, " +
-                                "    COUNT(CASE WHEN type = 'IN' THEN 1 END) as in_transactions, " +
-                                "    COUNT(CASE WHEN type = 'OUT' THEN 1 END) as out_transactions " +
-                                "FROM stock_transactions " +
-                                "WHERE created_at >= ? AND created_at < ? " +
-                                "GROUP BY DATE(created_at) " +
-                                "ORDER BY movement_date";
-
-                return jdbcTemplate.queryForList(sql, startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_supply_stock_movement(?, ?)",
+                        startDate.atStartOfDay(),
+                        endDate.plusDays(1).atStartOfDay()
+                );
         }
 
         /**
-         * 6. KPI Summary
-         * GET /api/analytics/supply-chain/kpi?startDate=2026-01-01&endDate=2026-01-31
+         * 6. KPI Summary - Tổng hợp các chỉ số KPI
+         * GET /api/analytics/supply-chain/kpi?startDate=&endDate=
          */
         @GetMapping("/kpi")
         public Map<String, Object> getKPI(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                // Overall inventory value
-                String valueSql = "SELECT SUM(quantity_in_stock * unit_price) as total_inventory_value FROM materials";
-                Map<String, Object> valueResult = jdbcTemplate.queryForMap(valueSql);
+                
+                // 1. Tồn kho đầu kỳ
+                Number startValue = getInventoryValueAtDate(startDate);
 
-                // Count alerts
+                // 2. Tồn kho cuối kỳ
+                Number endValue = getInventoryValueAtDate(endDate.plusDays(1));
+
+                // 3. Tồn kho bình quân
+                double avgInventory = (startValue.doubleValue() + endValue.doubleValue()) / 2.0;
+
+                // 4. Tổng nhập kho trong kỳ
+                String inSql = "SELECT COALESCE(SUM(quantity * unit_price), 0) as total_in_value " +
+                        "FROM stock_transactions " +
+                        "WHERE type = 'IN' AND created_at >= ? AND created_at < ?";
+                Map<String, Object> inData = jdbcTemplate.queryForMap(inSql, 
+                        startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+
+                // 5. Tổng xuất kho trong kỳ (COGS)
+                String outSql = "SELECT COALESCE(SUM(quantity * unit_price), 0) as cogs " +
+                        "FROM stock_transactions " +
+                        "WHERE type = 'OUT' AND created_at >= ? AND created_at < ?";
+                Map<String, Object> outData = jdbcTemplate.queryForMap(outSql, 
+                        startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+
+                // 6. Vòng quay tồn kho
+                Number cogsValue = (Number) outData.get("cogs");
+                double turnoverRatio = avgInventory > 0 ? cogsValue.doubleValue() / avgInventory : 0;
+
+                // 7. Số ngày tồn kho
+                long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+                double daysOnHand = turnoverRatio > 0 ? daysBetween / turnoverRatio : 0;
+
+                // 8. Count materials and alerts
                 String alertSql = "SELECT " +
-                                "    COUNT(CASE WHEN quantity_in_stock <= min_stock_level THEN 1 END) as urgent_alerts, "
-                                +
-                                "    COUNT(*) as total_materials " +
+                                "    COUNT(*) as total_materials, " +
+                                "    COUNT(CASE WHEN quantity_in_stock <= min_stock_level THEN 1 END) as urgent_alerts, " +
+                                "    COUNT(CASE WHEN quantity_in_stock <= 0 THEN 1 END) as out_of_stock " +
                                 "FROM materials";
                 Map<String, Object> alertResult = jdbcTemplate.queryForMap(alertSql);
 
-                // ABC distribution
+                // 9. ABC Analysis counts
                 List<Map<String, Object>> abcData = getAbcAnalysis(startDate, endDate);
                 long classACount = abcData.stream().filter(m -> "A".equals(m.get("abc_class"))).count();
                 long classBCount = abcData.stream().filter(m -> "B".equals(m.get("abc_class"))).count();
                 long classCCount = abcData.stream().filter(m -> "C".equals(m.get("abc_class"))).count();
 
-                // Average turnover
-                List<Map<String, Object>> turnoverData = getInventoryTurnover(startDate, endDate);
-                double avgTurnover = turnoverData.stream()
-                                .map(m -> m.get("turnover_ratio"))
-                                .filter(Objects::nonNull)
-                                .mapToDouble(o -> ((Number) o).doubleValue())
-                                .average()
-                                .orElse(0.0);
-
-                Map<String, Object> result = new HashMap<>();
-                result.put("total_inventory_value", valueResult.get("total_inventory_value"));
-                result.put("urgent_alerts", alertResult.get("urgent_alerts"));
+                // Build result
+                Map<String, Object> result = new LinkedHashMap<>();
+                result.put("start_inventory_value", Math.round(startValue.doubleValue()));
+                result.put("end_inventory_value", Math.round(endValue.doubleValue()));
+                result.put("avg_inventory_value", Math.round(avgInventory));
+                result.put("total_in_value", inData.get("total_in_value"));
+                result.put("total_out_value", outData.get("cogs"));
+                result.put("cogs", outData.get("cogs"));
+                result.put("turnover_ratio", Math.round(turnoverRatio * 100.0) / 100.0);
+                result.put("days_on_hand", Math.round(daysOnHand));
                 result.put("total_materials", alertResult.get("total_materials"));
+                result.put("urgent_alerts", alertResult.get("urgent_alerts"));
+                result.put("out_of_stock", alertResult.get("out_of_stock"));
                 result.put("abc_class_a_count", classACount);
                 result.put("abc_class_b_count", classBCount);
                 result.put("abc_class_c_count", classCCount);
-                result.put("avg_turnover_ratio", Math.round(avgTurnover * 100.0) / 100.0);
+                result.put("period_days", daysBetween);
 
                 return result;
         }

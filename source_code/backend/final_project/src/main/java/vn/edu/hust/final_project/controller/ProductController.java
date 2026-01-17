@@ -51,15 +51,11 @@ public class ProductController {
             product.setCategory((String) request.getOrDefault("category", "MÓN MẶN"));
             product.setIsActive(true);
 
-            // Handle image - can be Base64 data or URL
+            // Handle image - Base64 data only
             String imageData = (String) request.get("imageData");
-            String imageUrl = (String) request.get("imageUrl");
 
             if (imageData != null && !imageData.isEmpty()) {
                 product.setImageData(imageData);
-            }
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                product.setImageUrl(imageUrl);
             }
 
             Product saved = productRepository.save(product);
@@ -92,9 +88,6 @@ public class ProductController {
                     if (request.containsKey("imageData")) {
                         String imageData = (String) request.get("imageData");
                         product.setImageData(imageData != null && !imageData.isEmpty() ? imageData : null);
-                    }
-                    if (request.containsKey("imageUrl")) {
-                        product.setImageUrl((String) request.get("imageUrl"));
                     }
 
                     Product saved = productRepository.save(product);

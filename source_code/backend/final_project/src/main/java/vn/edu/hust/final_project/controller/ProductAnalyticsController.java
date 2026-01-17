@@ -23,45 +23,11 @@ public class ProductAnalyticsController {
         public List<Map<String, Object>> getBcgMatrix(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                String sql = "WITH product_metrics AS ( " +
-                                "    SELECT  " +
-                                "        p.product_id, " +
-                                "        p.name, " +
-                                "        p.category, " +
-                                "        SUM(oi.quantity) as total_quantity, " +
-                                "        SUM(oi.quantity * oi.price_at_purchase) as total_revenue " +
-                                "    FROM order_items oi " +
-                                "    JOIN orders o ON oi.order_id = o.order_id " +
-                                "    JOIN products p ON oi.product_id = p.product_id " +
-                                "    WHERE o.status = 'COMPLETED'  " +
-                                "      AND o.order_date >= ? AND o.order_date < ? " +
-                                "    GROUP BY p.product_id, p.name, p.category " +
-                                "), " +
-                                "averages AS ( " +
-                                "    SELECT AVG(total_quantity) as avg_qty, AVG(total_revenue) as avg_rev " +
-                                "    FROM product_metrics " +
-                                ") " +
-                                "SELECT  " +
-                                "    pm.product_id, " +
-                                "    pm.name, " +
-                                "    pm.category, " +
-                                "    pm.total_quantity, " +
-                                "    pm.total_revenue, " +
-                                "    ROUND(a.avg_qty, 2) as avg_quantity, " +
-                                "    ROUND(a.avg_rev, 2) as avg_revenue, " +
-                                "    CASE  " +
-                                "        WHEN pm.total_quantity >= a.avg_qty AND pm.total_revenue >= a.avg_rev  " +
-                                "            THEN 'STAR' " +
-                                "        WHEN pm.total_quantity < a.avg_qty AND pm.total_revenue >= a.avg_rev  " +
-                                "            THEN 'CASH_COW' " +
-                                "        WHEN pm.total_quantity >= a.avg_qty AND pm.total_revenue < a.avg_rev  " +
-                                "            THEN 'QUESTION' " +
-                                "        ELSE 'DOG' " +
-                                "    END as bcg_category " +
-                                "FROM product_metrics pm, averages a " +
-                                "ORDER BY pm.total_revenue DESC";
-
-                return jdbcTemplate.queryForList(sql, startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay());
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_product_bcg_matrix(?, ?)",
+                        startDate.atStartOfDay(),
+                        endDate.plusDays(1).atStartOfDay()
+                );
         }
 
         /**
@@ -71,22 +37,10 @@ public class ProductAnalyticsController {
         @GetMapping("/combo-suggestions")
         public List<Map<String, Object>> getComboSuggestions(
                         @RequestParam(defaultValue = "10") int limit) {
-                String sql = "SELECT  " +
-                                "    p1.name as product_a, " +
-                                "    p2.name as product_b, " +
-                                "    COUNT(*) as pair_count, " +
-                                "    ROUND(COUNT(*) * 100.0 / NULLIF((SELECT COUNT(*) FROM orders WHERE status='COMPLETED'), 0), 2) as support_pct "
-                                +
-                                "FROM order_items oi1 " +
-                                "JOIN order_items oi2 ON oi1.order_id = oi2.order_id " +
-                                "JOIN products p1 ON oi1.product_id = p1.product_id " +
-                                "JOIN products p2 ON oi2.product_id = p2.product_id " +
-                                "WHERE oi1.product_id < oi2.product_id " +
-                                "GROUP BY p1.name, p2.name " +
-                                "ORDER BY pair_count DESC " +
-                                "LIMIT ?";
-
-                return jdbcTemplate.queryForList(sql, limit);
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_product_combo_suggestions(?)",
+                        limit
+                );
         }
 
         /**
@@ -97,53 +51,11 @@ public class ProductAnalyticsController {
         public List<Map<String, Object>> getWeeklyTrend(
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-
-                // Calculate days in current period
-                long daysDiff = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
-
-                // Previous period of equal length
-                LocalDate prevEndDate = startDate.minusDays(1);
-                LocalDate prevStartDate = prevEndDate.minusDays(daysDiff - 1);
-
-                // Use separate queries for clarity and correct filtering
-                String sql = "SELECT  " +
-                                "    p.product_id, " +
-                                "    p.name, " +
-                                "    COALESCE(curr.qty, 0) as this_period, " +
-                                "    COALESCE(prev.qty, 0) as last_period, " +
-                                "    CASE  " +
-                                "        WHEN COALESCE(prev.qty, 0) = 0 AND COALESCE(curr.qty, 0) > 0 THEN 100.0 " +
-                                "        WHEN COALESCE(prev.qty, 0) = 0 THEN 0.0 " +
-                                "        ELSE ROUND((COALESCE(curr.qty, 0) - prev.qty) * 100.0 / prev.qty, 1) " +
-                                "    END as growth_pct, " +
-                                "    CASE  " +
-                                "        WHEN COALESCE(curr.qty, 0) > COALESCE(prev.qty, 0) THEN 'UP' " +
-                                "        WHEN COALESCE(curr.qty, 0) < COALESCE(prev.qty, 0) THEN 'DOWN' " +
-                                "        ELSE 'STABLE' " +
-                                "    END as trend " +
-                                "FROM products p " +
-                                "LEFT JOIN ( " +
-                                "    SELECT oi.product_id, SUM(oi.quantity) as qty " +
-                                "    FROM order_items oi " +
-                                "    JOIN orders o ON oi.order_id = o.order_id " +
-                                "    WHERE o.status = 'COMPLETED' " +
-                                "      AND o.order_date >= ? AND o.order_date < ? " +
-                                "    GROUP BY oi.product_id " +
-                                ") curr ON p.product_id = curr.product_id " +
-                                "LEFT JOIN ( " +
-                                "    SELECT oi.product_id, SUM(oi.quantity) as qty " +
-                                "    FROM order_items oi " +
-                                "    JOIN orders o ON oi.order_id = o.order_id " +
-                                "    WHERE o.status = 'COMPLETED' " +
-                                "      AND o.order_date >= ? AND o.order_date < ? " +
-                                "    GROUP BY oi.product_id " +
-                                ") prev ON p.product_id = prev.product_id " +
-                                "WHERE COALESCE(curr.qty, 0) > 0 OR COALESCE(prev.qty, 0) > 0 " +
-                                "ORDER BY growth_pct DESC";
-
-                return jdbcTemplate.queryForList(sql,
-                                startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay(),
-                                prevStartDate.atStartOfDay(), prevEndDate.plusDays(1).atStartOfDay());
+                return jdbcTemplate.queryForList(
+                        "SELECT * FROM fn_product_weekly_trend(?, ?)",
+                        startDate.atStartOfDay(),
+                        endDate.plusDays(1).atStartOfDay()
+                );
         }
 
         /**

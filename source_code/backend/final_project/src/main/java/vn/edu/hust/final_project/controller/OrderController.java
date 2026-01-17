@@ -239,10 +239,18 @@ public class OrderController {
     // ========== CASHIER ENDPOINTS ==========
 
     @GetMapping("/online/pending")
-    public ResponseEntity<?> getPendingOnlineOrders() {
+    public ResponseEntity<?> getPendingOnlineOrders(
+            @RequestParam(required = false) String status) {
+        List<String> statuses;
+        if (status != null && !status.isEmpty() && !"ALL".equalsIgnoreCase(status)) {
+            statuses = List.of(status);
+        } else {
+            // Return all non-cancelled orders by default
+            statuses = List.of("PENDING", "PREPARING", "READY", "COMPLETED");
+        }
+        
         List<Order> orders = orderRepository.findByOrderTypeAndStatusInOrderByOrderDateAsc(
-                "ONLINE",
-                List.of("PENDING", "PREPARING", "READY"));
+                "ONLINE", statuses);
 
         // Populate items for each order
         for (Order order : orders) {

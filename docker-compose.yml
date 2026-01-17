@@ -12,8 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./source_code/database/init.sql:/docker-entrypoint-initdb.d/01_init.sql
-      - ./source_code/database/generate_dynamic_data.sql:/docker-entrypoint-initdb.d/02_generate_data.sql
+      - ./source_code/database/01_schema_and_data.sql:/docker-entrypoint-initdb.d/01_schema_and_data.sql
+      - ./source_code/database/02_functions.sql:/docker-entrypoint-initdb.d/02_functions.sql
     networks:
       - rice_shop_network
     healthcheck:
