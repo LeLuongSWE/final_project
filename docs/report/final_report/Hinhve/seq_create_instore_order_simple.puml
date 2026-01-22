@@ -1,0 +1,48 @@
+@startuml
+skinparam backgroundColor white
+skinparam defaultFontSize 14
+skinparam participantFontSize 14
+skinparam sequenceMessageFontSize 13
+skinparam sequenceArrowFontSize 13
+skinparam titleFontSize 16
+skinparam sequenceLifeLineBorderColor #666666
+skinparam sequenceParticipantBorderThickness 1.5
+skinparam sequenceArrowThickness 1.5
+
+title Biểu đồ trình tự: Tạo đơn hàng nhanh (POS)
+
+actor "frontend" as Frontend
+participant ":OrderController" as Controller
+participant ":OrderService" as Service
+participant ":Order" as Order
+participant ":OrderItem" as OrderItem
+
+Frontend -> Controller : 1. createInstoreOrder(params)
+activate Controller
+
+Controller -> Service : 2. createInstoreOrder(params)
+activate Service
+
+Service -> Order : 3. Order order = new Order()
+activate Order
+
+Service -> Service : 4. generateOrderCode()
+
+Service -> Order : 5. save(order)
+Order --> Service : 
+deactivate Order
+
+Service -> OrderItem : 6. OrderItem item = new OrderItem()
+activate OrderItem
+
+Service -> OrderItem : 7. save(item)
+OrderItem --> Service : 
+deactivate OrderItem
+
+Service --> Controller : 
+deactivate Service
+
+Controller --> Frontend : 
+deactivate Controller
+
+@enduml

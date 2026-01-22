@@ -5,12 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.final_project.entity.Material;
 import vn.edu.hust.final_project.entity.StockTransaction;
-import vn.edu.hust.final_project.repository.MaterialRepository;
-import vn.edu.hust.final_project.repository.StockTransactionRepository;
+import vn.edu.hust.final_project.service.InventoryService;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -18,22 +16,18 @@ import java.util.stream.Collectors;
 public class InventoryController {
 
     @Autowired
-    private MaterialRepository materialRepository;
-
-    @Autowired
-    private StockTransactionRepository stockTransactionRepository;
+    private InventoryService inventoryService;
 
     // ==================== Materials ====================
 
     @GetMapping("/materials")
     public ResponseEntity<List<Material>> getAllMaterials() {
-        List<Material> materials = materialRepository.findAllByOrderByNameAsc();
-        return ResponseEntity.ok(materials);
+        return ResponseEntity.ok(inventoryService.getAllMaterials());
     }
 
     @GetMapping("/materials/{id}")
     public ResponseEntity<Material> getMaterial(@PathVariable Long id) {
-        return materialRepository.findById(id)
+        return inventoryService.getMaterialById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -41,7 +35,13 @@ public class InventoryController {
     @PostMapping("/materials")
     public ResponseEntity<?> createMaterial(@RequestBody Material material) {
         try {
-            Material saved = materialRepository.save(material);
+            Material saved = inventoryService.createMaterial(
+                    material.getName(),
+                    material.getUnit(),
+                    material.getUnitPrice(),
+                    material.getQuantityInStock(),
+                    material.getMinStockLevel()
+            );
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -51,24 +51,15 @@ public class InventoryController {
     @PutMapping("/materials/{id}")
     public ResponseEntity<?> updateMaterial(@PathVariable Long id, @RequestBody Material material) {
         try {
-            Optional<Material> existing = materialRepository.findById(id);
-            if (existing.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            Material m = existing.get();
-            if (material.getName() != null)
-                m.setName(material.getName());
-            if (material.getUnit() != null)
-                m.setUnit(material.getUnit());
-            if (material.getUnitPrice() != null)
-                m.setUnitPrice(material.getUnitPrice());
-            if (material.getMinStockLevel() != null)
-                m.setMinStockLevel(material.getMinStockLevel());
-            // Note: quantityInStock is managed through stock-in/stock-out, not direct edit
-
-            Material saved = materialRepository.save(m);
-            return ResponseEntity.ok(saved);
+            return inventoryService.updateMaterial(
+                    id,
+                    material.getName(),
+                    material.getUnit(),
+                    material.getUnitPrice(),
+                    material.getMinStockLevel()
+            )
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -77,8 +68,10 @@ public class InventoryController {
     @DeleteMapping("/materials/{id}")
     public ResponseEntity<?> deleteMaterial(@PathVariable Long id) {
         try {
-            materialRepository.deleteById(id);
-            return ResponseEntity.ok(Map.of("success", true));
+            if (inventoryService.deleteMaterial(id)) {
+                return ResponseEntity.ok(Map.of("success", true));
+            }
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -87,61 +80,33 @@ public class InventoryController {
     // ==================== Stock Transactions ====================
 
     @GetMapping("/transactions")
-    public ResponseEntity<List<Map<String, Object>>> getTransactions() {
-        List<StockTransaction> transactions = stockTransactionRepository.findTop50ByOrderByCreatedAtDesc();
-        Map<Long, Material> materialsMap = materialRepository.findAll().stream()
-                .collect(Collectors.toMap(Material::getMaterialId, m -> m));
+    public ResponseEntity<List<StockTransaction>> getTransactions() {
+        return ResponseEntity.ok(inventoryService.getAllTransactions());
+    }
 
-        List<Map<String, Object>> result = transactions.stream().map(t -> {
-            Map<String, Object> item = new HashMap<>();
-            item.put("transactionId", t.getTransactionId());
-            item.put("materialId", t.getMaterialId());
-            item.put("materialName", materialsMap.get(t.getMaterialId()) != null
-                    ? materialsMap.get(t.getMaterialId()).getName()
-                    : "Unknown");
-            item.put("materialUnit", materialsMap.get(t.getMaterialId()) != null
-                    ? materialsMap.get(t.getMaterialId()).getUnit()
-                    : "");
-            item.put("type", t.getType());
-            item.put("quantity", t.getQuantity());
-            item.put("unitPrice", t.getUnitPrice());
-            item.put("note", t.getNote());
-            item.put("createdAt", t.getCreatedAt());
-            return item;
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(result);
+    @GetMapping("/transactions/search")
+    public ResponseEntity<Map<String, Object>> searchTransactions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Long materialId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        return ResponseEntity.ok(inventoryService.searchTransactions(page, size, type, materialId, startDate, endDate));
     }
 
     @PostMapping("/stock-in")
     public ResponseEntity<?> stockIn(@RequestBody StockInRequest request) {
         try {
-            Optional<Material> optMaterial = materialRepository.findById(request.getMaterialId());
-            if (optMaterial.isEmpty()) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Nguyên liệu không tồn tại"));
-            }
-
-            Material material = optMaterial.get();
-
-            // Create transaction
-            StockTransaction transaction = new StockTransaction();
-            transaction.setMaterialId(request.getMaterialId());
-            transaction.setType("IN");
-            transaction.setQuantity(request.getQuantity());
-            transaction.setUnitPrice(request.getUnitPrice() != null ? request.getUnitPrice() : material.getUnitPrice());
-            transaction.setNote(request.getNote());
-            stockTransactionRepository.save(transaction);
-
-            // Update material stock
-            BigDecimal newStock = material.getQuantityInStock().add(request.getQuantity());
-            material.setQuantityInStock(newStock);
-            if (request.getUnitPrice() != null) {
-                material.setUnitPrice(request.getUnitPrice());
-            }
-            materialRepository.save(material);
-
-            return ResponseEntity.ok(Map.of("success", true, "newStock", newStock));
-        } catch (Exception e) {
+            StockTransaction transaction = inventoryService.createStockIn(
+                    request.getMaterialId(),
+                    request.getQuantity(),
+                    request.getUnitPrice(),
+                    request.getNote(),
+                    request.getCreatedBy()
+            );
+            return ResponseEntity.ok(Map.of("success", true, "transaction", transaction));
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
@@ -149,59 +114,26 @@ public class InventoryController {
     @PostMapping("/stock-out")
     public ResponseEntity<?> stockOut(@RequestBody StockOutRequest request) {
         try {
-            Optional<Material> optMaterial = materialRepository.findById(request.getMaterialId());
-            if (optMaterial.isEmpty()) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Nguyên liệu không tồn tại"));
-            }
-
-            Material material = optMaterial.get();
-
-            // Check if enough stock
-            if (material.getQuantityInStock().compareTo(request.getQuantity()) < 0) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Không đủ tồn kho"));
-            }
-
-            // Create transaction
-            StockTransaction transaction = new StockTransaction();
-            transaction.setMaterialId(request.getMaterialId());
-            transaction.setType("OUT");
-            transaction.setQuantity(request.getQuantity());
-            transaction.setUnitPrice(material.getUnitPrice());
-            transaction.setNote(request.getNote());
-            stockTransactionRepository.save(transaction);
-
-            // Update material stock
-            BigDecimal newStock = material.getQuantityInStock().subtract(request.getQuantity());
-            material.setQuantityInStock(newStock);
-            materialRepository.save(material);
-
-            return ResponseEntity.ok(Map.of("success", true, "newStock", newStock));
-        } catch (Exception e) {
+            StockTransaction transaction = inventoryService.createStockOut(
+                    request.getMaterialId(),
+                    request.getQuantity(),
+                    request.getNote(),
+                    request.getCreatedBy()
+            );
+            return ResponseEntity.ok(Map.of("success", true, "transaction", transaction));
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
     @GetMapping("/low-stock")
     public ResponseEntity<List<Material>> getLowStockMaterials() {
-        List<Material> all = materialRepository.findAll();
-        List<Material> lowStock = all.stream()
-                .filter(Material::isLowStock)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(lowStock);
+        return ResponseEntity.ok(inventoryService.getLowStockMaterials());
     }
 
     @GetMapping("/summary")
     public ResponseEntity<Map<String, Object>> getInventorySummary() {
-        List<Material> materials = materialRepository.findAll();
-
-        Map<String, Object> summary = new HashMap<>();
-        summary.put("totalMaterials", materials.size());
-        summary.put("lowStockCount", materials.stream().filter(Material::isLowStock).count());
-        summary.put("totalValue", materials.stream()
-                .map(m -> m.getQuantityInStock().multiply(m.getUnitPrice()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-
-        return ResponseEntity.ok(summary);
+        return ResponseEntity.ok(inventoryService.getInventorySummary());
     }
 
     // Request DTOs
@@ -210,67 +142,33 @@ public class InventoryController {
         private BigDecimal quantity;
         private BigDecimal unitPrice;
         private String note;
+        private Long createdBy;
 
-        public Long getMaterialId() {
-            return materialId;
-        }
-
-        public void setMaterialId(Long materialId) {
-            this.materialId = materialId;
-        }
-
-        public BigDecimal getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(BigDecimal quantity) {
-            this.quantity = quantity;
-        }
-
-        public BigDecimal getUnitPrice() {
-            return unitPrice;
-        }
-
-        public void setUnitPrice(BigDecimal unitPrice) {
-            this.unitPrice = unitPrice;
-        }
-
-        public String getNote() {
-            return note;
-        }
-
-        public void setNote(String note) {
-            this.note = note;
-        }
+        public Long getMaterialId() { return materialId; }
+        public void setMaterialId(Long materialId) { this.materialId = materialId; }
+        public BigDecimal getQuantity() { return quantity; }
+        public void setQuantity(BigDecimal quantity) { this.quantity = quantity; }
+        public BigDecimal getUnitPrice() { return unitPrice; }
+        public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; }
+        public String getNote() { return note; }
+        public void setNote(String note) { this.note = note; }
+        public Long getCreatedBy() { return createdBy; }
+        public void setCreatedBy(Long createdBy) { this.createdBy = createdBy; }
     }
 
     static class StockOutRequest {
         private Long materialId;
         private BigDecimal quantity;
         private String note;
+        private Long createdBy;
 
-        public Long getMaterialId() {
-            return materialId;
-        }
-
-        public void setMaterialId(Long materialId) {
-            this.materialId = materialId;
-        }
-
-        public BigDecimal getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(BigDecimal quantity) {
-            this.quantity = quantity;
-        }
-
-        public String getNote() {
-            return note;
-        }
-
-        public void setNote(String note) {
-            this.note = note;
-        }
+        public Long getMaterialId() { return materialId; }
+        public void setMaterialId(Long materialId) { this.materialId = materialId; }
+        public BigDecimal getQuantity() { return quantity; }
+        public void setQuantity(BigDecimal quantity) { this.quantity = quantity; }
+        public String getNote() { return note; }
+        public void setNote(String note) { this.note = note; }
+        public Long getCreatedBy() { return createdBy; }
+        public void setCreatedBy(Long createdBy) { this.createdBy = createdBy; }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../shared/api/axiosClient';
 
@@ -6,7 +6,9 @@ const OrderManagementPage = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('ONLINE');
     const [orders, setOrders] = useState([]);
+    const [displayedOrders, setDisplayedOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [staffUser, setStaffUser] = useState(null);
     const [currentShift, setCurrentShift] = useState(null);
     const [onlineCount, setOnlineCount] = useState(0);
@@ -14,6 +16,22 @@ const OrderManagementPage = () => {
     const [paymentModal, setPaymentModal] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('ALL');
+
+    // Lazy loading state
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const ITEMS_PER_PAGE = 12;
+    const observerRef = useRef(null);
+    const loadMoreRef = useRef(null);
+
+    // Status priority (lower = higher priority, shown first)
+    const STATUS_PRIORITY = {
+        'PENDING': 1,
+        'PREPARING': 2,
+        'READY': 3,
+        'COMPLETED': 4,
+        'CANCELLED': 5
+    };
 
     // Status options for filter
     const statusOptions = [
@@ -24,19 +42,83 @@ const OrderManagementPage = () => {
         { value: 'COMPLETED', label: 'Hoàn thành', color: 'bg-gray-500' },
     ];
 
-    // Filter orders based on search query and status
-    const filteredOrders = orders.filter(order => {
-        // Status filter
-        if (statusFilter !== 'ALL' && order.status !== statusFilter) return false;
+    // Sort orders by status priority and date
+    const sortOrders = (orderList) => {
+        return [...orderList].sort((a, b) => {
+            // First sort by status priority
+            const priorityA = STATUS_PRIORITY[a.status] || 99;
+            const priorityB = STATUS_PRIORITY[b.status] || 99;
+            if (priorityA !== priorityB) return priorityA - priorityB;
 
-        // Search filter
-        if (!searchQuery.trim()) return true;
-        const query = searchQuery.toLowerCase();
-        return (
-            order.orderCode?.toLowerCase().includes(query) ||
-            order.tableNumber?.toLowerCase().includes(query)
+            // Then by date (newest first within same status)
+            return new Date(b.orderDate) - new Date(a.orderDate);
+        });
+    };
+
+    // Filter orders based on search query and status
+    const getFilteredOrders = useCallback(() => {
+        let filtered = orders.filter(order => {
+            // Status filter
+            if (statusFilter !== 'ALL' && order.status !== statusFilter) return false;
+
+            // Search filter
+            if (!searchQuery.trim()) return true;
+            const query = searchQuery.toLowerCase();
+            return (
+                order.orderCode?.toLowerCase().includes(query) ||
+                order.tableNumber?.toLowerCase().includes(query)
+            );
+        });
+
+        return sortOrders(filtered);
+    }, [orders, statusFilter, searchQuery]);
+
+    // Update displayed orders when filters change
+    useEffect(() => {
+        const filtered = getFilteredOrders();
+        setPage(1);
+        setDisplayedOrders(filtered.slice(0, ITEMS_PER_PAGE));
+        setHasMore(filtered.length > ITEMS_PER_PAGE);
+    }, [orders, statusFilter, searchQuery, getFilteredOrders]);
+
+    // Load more orders when scrolling
+    const loadMoreOrders = useCallback(() => {
+        if (loadingMore || !hasMore) return;
+
+        setLoadingMore(true);
+        const filtered = getFilteredOrders();
+        const nextPage = page + 1;
+        const endIndex = nextPage * ITEMS_PER_PAGE;
+
+        setTimeout(() => {
+            setDisplayedOrders(filtered.slice(0, endIndex));
+            setPage(nextPage);
+            setHasMore(endIndex < filtered.length);
+            setLoadingMore(false);
+        }, 300); // Small delay for smooth UX
+    }, [page, hasMore, loadingMore, getFilteredOrders]);
+
+    // Intersection Observer for infinite scroll
+    useEffect(() => {
+        if (observerRef.current) observerRef.current.disconnect();
+
+        observerRef.current = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !loadingMore) {
+                    loadMoreOrders();
+                }
+            },
+            { threshold: 0.1 }
         );
-    });
+
+        if (loadMoreRef.current) {
+            observerRef.current.observe(loadMoreRef.current);
+        }
+
+        return () => {
+            if (observerRef.current) observerRef.current.disconnect();
+        };
+    }, [hasMore, loadingMore, loadMoreOrders]);
 
     useEffect(() => {
         const user = sessionStorage.getItem('staffUser');
@@ -95,7 +177,9 @@ const OrderManagementPage = () => {
                     response = { data: [] };
                 }
             }
-            setOrders(response.data);
+            // Sort orders immediately after fetching
+            const sortedOrders = sortOrders(response.data);
+            setOrders(sortedOrders);
         } catch (error) {
             console.error('Error fetching orders:', error);
             setOrders([]);
@@ -125,15 +209,6 @@ const OrderManagementPage = () => {
 
     const formatTime = (dateString) => {
         return new Date(dateString).toLocaleTimeString('vi-VN', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
-    const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('vi-VN', {
-            day: '2-digit',
-            month: '2-digit',
             hour: '2-digit',
             minute: '2-digit'
         });
@@ -174,7 +249,7 @@ const OrderManagementPage = () => {
     return (
         <div className="min-h-screen bg-gray-800 text-white">
             {/* Header */}
-            <header className="bg-gray-700 px-4 py-3 flex justify-between items-center border-b border-gray-600">
+            <header className="bg-gray-700 px-4 py-3 flex justify-between items-center border-b border-gray-600 sticky top-0 z-20">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => navigate('/staff/pos')}
@@ -249,14 +324,35 @@ const OrderManagementPage = () => {
                             key={opt.value}
                             onClick={() => setStatusFilter(opt.value)}
                             className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${statusFilter === opt.value
-                                    ? `${opt.color} text-white`
-                                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                                ? `${opt.color} text-white`
+                                : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                                 }`}
                         >
                             {opt.label}
                         </button>
                     ))}
                 </div>
+            </div>
+
+            {/* Order Count Summary */}
+            <div className="bg-gray-750 px-4 py-2 border-b border-gray-600 flex items-center gap-4">
+                <span className="text-gray-400 text-sm">
+                    Hiển thị {displayedOrders.length} / {getFilteredOrders().length} đơn hàng
+                </span>
+                {statusFilter === 'ALL' && (
+                    <div className="flex gap-2">
+                        {['PENDING', 'PREPARING', 'READY'].map(status => {
+                            const count = orders.filter(o => o.status === status).length;
+                            if (count === 0) return null;
+                            const info = getStatusInfo(status);
+                            return (
+                                <span key={status} className={`${info.color} px-2 py-0.5 rounded text-xs font-bold`}>
+                                    {info.text}: {count}
+                                </span>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
 
             {/* Content */}
@@ -266,7 +362,7 @@ const OrderManagementPage = () => {
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
                         <p className="mt-4 text-gray-400">Đang tải...</p>
                     </div>
-                ) : filteredOrders.length === 0 ? (
+                ) : displayedOrders.length === 0 ? (
                     <div className="text-center py-12">
                         <div className="text-6xl mb-4">{searchQuery ? '🔍' : '📋'}</div>
                         <p className="text-lg text-gray-400">
@@ -278,96 +374,126 @@ const OrderManagementPage = () => {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        {filteredOrders.map(order => {
-                            const statusInfo = getStatusInfo(order.status);
-                            const nextStatus = getNextStatus(order.status);
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {displayedOrders.map(order => {
+                                const statusInfo = getStatusInfo(order.status);
+                                const nextStatus = getNextStatus(order.status);
 
-                            return (
-                                <div key={order.orderId} className="bg-gray-700 rounded-xl overflow-hidden shadow-lg">
-                                    {/* Order Header */}
-                                    <div className={`${statusInfo.color} px-4 py-3 flex justify-between items-center`}>
-                                        <div>
-                                            <span className="font-black text-lg">#{order.orderCode}</span>
-                                            {order.tableNumber && (
-                                                <span className="ml-2 bg-white bg-opacity-30 px-2 py-0.5 rounded text-sm font-bold">
-                                                    {order.tableNumber}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <span className="text-sm font-bold">{formatTime(order.orderDate)}</span>
-                                    </div>
-
-                                    {/* Order Items */}
-                                    <div className="p-4">
-                                        <div className="space-y-1 mb-3 max-h-32 overflow-y-auto">
-                                            {order.items?.map((item, index) => (
-                                                <div key={index} className="flex justify-between text-sm">
-                                                    <span className="font-medium">
-                                                        {item.quantity}x {item.productName || item.name}
+                                return (
+                                    <div key={order.orderId} className="bg-gray-700 rounded-xl overflow-hidden shadow-lg">
+                                        {/* Order Header */}
+                                        <div className={`${statusInfo.color} px-4 py-3 flex justify-between items-center`}>
+                                            <div>
+                                                <span className="font-black text-lg">#{order.orderCode}</span>
+                                                {order.tableNumber && (
+                                                    <span className="ml-2 bg-white bg-opacity-30 px-2 py-0.5 rounded text-sm font-bold">
+                                                        {order.tableNumber}
                                                     </span>
-                                                    <span className="text-gray-400">
-                                                        {formatCurrency(item.priceAtPurchase * item.quantity)} đ
+                                                )}
+                                            </div>
+                                            <span className="text-sm font-bold">{formatTime(order.orderDate)}</span>
+                                        </div>
+
+                                        {/* Order Items */}
+                                        <div className="p-4">
+                                            <div className="space-y-1 mb-3 max-h-32 overflow-y-auto">
+                                                {order.items?.map((item, index) => (
+                                                    <div key={index} className="flex justify-between text-sm">
+                                                        <span className="font-medium">
+                                                            {item.quantity}x {item.productName || item.name}
+                                                        </span>
+                                                        <span className="text-gray-400">
+                                                            {formatCurrency(item.priceAtPurchase * item.quantity)} đ
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="border-t border-gray-600 pt-3 mb-3">
+                                                <div className="flex justify-between font-bold text-lg">
+                                                    <span>Tổng:</span>
+                                                    <span className="text-orange-400">{formatCurrency(order.totalAmount)} đ</span>
+                                                </div>
+                                                <div className="text-sm text-gray-400 mt-1">
+                                                    <div>Thanh toán: {order.paymentMethod === 'VIETQR' ? '📱 Chuyển khoản' : order.paymentMethod === 'PENDING' ? '⏳ Chờ thanh toán' : '💵 Tiền mặt'}</div>
+                                                    {order.orderType === 'ONLINE' && order.estimatedPickupTime && (
+                                                        <div>Dự kiến: {formatTime(order.estimatedPickupTime)}</div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Status and Actions */}
+                                            <div className="space-y-2">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-sm text-gray-400">Trạng thái:</span>
+                                                    <span className={`${statusInfo.color} px-3 py-1 rounded-full text-sm font-bold`}>
+                                                        {statusInfo.text}
                                                     </span>
                                                 </div>
-                                            ))}
-                                        </div>
 
-                                        <div className="border-t border-gray-600 pt-3 mb-3">
-                                            <div className="flex justify-between font-bold text-lg">
-                                                <span>Tổng:</span>
-                                                <span className="text-orange-400">{formatCurrency(order.totalAmount)} đ</span>
-                                            </div>
-                                            <div className="text-sm text-gray-400 mt-1">
-                                                <div>Thanh toán: {order.paymentMethod === 'VIETQR' ? '📱 Chuyển khoản' : order.paymentMethod === 'PENDING' ? '⏳ Chờ thanh toán' : '💵 Tiền mặt'}</div>
-                                                {order.orderType === 'ONLINE' && order.estimatedPickupTime && (
-                                                    <div>Dự kiến: {formatTime(order.estimatedPickupTime)}</div>
+                                                {activeTab === 'ONLINE' && nextStatus && (
+                                                    <button
+                                                        onClick={() => updateStatus(order.orderId, nextStatus)}
+                                                        className="w-full bg-orange-600 hover:bg-orange-700 py-2 rounded-lg font-bold transition"
+                                                    >
+                                                        Chuyển: {getStatusInfo(nextStatus).text}
+                                                    </button>
+                                                )}
+
+                                                {activeTab === 'ONLINE' && order.status === 'READY' && (
+                                                    <button
+                                                        onClick={() => updateStatus(order.orderId, 'COMPLETED')}
+                                                        className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-bold transition"
+                                                    >
+                                                        ✓ Khách đã nhận hàng
+                                                    </button>
+                                                )}
+
+                                                {/* Payment button for INSTORE PENDING orders */}
+                                                {activeTab === 'INSTORE' && order.status === 'PENDING' && (
+                                                    <button
+                                                        onClick={() => setPaymentModal(order)}
+                                                        className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-bold transition"
+                                                    >
+                                                        💰 Xác nhận thanh toán
+                                                    </button>
                                                 )}
                                             </div>
                                         </div>
-
-                                        {/* Status and Actions */}
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-sm text-gray-400">Trạng thái:</span>
-                                                <span className={`${statusInfo.color} px-3 py-1 rounded-full text-sm font-bold`}>
-                                                    {statusInfo.text}
-                                                </span>
-                                            </div>
-
-                                            {activeTab === 'ONLINE' && nextStatus && (
-                                                <button
-                                                    onClick={() => updateStatus(order.orderId, nextStatus)}
-                                                    className="w-full bg-orange-600 hover:bg-orange-700 py-2 rounded-lg font-bold transition"
-                                                >
-                                                    Chuyển: {getStatusInfo(nextStatus).text}
-                                                </button>
-                                            )}
-
-                                            {activeTab === 'ONLINE' && order.status === 'READY' && (
-                                                <button
-                                                    onClick={() => updateStatus(order.orderId, 'COMPLETED')}
-                                                    className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-bold transition"
-                                                >
-                                                    ✓ Khách đã nhận hàng
-                                                </button>
-                                            )}
-
-                                            {/* Payment button for INSTORE PENDING orders */}
-                                            {activeTab === 'INSTORE' && order.status === 'PENDING' && (
-                                                <button
-                                                    onClick={() => setPaymentModal(order)}
-                                                    className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-bold transition"
-                                                >
-                                                    💰 Xác nhận thanh toán
-                                                </button>
-                                            )}
-                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Load More Trigger */}
+                        {hasMore && (
+                            <div
+                                ref={loadMoreRef}
+                                className="flex justify-center items-center py-8"
+                            >
+                                {loadingMore ? (
+                                    <div className="flex items-center gap-3">
+                                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+                                        <span className="text-gray-400">Đang tải thêm...</span>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={loadMoreOrders}
+                                        className="bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg font-medium"
+                                    >
+                                        Tải thêm đơn hàng
+                                    </button>
+                                )}
+                            </div>
+                        )}
+
+                        {!hasMore && displayedOrders.length > 0 && (
+                            <div className="text-center py-6 text-gray-500">
+                                ── Đã hiển thị tất cả {displayedOrders.length} đơn hàng ──
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 

@@ -1,0 +1,159 @@
+@startuml
+skinparam backgroundColor white
+skinparam classFontSize 12
+skinparam classAttributeFontSize 11
+skinparam linetype ortho
+skinparam classBackgroundColor white
+skinparam classBorderColor #333333
+
+hide circle
+hide methods
+
+class roles {
+    <b><u>role_id</u></b> : BIGSERIAL
+    --
+    role_name : VARCHAR(20)
+    created_at : TIMESTAMP
+}
+
+class users {
+    <b><u>user_id</u></b> : BIGSERIAL
+    --
+    <i>role_id</i> : BIGINT
+    username : VARCHAR(50)
+    password : VARCHAR(255)
+    full_name : VARCHAR(100)
+    email : VARCHAR(100)
+    phone : VARCHAR(20)
+    reset_token : VARCHAR(100)
+    reset_token_expiry : TIMESTAMP
+    created_at : TIMESTAMP
+}
+
+class user_addresses {
+    <b><u>address_id</u></b> : BIGSERIAL
+    --
+    <i>user_id</i> : BIGINT
+    label : VARCHAR(50)
+    recipient_name : VARCHAR(100)
+    phone : VARCHAR(20)
+    address_line : VARCHAR(255)
+    ward : VARCHAR(100)
+    district : VARCHAR(100)
+    city : VARCHAR(100)
+    latitude : DECIMAL(10,8)
+    longitude : DECIMAL(11,8)
+    is_default : BOOLEAN
+    created_at : TIMESTAMP
+}
+
+class products {
+    <b><u>product_id</u></b> : BIGSERIAL
+    --
+    name : VARCHAR(100)
+    price : DECIMAL(10,2)
+    image_data : TEXT
+    category : VARCHAR(50)
+    is_active : BOOLEAN
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+class orders {
+    <b><u>order_id</u></b> : BIGSERIAL
+    --
+    <i>user_id</i> : BIGINT
+    <i>shift_id</i> : BIGINT
+    <i>cashier_id</i> : BIGINT
+    order_code : VARCHAR(20)
+    order_date : TIMESTAMP
+    estimated_pickup_time : TIMESTAMP
+    total_amount : DECIMAL(15,2)
+    status : VARCHAR(30)
+    payment_method : VARCHAR(20)
+    table_number : VARCHAR(10)
+    order_type : VARCHAR(20)
+}
+
+class order_items {
+    <b><u>item_id</u></b> : BIGSERIAL
+    --
+    <i>order_id</i> : BIGINT
+    <i>product_id</i> : BIGINT
+    quantity : INTEGER
+    price_at_purchase : DECIMAL(10,2)
+}
+
+class order_status_history {
+    <b><u>history_id</u></b> : BIGSERIAL
+    --
+    <i>order_id</i> : BIGINT
+    status : VARCHAR(30)
+    changed_at : TIMESTAMP
+}
+
+class feedbacks {
+    <b><u>feedback_id</u></b> : BIGSERIAL
+    --
+    <i>order_id</i> : BIGINT
+    <i>user_id</i> : BIGINT
+    rating : INTEGER
+    comment : TEXT
+    created_at : TIMESTAMP
+}
+
+class shifts {
+    <b><u>shift_id</u></b> : BIGSERIAL
+    --
+    <i>cashier_id</i> : BIGINT
+    start_time : TIMESTAMP
+    end_time : TIMESTAMP
+    status : VARCHAR(20)
+    total_orders : INTEGER
+    total_revenue : DECIMAL(15,2)
+    cash_revenue : DECIMAL(15,2)
+    transfer_revenue : DECIMAL(15,2)
+}
+
+class materials {
+    <b><u>material_id</u></b> : BIGSERIAL
+    --
+    name : VARCHAR(100)
+    unit : VARCHAR(20)
+    unit_price : DECIMAL(10,2)
+    quantity_in_stock : DECIMAL(10,2)
+    min_stock_level : DECIMAL(10,2)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+class stock_transactions {
+    <b><u>transaction_id</u></b> : BIGSERIAL
+    --
+    <i>material_id</i> : BIGINT
+    <i>created_by</i> : BIGINT
+    type : VARCHAR(10)
+    quantity : DECIMAL(10,2)
+    unit_price : DECIMAL(10,2)
+    note : TEXT
+    created_at : TIMESTAMP
+}
+
+' Relationships without labels
+roles --o{ users
+users --o{ user_addresses
+users --o{ orders
+users --o{ feedbacks
+users --o{ shifts
+
+orders --o{ order_items
+orders --o{ order_status_history
+orders --o{ feedbacks
+
+products --o{ order_items
+
+shifts --o{ orders
+
+materials --o{ stock_transactions
+
+@enduml

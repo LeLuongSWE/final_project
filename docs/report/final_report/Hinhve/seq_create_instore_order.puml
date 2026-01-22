@@ -1,0 +1,67 @@
+@startuml
+!pragma useNewRenderingPipeline true
+skinparam backgroundColor white
+skinparam defaultFontSize 14
+skinparam participantFontSize 14
+skinparam sequenceMessageFontSize 13
+skinparam sequenceArrowFontSize 13
+skinparam sequenceGroupFontSize 13
+skinparam noteFontSize 12
+skinparam titleFontSize 18
+skinparam sequenceLifeLineBorderColor #666666
+skinparam sequenceParticipantBorderThickness 1.5
+skinparam sequenceArrowThickness 1.5
+skinparam responseMessageBelowArrow true
+
+title Biểu đồ trình tự: Tạo đơn hàng nhanh (POS)
+
+actor "Nhân viên" as Staff
+participant ":OrderView\n(React)" as OrderView
+participant ":OrderController" as OrderController
+participant ":OrderService" as OrderService
+participant ":ProductRepository" as ProductRepo
+participant ":OrderRepository" as OrderRepo
+participant ":OrderItemRepository" as OrderItemRepo
+
+Staff -> OrderView : 1. Chọn món ăn và nhấn "Tạo đơn"
+activate OrderView
+
+OrderView -> OrderController : 2. POST /api/orders/instore\n(items, tableNumber, shiftId,\ncashierId, paymentMethod)
+activate OrderController
+
+OrderController -> OrderService : 3. createInstoreOrder(totalAmount,\npaymentMethod, tableNumber,\nshiftId, cashierId, items)
+activate OrderService
+
+OrderService -> OrderService : 4. generateOrderCode()
+
+loop Duyệt từng món trong danh sách items
+    OrderService -> ProductRepo : 5. findById(productId)
+    activate ProductRepo
+    ProductRepo --> OrderService : Trả về Product (name, price, stock)
+    deactivate ProductRepo
+    
+    OrderService -> OrderService : 6. Kiểm tra tồn kho &\nTính thành tiền
+end
+
+OrderService -> OrderRepo : 7. save(newOrder)
+activate OrderRepo
+OrderRepo --> OrderService : Trả về Order đã lưu
+deactivate OrderRepo
+
+loop Lưu từng OrderItem
+    OrderService -> OrderItemRepo : 8. save(orderItem)
+    activate OrderItemRepo
+    OrderItemRepo --> OrderService : OK
+    deactivate OrderItemRepo
+end
+
+OrderService --> OrderController : 9. Trả về Map (orderId, orderCode, message)
+deactivate OrderService
+
+OrderController --> OrderView : 10. HTTP 200 OK\n+ JSON (orderId, orderCode)
+deactivate OrderController
+
+OrderView --> Staff : 11. Hiển thị chi tiết đơn hàng\n& Tổng tiền
+deactivate OrderView
+
+@enduml

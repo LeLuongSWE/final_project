@@ -1,0 +1,155 @@
+\section{Xây dựng ứng dụng}
+\subsection{Thư viện và công cụ sử dụng}
+
+Bảng \ref{tab:tools_libs} liệt kê danh sách các công cụ, ngôn ngữ lập trình và thư viện được sử dụng trong quá trình phát triển hệ thống.
+
+\begin{table}[H]
+    \centering
+    \caption{Danh sách thư viện và công cụ sử dụng}
+    \label{tab:tools_libs}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{3.5cm}|p{6.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Mục đích} & \textbf{Công cụ/Thư viện} & \textbf{Địa chỉ URL} \\
+        \hline
+        1 & Text editor lập trình Frontend & Visual Studio Code 1.85 & https://code.visualstudio.com/ \\
+        \hline
+        2 & IDE Lập trình Backend & Visual Studio Code 1.85 & https://code.visualstudio.com/ \\
+        \hline
+        3 & Framework Frontend & React 19.2.3 & https://react.dev/ \\
+        \hline
+        4 & Thư viện UI Components & Tailwind CSS 4.1.18 & https://tailwindcss.com/ \\
+        \hline
+        5 & Build Tool Frontend & Vite 7.3.1 & https://vitejs.dev/ \\
+        \hline
+        6 & Thư viện tạo biểu đồ & Recharts 2.10 & https://recharts.org/ \\
+        \hline
+        7 & Ngôn ngữ lập trình Backend & Java 17 & https://www.oracle.com/java/ \\
+        \hline
+        8 & Framework Backend & Spring Boot 3.5.6 & https://spring.io/projects/spring-boot \\
+        \hline
+        9 & Quản lý thư viện Backend & Gradle 8.5 & https://gradle.org/ \\
+        \hline
+        10 & Hệ quản trị cơ sở dữ liệu & PostgreSQL 16 & https://www.postgresql.org/ \\
+        \hline
+        11 & Thư viện bảo mật & Spring Security & https://spring.io/projects/spring-security \\
+        \hline
+        12 & Thư viện JWT & JJWT 0.12.3 & https://github.com/jwtk/jjwt \\
+        \hline
+        13 & Thư viện Mapper & ModelMapper 3.1.1 & http://modelmapper.org/ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Kết quả đạt được}
+Sau quá trình phát triển, hệ thống đã được hoàn thiện với đầy đủ các phân hệ chức năng cho cả 3 đối tượng người dùng: Khách hàng, Nhân viên và Quản lý. backend được xây dựng chuẩn theo kiến trúc RESTful API, frontend là ứng dụng Single Page Application (SPA) hiện đại.
+
+Thống kê chi tiết về mã nguồn hệ thống được trình bày trong Bảng \ref{tab:code_stats}.
+
+\begin{table}[H]
+    \centering
+    \caption{Thống kê chi tiết thông tin ứng dụng}
+    \label{tab:code_stats}
+    \begin{tabular}{|p{1cm}|p{5cm}|p{4cm}|}
+        \hline
+        \textbf{STT} & \textbf{Tên thông số} & \textbf{Kết quả} \\
+        \hline
+        \multicolumn{3}{|c|}{\textbf{Backend (API Service)}} \\
+        \hline
+        1 & Số dòng code (Java) & ~5000 dòng \\
+        \hline
+        2 & Số lượng gói (Package) & 18 gói \\
+        \hline
+        3 & Kích thước file JAR & ~45 MB \\
+        \hline
+        \multicolumn{3}{|c|}{\textbf{Frontend (Client App)}} \\
+        \hline
+        1 & Số dòng code (React/JS) & ~2500 dòng \\
+        \hline
+        2 & Số lượng Components & ~40 components \\
+        \hline
+        3 & Kích thước bản build & ~15 MB \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Minh họa các chức năng chính}
+
+\textbf{Giao diện chính và Bán hàng}
+
+Hình \ref{fig:Fig5} minh họa giao diện màn hình bán hàng (POS) dành cho nhân viên thu ngân. Giao diện được thiết kế tối giản, tập trung vào tốc độ xử lý với danh sách món ăn bên trái và chi tiết hóa đơn bên phải. Các nút chức năng thanh toán, in hóa đơn được bố trí thuận tiện.
+
+% Hình 4.19 (đã có ở trên, tham chiếu lại hoặc chèn mới nếu cần, ở đây tham chiếu lại các hình đã khai báo ở phần 4.2)
+% Lưu ý: Trong LaTeX, hình ảnh thường được định nghĩa float. Ở phần 4.2 đã có các hình Fig5...Fig15. Chúng ta sẽ tham chiếu lại hoặc mô tả thêm.
+
+\textbf{Giao diện Quản lý và Báo cáo}
+
+Hình \ref{fig:Fig11} và \ref{fig:Fig6} thể hiện phân hệ quản trị. Người quản lý có thể theo dõi danh sách đơn hàng theo thời gian thực và xem các biểu đồ thống kê doanh thu, món ăn bán chạy ngay trên Dashboard.
+
+\textbf{Giao diện Đặt món trực tuyến}
+
+Hình \ref{fig:Fig7} là giao diện dành cho khách hàng khi truy cập qua trình duyệt web trên điện thoại hoặc máy tính. Khách hàng có thể tìm kiếm món ăn, thêm vào giỏ hàng (Hình \ref{fig:Fig8}) và tiến hành đặt hàng nhanh chóng.
+
+\section{Kiểm thử}
+
+Hệ thống được kiểm thử theo phương pháp Hộp đen (Black Box Testing) để đảm bảo các luồng nghiệp vụ chính hoạt động chính xác. Dưới đây là kết quả kiểm thử cho hai chức năng quan trọng nhất: "Tạo đơn hàng tại quầy" và "Thanh toán đơn hàng".
+
+\subsection{Kiểm thử chức năng Tạo đơn hàng tại quầy}
+
+\begin{table}[H]
+    \centering
+    \caption{Kiểm thử chức năng Tạo đơn hàng tại quầy}
+    \label{tab:test_create_order}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{4cm}|p{2.5cm}|p{2cm}|p{1.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Dữ liệu kiểm thử} & \textbf{Quy trình kiểm thử} & \textbf{Kết quả mong muốn} & \textbf{Kết quả thực tế} & \textbf{Trạng thái} \\
+        \hline
+        1 & Không chọn món ăn nào & 1. Nhấn nút "Tạo đơn" khi giỏ hàng rỗng. & Hệ thống báo lỗi "Vui lòng chọn ít nhất 1 món". & Hệ thống hiển thị thông báo lỗi đúng như mong đợi. & Đạt \\
+        \hline
+        2 & Chọn 1 món, số lượng hợp lệ & 1. Chọn món "Cơm rang dưa bò". 2. Nhập số lượng 2. 3. Nhấn "Tạo đơn". & Đơn hàng được tạo, hiển thị tổng tiền đúng (ví dụ 60.000đ). & Đơn hàng tạo thành công, tổng tiền chính xác. & Đạt \\
+        \hline
+        3 & Chọn món có số lượng tồn kho bằng 0 & 1. Chọn món "Sườn xào" (đã hết hàng). 2. Nhấn "Thêm". & Hệ thống báo "Món ăn đã hết hàng". & Hệ thống không cho phép thêm vào giỏ. & Đạt \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Kiểm thử chức năng Thanh toán}
+
+\begin{table}[H]
+    \centering
+    \caption{Kiểm thử chức năng Thanh toán đơn hàng}
+    \label{tab:test_payment}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{4cm}|p{2.5cm}|p{2cm}|p{1.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Dữ liệu kiểm thử} & \textbf{Quy trình kiểm thử} & \textbf{Kết quả mong muốn} & \textbf{Kết quả thực tế} & \textbf{Trạng thái} \\
+        \hline
+        1 & Thanh toán tiền mặt & 1. Chọn phương thức "Tiền mặt". 2. Nhấn "Thanh toán". & Trạng thái đơn đổi sang "PAID", cập nhật doanh thu tiền mặt. & Trạng thái cập nhật đúng, doanh thu tăng. & Đạt \\
+        \hline
+        2 & Thanh toán chuyển khoản & 1. Chọn phương thức "Chuyển khoản". 2. Nhấn "Thanh toán". & Trạng thái đơn đổi sang "PAID", cập nhật doanh thu chuyển khoản. & Trạng thái cập nhật đúng, doanh thu tăng. & Đạt \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Triển khai}
+
+Hệ thống được triển khai thực tế trên môi trường Docker để đảm bảo tính nhất quán và dễ dàng mở rộng. Mô hình triển khai bao gồm 3 container chính: Database, Backend API và Frontend.
+
+\begin{table}[H]
+    \centering
+    \caption{Thông tin môi trường triển khai}
+    \label{tab:deployment_info}
+    \begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{4cm}|}
+        \hline
+        \textbf{STT} & \textbf{Thành phần} & \textbf{Môi trường/Cấu hình} & \textbf{Địa chỉ truy cập} \\
+        \hline
+        1 & Database Server & Docker Container (PostgreSQL 16) - 2GB RAM & 10.0.1.5:5432 \\
+        \hline
+        2 & Backend API & Docker Container (OpenJDK 17) - 4GB RAM & http://10.0.1.6:8080 \\
+        \hline
+        3 & Frontend App & Docker Container (Nginx) - 1GB RAM & http://bkland-food.vn \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Quy trình triển khai sử dụng Docker Compose để khởi chạy toàn bộ hệ thống chỉ với một câu lệnh. Dữ liệu hình ảnh được lưu trữ trên Heroku để tối ưu tốc độ tải trang, trong khi dữ liệu nghiệp vụ được lưu trữ an toàn trong PostgreSQL volume.
+
+\end{document}

@@ -54,7 +54,7 @@ const AdminLoginPage = () => {
                     <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl mx-auto mb-4 flex items-center justify-center">
                         <span className="text-4xl">👨‍💼</span>
                     </div>
-                    <h1 className="text-2xl font-black text-gray-800">Cơm Bình Dân 123</h1>
+                    <h1 className="text-2xl font-black text-gray-800">Cơm Bình Dân</h1>
                     <p className="text-gray-600 font-medium">Đăng nhập Quản lý</p>
                 </div>
 

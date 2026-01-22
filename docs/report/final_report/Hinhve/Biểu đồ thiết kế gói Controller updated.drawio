@@ -1,0 +1,112 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram id="controller-service-repo" name="Controller-Service-Repository">
+    <mxGraphModel dx="1426" dy="853" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pkg-controller" parent="1" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=20;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;whiteSpace=wrap;fontSize=14;" value="Controller" vertex="1">
+          <mxGeometry height="160" width="920" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="OrderController" vertex="1">
+          <mxGeometry height="35" width="100" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="ProductController" vertex="1">
+          <mxGeometry height="35" width="100" x="130" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="UserController" vertex="1">
+          <mxGeometry height="35" width="100" x="240" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="AuthController" vertex="1">
+          <mxGeometry height="35" width="100" x="350" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="AdminController" vertex="1">
+          <mxGeometry height="35" width="100" x="460" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="FeedbackController" vertex="1">
+          <mxGeometry height="35" width="110" x="570" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="InventoryController" vertex="1">
+          <mxGeometry height="35" width="110" x="690" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="ShiftController" vertex="1">
+          <mxGeometry height="35" width="90" x="810" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="SalesAnalyticsController" vertex="1">
+          <mxGeometry height="35" width="140" x="20" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="ProductAnalyticsController" vertex="1">
+          <mxGeometry height="35" width="150" x="170" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="WorkforceAnalyticsController" vertex="1">
+          <mxGeometry height="35" width="160" x="330" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" parent="pkg-controller" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="SupplyChainAnalyticsController" vertex="1">
+          <mxGeometry height="35" width="170" x="500" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg-service" parent="1" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=20;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;whiteSpace=wrap;fontSize=14;" value="Service" vertex="1">
+          <mxGeometry height="100" width="700" x="160" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="AuthService" vertex="1">
+          <mxGeometry height="35" width="90" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="UserService" vertex="1">
+          <mxGeometry height="35" width="90" x="120" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="FeedbackService" vertex="1">
+          <mxGeometry height="35" width="105" x="220" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="UserAddressService" vertex="1">
+          <mxGeometry height="35" width="115" x="335" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="EmailService" vertex="1">
+          <mxGeometry height="35" width="90" x="460" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="pkg-service" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="JwtService" vertex="1">
+          <mxGeometry height="35" width="80" x="560" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg-repository" parent="1" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=20;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;whiteSpace=wrap;fontSize=14;" value="Repository" vertex="1">
+          <mxGeometry height="100" width="920" x="40" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="OrderRepository" vertex="1">
+          <mxGeometry height="35" width="100" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="OrderItemRepository" vertex="1">
+          <mxGeometry height="35" width="110" x="130" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;" value="OrderStatusHistoryRepository" vertex="1">
+          <mxGeometry height="35" width="150" x="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="ProductRepository" vertex="1">
+          <mxGeometry height="35" width="110" x="410" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="UserRepository" vertex="1">
+          <mxGeometry height="35" width="100" x="530" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="UserAddressRepository" vertex="1">
+          <mxGeometry height="35" width="130" x="640" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" parent="pkg-repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="FeedbackRepository" vertex="1">
+          <mxGeometry height="35" width="120" x="780" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg-repository2" parent="1" style="shape=folder;fontStyle=1;tabWidth=0;tabHeight=0;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;whiteSpace=wrap;fontSize=14;strokeColor=none;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="60" width="600" x="40" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="r8" parent="pkg-repository2" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="MaterialRepository" vertex="1">
+          <mxGeometry height="35" width="110" x="20" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" parent="pkg-repository2" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" value="StockTransactionRepository" vertex="1">
+          <mxGeometry height="35" width="150" x="140" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" parent="pkg-repository2" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;" value="ShiftRepository" vertex="1">
+          <mxGeometry height="35" width="100" x="300" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="dep1" edge="1" parent="1" source="pkg-controller" style="endArrow=open;endSize=12;dashed=1;html=1;exitX=0.5;exitY=1;entryX=0.2;entryY=0;" target="pkg-service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep2" edge="1" parent="1" source="pkg-service" style="endArrow=open;endSize=12;dashed=1;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;" target="pkg-repository">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

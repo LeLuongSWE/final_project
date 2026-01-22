@@ -24,14 +24,39 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
     role_id BIGINT NOT NULL,
+    reset_token VARCHAR(100),
+    reset_token_expiry TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE RESTRICT
 );
 
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_role_id ON users(role_id);
+
+-- ==========================================
+-- TABLE: user_addresses (delivery addresses)
+-- ==========================================
+CREATE TABLE user_addresses (
+    address_id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    label VARCHAR(50) DEFAULT 'Nhà',
+    recipient_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address_line VARCHAR(255) NOT NULL,
+    ward VARCHAR(100),
+    district VARCHAR(100),
+    city VARCHAR(100) DEFAULT 'Hà Nội',
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    is_default BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_address_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_user_addresses_user_id ON user_addresses(user_id);
 
 -- ==========================================
 -- TABLE: products (removed image_url, using image_data only)
@@ -101,6 +126,25 @@ CREATE TABLE order_status_history (
 );
 
 CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
+
+-- ==========================================
+-- TABLE: feedbacks (customer feedback for orders)
+-- ==========================================
+CREATE TABLE feedbacks (
+    feedback_id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_feedback_order FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+    CONSTRAINT fk_feedback_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT unique_order_user_feedback UNIQUE(order_id, user_id)
+);
+
+CREATE INDEX idx_feedbacks_order_id ON feedbacks(order_id);
+CREATE INDEX idx_feedbacks_user_id ON feedbacks(user_id);
+CREATE INDEX idx_feedbacks_created_at ON feedbacks(created_at);
 
 -- ==========================================
 -- TABLE: shifts

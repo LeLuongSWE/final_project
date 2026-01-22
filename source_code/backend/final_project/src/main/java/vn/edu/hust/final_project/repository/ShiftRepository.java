@@ -12,4 +12,5 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     Optional<Shift> findByCashierIdAndStatus(Long cashierId, String status);
     List<Shift> findByCashierIdOrderByStartTimeDesc(Long cashierId);
     List<Shift> findByStatus(String status);
+    List<Shift> findByStartTimeBetweenOrderByStartTimeDesc(java.time.LocalDateTime start, java.time.LocalDateTime end);
 }

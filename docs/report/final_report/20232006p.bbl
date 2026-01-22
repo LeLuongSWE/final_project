@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -16,8 +16,8 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global}
-  \entry{tanenbaum2010computer}{book}{}
+\datalist[entry]{none/global//global/global/global}
+  \entry{tanenbaum2010computer}{book}{}{}
     \name{author}{2}{}{%
       {{hash=TAS}{%
          family={Tanenbaum},
@@ -44,7 +44,7 @@
     \field{year}{2010}
   \endentry
 
-  \entry{react}{misc}{}
+  \entry{react}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{React}}
     \verb{url}
@@ -52,7 +52,7 @@
     \endverb
   \endentry
 
-  \entry{springboot}{misc}{}
+  \entry{springboot}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{Spring Boot}}
     \verb{url}
@@ -60,7 +60,7 @@
     \endverb
   \endentry
 
-  \entry{postgresql}{misc}{}
+  \entry{postgresql}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{PostgreSQL}}
     \verb{url}
@@ -68,7 +68,7 @@
     \endverb
   \endentry
 
-  \entry{fielding2000restful}{thesis}{}
+  \entry{fielding2000restful}{thesis}{}{}
     \name{author}{1}{}{%
       {{hash=R}{%
          family={R.T.Fielding},
@@ -87,42 +87,37 @@
     \field{year}{2000}
   \endentry
 
-  \entry{pimentel2012communicating}{article}{}
-    \name{author}{2}{}{%
-      {{hash=PV}{%
-         family={Pimentel},
-         familyi={P\bibinitperiod},
-         given={V.},
-         giveni={V\bibinitperiod},
-      }}%
-      {{hash=NBG}{%
-         family={Nickerson},
-         familyi={N\bibinitperiod},
-         given={B.\bibnamedelima G.},
-         giveni={B\bibinitperiod\bibinitdelim G\bibinitperiod},
+  \entry{tailwindcss}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=T}{%
+         family={{Tailwind Labs}},
+         familyi={T\bibinitperiod},
       }}%
     }
-    \strng{namehash}{PVNBG1}
-    \strng{fullhash}{PVNBG1}
+    \strng{namehash}{T1}
+    \strng{fullhash}{T1}
     \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{number}{4}
-    \field{pages}{45\bibrangedash 53}
-    \field{title}{Communicating and displaying real-time data with websocket}
-    \field{volume}{16}
-    \field{journaltitle}{IEEE Internet Computing}
-    \field{year}{2012}
-  \endentry
-
-  \entry{redis}{misc}{}
-    \field{labeltitlesource}{title}
-    \field{title}{{Redis}}
     \verb{url}
-    \verb https://redis.io/
+    \verb https://tailwindcss.com/
     \endverb
   \endentry
 
-  \entry{ipos}{misc}{}
+  \entry{jwt}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=I}{%
+         family={{IETF}},
+         familyi={I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{I1}
+    \strng{fullhash}{I1}
+    \field{labelnamesource}{author}
+    \verb{url}
+    \verb https://datatracker.ietf.org/doc/html/rfc7519
+    \endverb
+  \endentry
+
+  \entry{ipos}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{IPOS}}
     \verb{url}
@@ -130,7 +125,7 @@
     \endverb
   \endentry
 
-  \entry{cukcuk}{misc}{}
+  \entry{cukcuk}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{Cuk Cuk}}
     \verb{url}
@@ -138,7 +133,7 @@
     \endverb
   \endentry
 
-  \entry{kiotviet}{misc}{}
+  \entry{kiotviet}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{KiotViet}}
     \verb{url}
@@ -146,7 +141,7 @@
     \endverb
   \endentry
 
-  \entry{java}{misc}{}
+  \entry{java}{misc}{}{}
     \field{labeltitlesource}{title}
     \field{title}{{Advantages java}}
     \verb{url}

@@ -1,0 +1,162 @@
+@startuml
+!pragma layout smetana
+skinparam backgroundColor white
+skinparam defaultFontSize 11
+
+' Entity style (blue rectangles)
+skinparam rectangle {
+    BackgroundColor #A8D0E6
+    BorderColor #333333
+    FontStyle bold
+}
+
+' Relationship style (orange diamonds) 
+skinparam hexagon {
+    BackgroundColor #F9CB9C
+    BorderColor #333333
+}
+
+' Attribute style (white ellipses)
+skinparam storage {
+    BackgroundColor white
+    BorderColor #666666
+}
+
+title Sơ đồ thực thể liên kết - Hệ thống quản lý quán cơm
+
+' ===== ENTITIES =====
+rectangle "Roles" as roles
+rectangle "Users" as users
+rectangle "Addresses" as addresses
+rectangle "Products" as products
+rectangle "Orders" as orders
+rectangle "OrderItems" as orderitems
+rectangle "Shifts" as shifts
+rectangle "Feedbacks" as feedbacks
+rectangle "Materials" as materials
+rectangle "StockTransactions" as stocktrans
+rectangle "OrderStatusHistory" as orderhistory
+
+' ===== RELATIONSHIPS =====
+hexagon "thuộc" as rel_user_role
+hexagon "có" as rel_user_addr
+hexagon "tạo" as rel_user_order
+hexagon "viết" as rel_user_feedback
+hexagon "phụ trách" as rel_user_shift
+hexagon "gồm" as rel_order_item
+hexagon "là" as rel_item_product
+hexagon "thuộc" as rel_order_shift
+hexagon "được" as rel_order_feedback
+hexagon "có" as rel_order_history
+hexagon "có" as rel_material_stock
+
+' ===== ATTRIBUTES - Roles =====
+storage "role_id" as a_role_id
+storage "role_name" as a_role_name
+
+' ===== ATTRIBUTES - Users =====
+storage "user_id" as a_user_id
+storage "username" as a_username
+storage "password" as a_password
+storage "full_name" as a_fullname
+storage "email" as a_email
+storage "phone" as a_phone
+storage "created_at" as a_user_created
+
+' ===== ATTRIBUTES - Addresses =====
+storage "address_id" as a_addr_id
+storage "address_line" as a_addr_line
+storage "city" as a_city
+
+' ===== ATTRIBUTES - Products =====
+storage "product_id" as a_prod_id
+storage "name" as a_prod_name
+storage "price" as a_prod_price
+
+' ===== ATTRIBUTES - Orders =====
+storage "order_id" as a_order_id
+storage "order_code" as a_order_code
+storage "status" as a_order_status
+storage "total_amount" as a_order_total
+
+' ===== ATTRIBUTES - OrderItems =====
+storage "item_id" as a_item_id
+storage "quantity" as a_item_qty
+
+' ===== ATTRIBUTES - Shifts =====
+storage "shift_id" as a_shift_id
+storage "start_time" as a_shift_start
+
+' ===== ATTRIBUTES - Materials =====
+storage "material_id" as a_mat_id
+storage "name" as a_mat_name
+
+' ===== CONNECTIONS - Entities to Relationships =====
+roles "1" -- rel_user_role
+rel_user_role -- "N" users
+
+users "1" -- rel_user_addr
+rel_user_addr -- "N" addresses
+
+users "1" -- rel_user_order
+rel_user_order -- "N" orders
+
+users "1" -- rel_user_feedback
+rel_user_feedback -- "N" feedbacks
+
+users "1" -- rel_user_shift
+rel_user_shift -- "N" shifts
+
+orders "1" -- rel_order_item
+rel_order_item -- "N" orderitems
+
+products "1" -- rel_item_product
+rel_item_product -- "N" orderitems
+
+shifts "1" -- rel_order_shift
+rel_order_shift -- "N" orders
+
+orders "1" -- rel_order_feedback
+rel_order_feedback -- "N" feedbacks
+
+orders "1" -- rel_order_history
+rel_order_history -- "N" orderhistory
+
+materials "1" -- rel_material_stock
+rel_material_stock -- "N" stocktrans
+
+' ===== CONNECTIONS - Entities to Attributes =====
+roles -- a_role_id
+roles -- a_role_name
+
+users -- a_user_id
+users -- a_username
+users -- a_password
+users -- a_fullname
+users -- a_email
+users -- a_phone
+users -- a_user_created
+
+addresses -- a_addr_id
+addresses -- a_addr_line
+addresses -- a_city
+
+products -- a_prod_id
+products -- a_prod_name
+products -- a_prod_price
+
+orders -- a_order_id
+orders -- a_order_code
+orders -- a_order_status
+orders -- a_order_total
+
+orderitems -- a_item_id
+orderitems -- a_item_qty
+
+shifts -- a_shift_id
+shifts -- a_shift_start
+
+materials -- a_mat_id
+materials -- a_mat_name
+
+@enduml

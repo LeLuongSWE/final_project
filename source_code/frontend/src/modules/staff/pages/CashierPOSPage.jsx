@@ -217,7 +217,7 @@ const CashierPOSPage = () => {
                     <div className="w-10 h-10 bg-orange-600 rounded flex items-center justify-center text-xl">
                         🍚
                     </div>
-                    <span className="font-bold text-lg">Cơm Bình Dân 123</span>
+                    <span className="font-bold text-lg">Cơm Bình Dân</span>
                 </div>
                 <div className="flex items-center gap-4">
                     <span className="font-medium">NV: {staffUser?.fullName || 'Nhân viên'}</span>

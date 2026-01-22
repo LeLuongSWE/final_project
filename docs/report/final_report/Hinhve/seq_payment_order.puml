@@ -1,0 +1,62 @@
+@startuml
+!pragma useNewRenderingPipeline true
+skinparam backgroundColor white
+skinparam defaultFontSize 14
+skinparam participantFontSize 14
+skinparam sequenceMessageFontSize 13
+skinparam sequenceArrowFontSize 13
+skinparam sequenceGroupFontSize 13
+skinparam noteFontSize 12
+skinparam titleFontSize 18
+skinparam sequenceLifeLineBorderColor #666666
+skinparam sequenceParticipantBorderThickness 1.5
+skinparam sequenceArrowThickness 1.5
+skinparam responseMessageBelowArrow true
+
+title Biểu đồ trình tự: Thanh toán đơn hàng
+
+actor "Nhân viên" as Staff
+participant ":PaymentView\n(React)" as PaymentView
+participant ":OrderController" as OrderController
+participant ":OrderService" as OrderService
+participant ":OrderRepository" as OrderRepo
+
+Staff -> PaymentView : 1. Chọn phương thức TT\n& Nhấn "Thanh toán"
+activate PaymentView
+
+PaymentView -> OrderController : 2. PUT /api/orders/{orderId}/payment\n{paymentMethod, status}
+activate OrderController
+
+OrderController -> OrderService : 3. updateOrderPayment(orderId,\npaymentMethod, status)
+activate OrderService
+
+OrderService -> OrderRepo : 4. findById(orderId)
+activate OrderRepo
+OrderRepo --> OrderService : Trả về Order hiện tại
+deactivate OrderRepo
+
+OrderService -> OrderService : 5. Validate trạng thái\n(Chưa thanh toán?)
+
+alt Trạng thái hợp lệ
+    OrderService -> OrderService : 6. Cập nhật status = "COMPLETED"
+    OrderService -> OrderService : 7. Cập nhật paymentMethod
+
+    OrderService -> OrderRepo : 8. save(order)
+    activate OrderRepo
+    OrderRepo --> OrderService : Xác nhận lưu thành công
+    deactivate OrderRepo
+
+    OrderService --> OrderController : 9. Trả về Order đã cập nhật
+else Trạng thái không hợp lệ
+    OrderService --> OrderController : Trả về lỗi
+end
+
+deactivate OrderService
+
+OrderController --> PaymentView : 10. HTTP 200 OK\n+ JSON (Order updated)
+deactivate OrderController
+
+PaymentView --> Staff : 11. Thông báo thành công\n& In hóa đơn
+deactivate PaymentView
+
+@enduml

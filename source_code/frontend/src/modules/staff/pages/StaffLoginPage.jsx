@@ -69,7 +69,7 @@ const StaffLoginPage = () => {
                     <div className="w-20 h-20 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
                         <span className="text-3xl">🍚</span>
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-800">Cơm Bình Dân 123</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">Cơm Bình Dân</h1>
                     <p className="text-gray-600">Đăng nhập nhân viên</p>
                 </div>
 

@@ -29,10 +29,11 @@ function HomePage() {
                     if (!dbCategory) return 'mon-man';
                     const cat = dbCategory.toUpperCase();
                     if (cat.includes('RAU') || cat.includes('CANH')) return 'rau-canh';
-                    if (cat.includes('UỐNG') || cat.includes('UONG')) return 'do-uong';
+                    if (cat.includes('NƯỚC') || cat.includes('NUOC') || cat.includes('UỐNG') || cat.includes('UONG')) return 'nuoc';
                     if (cat.includes('CƠM') || cat.includes('COM')) return 'com-them';
                     return 'mon-man'; // Default MÓN MẶN
                 };
+
 
                 // Transform API data to match component format
                 const transformedProducts = data.map(p => ({
@@ -102,7 +103,7 @@ function HomePage() {
                             <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
                                 <span className="text-white text-xl">🍚</span>
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-800">Cơm Bình Dân 123</h1>
+                            <h1 className="text-2xl font-bold text-gray-800">Cơm Bình Dân</h1>
                         </div>
                         <div className="flex gap-3">
                             <button

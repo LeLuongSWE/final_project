@@ -6,6 +6,8 @@ public class UserDTO {
     private Long userId;
     private String username;
     private String fullName;
+    private String email;
+    private String phone;
     private Long roleId;
     private String roleName;
     private LocalDateTime createdAt;
@@ -69,5 +71,21 @@ public class UserDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -16,11 +16,11 @@ function Banner({ message = "Hôm nay có sườn xào chua ngọt đặc biệt
                 </div>
                 <div>
                     <h2 className="text-lg font-bold uppercase tracking-wide">
-                        Banner Quảng Cáo / Thông Báo Hôm Nay
+                        {message}
                     </h2>
-                    <p className="mt-1 text-white/90 text-sm">
+                    {/* <p className="mt-1 text-white/90 text-sm">
                         (Ví dụ: {message})
-                    </p>
+                    </p> */}
                 </div>
             </div>
         </div>

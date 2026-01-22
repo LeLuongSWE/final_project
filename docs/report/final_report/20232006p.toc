@@ -18,43 +18,74 @@
 \contentsline {subsection}{\numberline {2.2.3}Biểu đồ use case phân rã Quản lý thực đơn}{8}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Biểu đồ use case phân rã Quản lý bàn ăn}{9}{subsection.2.2.4}%
 \contentsline {subsection}{\numberline {2.2.5}Biểu đồ use case phân rã Quản lý đơn hàng}{10}{subsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.2.6}Quy trình nghiệp vụ}{10}{subsection.2.2.6}%
-\contentsline {section}{\numberline {2.3}Đặc tả chức năng}{12}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Đặc tả use case Đặt hàng trực tuyến}{12}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Đặc tả use case Tạo đơn hàng nhanh}{13}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Đặc tả use case Thanh toán}{14}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}Đặc tả use case Thêm nhân viên}{15}{subsection.2.3.4}%
-\contentsline {section}{\numberline {2.4}Yêu cầu phi chức năng}{16}{section.2.4}%
-\contentsline {chapter}{\numberline {3}CÔNG NGHỆ SỬ DỤNG}{17}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Java}{17}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Spring Boot}{17}{section.3.2}%
-\contentsline {section}{\numberline {3.3}React}{17}{section.3.3}%
-\contentsline {section}{\numberline {3.4}PostgreSQL}{18}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Redis}{18}{subsection.3.4.1}%
-\contentsline {section}{\numberline {3.5}WebSocket}{19}{section.3.5}%
-\contentsline {chapter}{\numberline {4}THIẾT KẾ, TRIỂN KHAI VÀ ĐÁNH GIÁ HỆ THỐNG}{20}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Thiết kế kiến trúc}{20}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Lựa chọn kiến trúc phần mềm}{20}{subsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {a}Tầng trình bày}{20}{subsubsection.4.1.1.1}%
-\contentsline {subsubsection}{\numberline {b}Tầng ứng dụng}{20}{subsubsection.4.1.1.2}%
-\contentsline {subsubsection}{\numberline {c}Tầng dữ liệu}{20}{subsubsection.4.1.1.3}%
-\contentsline {subsection}{\numberline {4.1.2}Thiết kế tổng quan}{21}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Thiết kế chi tiết gói}{23}{subsection.4.1.3}%
-\contentsline {section}{\numberline {4.2}Thiết kế chi tiết}{25}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Thiết kế giao diện}{25}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Thiết kế lớp}{29}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Thiết kế cơ sở dữ liệu}{31}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Thiết kế chi tiết cơ sở dữ liệu}{32}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Thiết kế chi tiết cơ sở dữ liệu}{32}{section.4.4}%
-\contentsline {chapter}{\numberline {5}CÁC GIẢI PHÁP VÀ ĐÓNG GÓP NỔI BẬT}{35}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Cơ chế quản lý thực đơn động và kiểm soát phiên bán hàng}{35}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Tái thiết kế quy trình bán hàng Quick Serve và giao diện chạm}{36}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Kiến trúc phân tầng và bảo mật với Data Transfer Object}{36}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Cơ chế Snapshot dữ liệu đảm bảo tính toàn vẹn tài chính}{37}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Chiến lược Caching đa tầng với Redis}{37}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Hệ thống giao tiếp thời gian thực dựa trên WebSocket}{38}{subsection.5.5.1}%
-\contentsline {chapter}{\numberline {6}KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{39}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Kết luận}{39}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Hạn chế và hướng phát triển}{39}{section.6.2}%
-\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{41}{section*.44}%
+\contentsline {subsection}{\numberline {2.2.6}Biểu đồ use case phân rã Quản lý nguyên liệu}{11}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Quy trình nghiệp vụ}{11}{subsection.2.2.7}%
+\contentsline {section}{\numberline {2.3}Đặc tả chức năng}{14}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Đặc tả use case Đặt hàng trực tuyến}{14}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Đặc tả use case Tạo đơn hàng nhanh}{15}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Đặc tả use case Thanh toán}{16}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Đặc tả use case Thêm nhân viên}{17}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Yêu cầu phi chức năng}{18}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Tính bảo mật - Security}{18}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Khả năng lưu trữ - Capacity}{19}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Tính dùng được - Usability}{19}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Khả năng mở rộng - Scalability}{19}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Hiệu năng - Performance}{19}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.6}Độ tin cậy - Reliability}{20}{subsection.2.4.6}%
+\contentsline {chapter}{\numberline {3}CÔNG NGHỆ SỬ DỤNG}{21}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Công nghệ sử dụng phía frontend}{21}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}React}{21}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}TailwindCSS}{21}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Công nghệ sử dụng phía backend}{22}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Java}{22}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Spring Boot}{22}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}JSON Web Token (JWT)}{23}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Công nghệ sử dụng phía database}{23}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}PostgreSQL}{23}{subsection.3.3.1}%
+\contentsline {chapter}{\numberline {4}THIẾT KẾ, TRIỂN KHAI VÀ ĐÁNH GIÁ HỆ THỐNG}{25}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Thiết kế kiến trúc}{25}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Lựa chọn kiến trúc phần mềm}{25}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Thiết kế tổng quan}{27}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Thiết kế chi tiết gói}{29}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Thiết kế chi tiết}{30}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Thiết kế giao diện}{30}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Thiết kế lớp}{34}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Thiết kế cơ sở dữ liệu}{38}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Thiết kế chi tiết cơ sở dữ liệu}{39}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Xây dựng ứng dụng}{43}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Thư viện và công cụ sử dụng}{43}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Kết quả đạt được}{44}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Minh họa các chức năng chính}{45}{subsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {a}Giao diện dành cho Khách hàng}{45}{subsubsection.4.4.3.1}%
+\contentsline {subsubsection}{\numberline {b}Giao diện dành cho Nhân viên thu ngân}{47}{subsubsection.4.4.3.2}%
+\contentsline {subsubsection}{\numberline {c}Giao diện dành cho Quản lý}{48}{subsubsection.4.4.3.3}%
+\contentsline {section}{\numberline {4.5}Kiểm thử}{50}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Kiểm thử chức năng Tạo đơn hàng tại quầy}{50}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Kiểm thử chức năng Thanh toán}{51}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.6}Triển khai}{51}{section.4.6}%
+\contentsline {chapter}{\numberline {5}CÁC GIẢI PHÁP VÀ ĐÓNG GÓP NỔI BẬT}{52}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Giải pháp xử lý đơn hàng đa kênh khép kín (Omnichannel)}{52}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Giới thiệu và Đặt vấn đề}{52}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Giải pháp kỹ thuật}{52}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Kết quả đạt được}{53}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Báo cáo thống kê doanh thu ca làm việc chính xác}{53}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Giới thiệu và Đặt vấn đề}{53}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Giải pháp kỹ thuật}{53}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Kết quả đạt được}{54}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Phân tích xu hướng ẩm thực và tối ưu thực đơn}{54}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Giới thiệu và Đặt vấn đề}{54}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Giải pháp kỹ thuật}{54}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Kết quả đạt được}{55}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Cơ chế bảo mật đa lớp với JWT (Jason Web Token)}{55}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Giới thiệu và Đặt vấn đề}{55}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Giải pháp kỹ thuật}{55}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Kết quả đạt được}{56}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}Kiến trúc phân tầng (Layered Architecture) và DTO Pattern}{56}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Giới thiệu và Đặt vấn đề}{56}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Giải pháp kỹ thuật}{56}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Kết quả đạt được}{57}{subsection.5.5.3}%
+\contentsline {chapter}{\numberline {6}KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{58}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Kết luận}{58}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Hạn chế và hướng phát triển}{58}{section.6.2}%
+\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{60}{section*.62}%
 \contentsfinish 

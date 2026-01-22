@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundColor white
+skinparam defaultFontSize 14
+skinparam participantFontSize 14
+skinparam sequenceMessageFontSize 13
+skinparam sequenceArrowFontSize 13
+skinparam titleFontSize 16
+skinparam sequenceLifeLineBorderColor #666666
+skinparam sequenceParticipantBorderThickness 1.5
+skinparam sequenceArrowThickness 1.5
+
+title Biểu đồ trình tự: Thanh toán đơn hàng
+
+actor "frontend" as Frontend
+participant ":OrderController" as Controller
+participant ":OrderService" as Service
+participant ":Order" as Order
+
+Frontend -> Controller : 1. updateOrderPayment(params)
+activate Controller
+
+Controller -> Service : 2. updateOrderPayment(params)
+activate Service
+
+Service -> Order : 3. findById(orderId)
+activate Order
+Order --> Service : 
+
+Service -> Service : 4. validateOrderStatus(order)
+
+Service -> Order : 5. save(order)
+Order --> Service : 
+deactivate Order
+
+Service --> Controller : 
+deactivate Service
+
+Controller --> Frontend : 
+deactivate Controller
+
+@enduml

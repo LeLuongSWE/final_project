@@ -24,7 +24,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
     const generateVietQR = () => {
         const bankId = '970422';
         const accountNo = '0123456789';
-        const accountName = 'COM BINH DAN 123';
+        const accountName = 'COM BINH DAN';
         const amount = Math.round(total);
         const description = orderData?.orderCode || `DH${Date.now()}`;
         return `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
@@ -176,7 +176,7 @@ const PaymentModal = ({ orderItems, total, cashReceived, staffUser, currentShift
                         {/* Header */}
                         <div className="text-center border-b-2 border-dashed border-gray-400 pb-4 mb-4">
                             <div className="text-3xl mb-1">🍚</div>
-                            <h1 className="text-2xl font-black text-gray-900">CƠM BÌNH DÂN 123</h1>
+                            <h1 className="text-2xl font-black text-gray-900">CƠM BÌNH DÂN</h1>
                             <p className="text-sm font-medium text-gray-700">123 Đường ABC, Quận XYZ, Hà Nội</p>
                             <p className="text-sm font-medium text-gray-700">ĐT: 0123 456 789</p>
                         </div>

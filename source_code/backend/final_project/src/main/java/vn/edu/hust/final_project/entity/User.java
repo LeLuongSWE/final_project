@@ -21,11 +21,20 @@ public class User {
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
     
+    @Column(name = "email", unique = true, length = 100)
+    private String email;
+    
     @Column(name = "phone", length = 20)
     private String phone;
     
     @Column(name = "role_id", nullable = false)
     private Long roleId;
+    
+    @Column(name = "reset_token", length = 100)
+    private String resetToken;
+    
+    @Column(name = "reset_token_expiry")
+    private LocalDateTime resetTokenExpiry;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -101,6 +110,30 @@ public class User {
     
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getResetToken() {
+        return resetToken;
+    }
+    
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+    
+    public LocalDateTime getResetTokenExpiry() {
+        return resetTokenExpiry;
+    }
+    
+    public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
+        this.resetTokenExpiry = resetTokenExpiry;
     }
 }
 

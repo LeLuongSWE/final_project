@@ -5,7 +5,9 @@ const categories = [
     { id: 'mon-man', label: 'MÓN MẶN' },
     { id: 'rau-canh', label: 'RAU/CANH' },
     { id: 'com-them', label: 'CƠM THÊM' },
+    { id: 'nuoc', label: 'NƯỚC' },
 ];
+
 
 function CategoryTabs({ activeCategory = 'all', onCategoryChange }) {
     return (

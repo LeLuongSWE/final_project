@@ -1,17 +1,28 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Đặc tả chức năng Đặt hàng trực tuyến}}{13}{Item.11}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả chức năng Tạo đơn hàng nhanh}}{14}{Item.19}%
-\contentsline {table}{\numberline {2.3}{\ignorespaces Đặc tả chức năng Thanh toán}}{15}{Item.29}%
-\contentsline {table}{\numberline {2.4}{\ignorespaces Đặc tả chức năng Thêm nhân viên}}{16}{Item.37}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Đặc tả chức năng Đặt hàng trực tuyến}}{15}{table.2.1}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả chức năng Tạo đơn hàng nhanh}}{16}{table.2.2}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Đặc tả chức năng Thanh toán}}{17}{table.2.3}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Đặc tả chức năng Thêm nhân viên}}{18}{table.2.4}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Mục đích/Nhiệm vụ của các gói trong hệ thống}}{22}{table.caption.17}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Mô tả bảng Người dùng (users)}}{33}{table.caption.38}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Mô tả bảng Vai trò (roles)}}{33}{table.caption.39}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Mô tả bảng Sản phẩm/Món ăn (products)}}{33}{table.caption.40}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Mô tả bảng Đơn hàng (orders)}}{34}{table.caption.41}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Mô tả bảng Chi tiết đơn hàng (order\_items)}}{34}{table.caption.42}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Mục đích/Nhiệm vụ của các gói trong hệ thống}}{28}{table.caption.19}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Mô tả bảng Người dùng (users)}}{39}{table.caption.36}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Mô tả bảng Vai trò (roles)}}{40}{table.caption.37}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Mô tả bảng Địa chỉ giao hàng (user\_addresses)}}{40}{table.caption.38}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Mô tả bảng Sản phẩm/Món ăn (products)}}{40}{table.caption.39}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Mô tả bảng Đơn hàng (orders)}}{41}{table.caption.40}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Mô tả bảng Chi tiết đơn hàng (order\_items)}}{41}{table.caption.41}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Mô tả bảng Lịch sử trạng thái đơn hàng (order\_status\_history)}}{41}{table.caption.42}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Mô tả bảng Đánh giá khách hàng (feedbacks)}}{42}{table.caption.43}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Mô tả bảng Ca làm việc (shifts)}}{42}{table.caption.44}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Mô tả bảng Nguyên liệu (materials)}}{42}{table.caption.45}%
+\contentsline {table}{\numberline {4.12}{\ignorespaces Mô tả bảng Giao dịch kho (stock\_transactions)}}{43}{table.caption.46}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces Danh sách thư viện và công cụ sử dụng}}{44}{table.caption.47}%
+\contentsline {table}{\numberline {4.14}{\ignorespaces Thống kê chi tiết thông tin ứng dụng}}{45}{table.caption.48}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces Kiểm thử chức năng Tạo đơn hàng tại quầy}}{50}{table.caption.58}%
+\contentsline {table}{\numberline {4.16}{\ignorespaces Kiểm thử chức năng Thanh toán đơn hàng}}{51}{table.caption.59}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Thông tin môi trường triển khai trên Heroku}}{51}{table.caption.60}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsfinish 

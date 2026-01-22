@@ -5,11 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hust.final_project.entity.Shift;
 import vn.edu.hust.final_project.entity.Order;
-import vn.edu.hust.final_project.repository.ShiftRepository;
+import vn.edu.hust.final_project.service.ShiftService;
 import vn.edu.hust.final_project.repository.OrderRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,40 +19,34 @@ import java.util.Map;
 public class ShiftController {
 
     @Autowired
-    private ShiftRepository shiftRepository;
+    private ShiftService shiftService;
 
     @Autowired
     private OrderRepository orderRepository;
 
     @PostMapping("/start")
     public ResponseEntity<?> startShift(@RequestBody Map<String, Long> request) {
-        Long cashierId = request.get("cashierId");
-        
-        // Check if already has an active shift
-        if (shiftRepository.findByCashierIdAndStatus(cashierId, "ACTIVE").isPresent()) {
+        try {
+            Long cashierId = request.get("cashierId");
+            Shift savedShift = shiftService.startShift(cashierId);
+            return ResponseEntity.ok(savedShift);
+        } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("error", "Nhân viên đã có ca làm việc đang hoạt động");
+            error.put("error", e.getMessage());
             return ResponseEntity.badRequest().body(error);
         }
-
-        Shift shift = new Shift();
-        shift.setCashierId(cashierId);
-        shift.setStatus("ACTIVE");
-        Shift savedShift = shiftRepository.save(shift);
-
-        return ResponseEntity.ok(savedShift);
     }
 
     @GetMapping("/active/{cashierId}")
     public ResponseEntity<?> getActiveShift(@PathVariable Long cashierId) {
-        return shiftRepository.findByCashierIdAndStatus(cashierId, "ACTIVE")
+        return shiftService.getActiveShift(cashierId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{shiftId}/end")
     public ResponseEntity<?> endShift(@PathVariable Long shiftId) {
-        return shiftRepository.findById(shiftId)
+        return shiftService.getShiftById(shiftId)
                 .map(shift -> {
                     // Calculate totals from orders in this shift
                     List<Order> shiftOrders = orderRepository.findByShiftId(shiftId);
@@ -74,14 +67,8 @@ public class ShiftController {
                         }
                     }
 
-                    shift.setEndTime(LocalDateTime.now());
-                    shift.setStatus("CLOSED");
-                    shift.setTotalOrders(totalOrders);
-                    shift.setTotalRevenue(totalRevenue);
-                    shift.setCashRevenue(cashRevenue);
-                    shift.setTransferRevenue(transferRevenue);
-
-                    Shift updatedShift = shiftRepository.save(shift);
+                    // End the shift via service
+                    Shift updatedShift = shiftService.endShift(shiftId).orElse(shift);
 
                     Map<String, Object> response = new HashMap<>();
                     response.put("shift", updatedShift);
@@ -99,7 +86,11 @@ public class ShiftController {
 
     @GetMapping("/history/{cashierId}")
     public ResponseEntity<List<Shift>> getShiftHistory(@PathVariable Long cashierId) {
-        List<Shift> shifts = shiftRepository.findByCashierIdOrderByStartTimeDesc(cashierId);
-        return ResponseEntity.ok(shifts);
+        return ResponseEntity.ok(shiftService.getShiftsByCashier(cashierId));
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<Shift>> getTodayShifts() {
+        return ResponseEntity.ok(shiftService.getTodayShifts());
     }
 }

@@ -17,6 +17,7 @@ const AdminLayout = ({ children, activePage }) => {
         { path: '/admin/staff', label: 'Quản lý Nhân viên', icon: '👥' },
         { path: '/admin/orders', label: 'Quản lý Đơn hàng', icon: '📦' },
         { path: '/admin/inventory', label: 'Quản lý Nguyên liệu', icon: '🥬' },
+        { path: '/admin/feedbacks', label: 'Quản lý Feedback', icon: '💬' },
         { path: '/admin/reports', label: 'Báo cáo Thống kê', icon: '📈' },
     ];
 
@@ -29,7 +30,7 @@ const AdminLayout = ({ children, activePage }) => {
                     <div className="w-10 h-10 bg-orange-500 rounded flex items-center justify-center text-xl mr-3">
                         🍚
                     </div>
-                    <span className="font-black text-lg text-white">Cơm Bình Dân 123</span>
+                    <span className="font-black text-lg text-white">Cơm Bình Dân</span>
                 </div>
 
                 {/* Menu Items - scrollable if needed */}

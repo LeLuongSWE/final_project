@@ -12,6 +12,8 @@ import CartPage from './modules/customer/pages/CartPage';
 import OrderHistoryPage from './modules/customer/pages/OrderHistoryPage';
 import OrderStatusPage from './modules/customer/pages/OrderStatusPage';
 import ProfilePage from './modules/customer/pages/ProfilePage';
+import ForgotPasswordPage from './modules/customer/pages/ForgotPasswordPage';
+import ResetPasswordPage from './modules/customer/pages/ResetPasswordPage';
 
 // Staff pages
 import StaffLoginPage from './modules/staff/pages/StaffLoginPage';
@@ -27,6 +29,7 @@ import AdminStaffPage from './modules/admin/pages/AdminStaffPage';
 import AdminOrdersPage from './modules/admin/pages/AdminOrdersPage';
 import AdminReportsPage from './modules/admin/pages/AdminReportsPage';
 import AdminInventoryPage from './modules/admin/pages/AdminInventoryPage';
+import AdminFeedbackPage from './modules/admin/pages/AdminFeedbackPage';
 
 // Protected Route Component for Customers
 const ProtectedRoute = ({ children }) => {
@@ -46,6 +49,8 @@ const PageTitleUpdater = () => {
         if (path === '/') title = 'Thực đơn - Cơm Bình Dân';
         else if (path === '/login') title = 'Đăng nhập - Cơm Bình Dân';
         else if (path === '/register') title = 'Đăng ký - Cơm Bình Dân';
+        else if (path === '/forgot-password') title = 'Quên mật khẩu - Cơm Bình Dân';
+        else if (path === '/reset-password') title = 'Đặt lại mật khẩu - Cơm Bình Dân';
         else if (path === '/cart') title = 'Giỏ hàng - Cơm Bình Dân';
         else if (path === '/orders') title = 'Lịch sử đơn hàng - Cơm Bình Dân';
         else if (path.includes('/status')) title = 'Trạng thái đơn hàng - Cơm Bình Dân';
@@ -65,6 +70,7 @@ const PageTitleUpdater = () => {
         else if (path === '/admin/orders') title = 'Quản lý đơn hàng - Quản trị Cơm Bình Dân';
         else if (path === '/admin/reports') title = 'Báo cáo thống kê - Quản trị Cơm Bình Dân';
         else if (path === '/admin/inventory') title = 'Quản lý kho - Quản trị Cơm Bình Dân';
+        else if (path === '/admin/feedbacks') title = 'Quản lý Feedback - Quản trị Cơm Bình Dân';
 
         document.title = title;
     }, [location]);
@@ -82,6 +88,8 @@ function App() {
                         {/* Customer Routes */}
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                        <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/" element={<HomePage />} />
                         <Route
                             path="/cart"
@@ -131,6 +139,7 @@ function App() {
                         <Route path="/admin/orders" element={<AdminOrdersPage />} />
                         <Route path="/admin/reports" element={<AdminReportsPage />} />
                         <Route path="/admin/inventory" element={<AdminInventoryPage />} />
+                        <Route path="/admin/feedbacks" element={<AdminFeedbackPage />} />
                     </Routes>
                 </BrowserRouter>
             </CartProvider>

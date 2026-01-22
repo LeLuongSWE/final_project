@@ -2,240 +2,321 @@
 \begin{document}
 
 \section{Thiết kế kiến trúc}
+\label{section:4.1}
+
 \subsection{Lựa chọn kiến trúc phần mềm}
-Mô hình ba tầng (Three-tier architecture) là một kiến trúc ứng dụng phần mềm tổ chức các ứng dụng thành ba tầng tính toán logic và vật lý: tầng trình bày (presentation tier), tầng ứng dụng (application tier) và tầng dữ liệu (data tier). Lợi ích chính của kiến trúc ba tầng là mỗi tầng chạy trên một cơ sở hạ tầng riềng, được phát triển đồng thời bởi một nhóm phát triển riêng biệt và có thể được cập nhật hoặc mở rộng mà không ảnh hưởng đến các tầng khác.
+\label{subsection:4.1.1}
+
+Dựa trên các yêu cầu của hệ thống cũng như định hướng mở rộng của ứng dụng trong tương lai, kiến trúc client-server được sử dụng để phát triển ứng dụng. Mô hình khách-chủ (client-server model) là một kiến trúc ứng dụng phân tán, phân chia nhiệm vụ giữa nhà cung cấp tài nguyên hoặc dịch vụ (máy chủ) và người yêu cầu dịch vụ (máy khách).
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Mô hình 3 tầng.png}
-    \caption{Mô hình 3 tầng}
-    \label{fig:Fig1}
+    \includegraphics[width=0.85\linewidth]{Hinhve/Kien_truc_client_server_tong_quan.png}
+    \caption{Minh họa kiến trúc Client-Server}
+    \label{fig:client_server_general}
 \end{figure}
 
-\subsubsection{Tầng trình bày}
+Hình 4.1 minh họa kiến trúc client-server được sử dụng trong các ứng dụng hiện nay. Các thiết bị khách (client devices) có thể là máy tính, điện thoại di động, máy tính bảng hoặc các thiết bị POS chuyên dụng. Khi các thiết bị này truy cập vào ứng dụng và thực hiện một hoạt động nghiệp vụ nào đó cần lấy dữ liệu từ hệ thống hoặc lưu dữ liệu lên hệ thống, các yêu cầu sẽ được gửi thông qua kết nối mạng giữa máy chủ và máy khách. Máy chủ sẽ xử lý yêu cầu và trả về kết quả cho máy khách. Để máy chủ và máy khách có thể giao tiếp được, chúng cần tuân theo các quy tắc ngôn ngữ và giao tiếp được xác định trong một giao thức truyền thông.
 
-Tầng trình bày là tầng giao diện người dùng và giao tiếp của ứng dụng, nơi người dùng cuối (end-user) tương tác với ứng dụng. Mục đích chính của nó là hiển thị thông tin và thu thập thông tin từ người dùng. Tầng cấp cao nhất này có thể chạy trên trình duyệt web, dưới dạng ứng dụng dành cho máy tính để bàn hoặc giao diện người dùng đồ họa (GUI) chẳng hạn. Các tầng trình bày web thường được phát triển bằng HTML, CSS và JavaScript. Các ứng dụng máy tính để bàn có thể được viết bằng nhiều ngôn ngữ khác nhau tùy thuộc vào nền tảng.
+\textbf{Áp dụng kiến trúc client-server trong sản phẩm đồ án.}
 
-\subsubsection{Tầng ứng dụng}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Hinhve/Kien_truc_client_server_do_an.png}
+    \caption{Kiến trúc client-server được sử dụng trong đồ án}
+    \label{fig:client_server_project}
+\end{figure}
 
-Tầng ứng dụng, còn được gọi là tầng logic hoặc tầng giữa, là trung tâm của hệ thống. Trong tầng này, thông tin được thu thập từ tầng trình bày được xử lý, đôi khi không giống hoặc không tồn tại trong những thông tin được lưu trong tầng dữ liệu. Bằng cách sử dụng logic nghiệp vụ, bộ quy tắc nghiệp vụ cụ thể, tầng ứng dụng có thể thêm, xóa hoặc sử đổi dữ liệu trong tầng dữ liệu. Tầng ứng dụng thường được phát triển bằng Python, Java, PHP,...
+Dữ liệu hệ thống được lưu tại một máy chủ cơ sở dữ liệu PostgreSQL tập trung, bao gồm thông tin về thực đơn, đơn hàng, khách hàng, nhân viên và các báo cáo thống kê. Máy chủ API (Backend) được xây dựng trên nền tảng Spring Boot, sau khi được triển khai sẽ mở kết nối tới máy chủ cơ sở dữ liệu để xử lý các yêu cầu nghiệp vụ.
 
-\subsubsection{Tầng dữ liệu}
+Các thiết bị khách (client devices) bao gồm máy tính POS của nhân viên thu ngân, thiết bị di động của khách hàng và máy tính của quản lý. Tất cả đều kết nối internet và tương tác với ứng dụng thông qua trình duyệt web dựa trên giao thức HTTPS. Phía Frontend được xây dựng bằng React, cung cấp giao diện Single Page Application (SPA) cho người dùng.
 
-Tầng dữ liệu, đôi khi được gọi là tầng cơ sở dữ liệu, tầng truy cập dữ liệu hoặc tầng phụ, là nơi lưu trữ và quản lý thông tin được ứng dụng xử lý. Các hệ thống cơ sở dữ liệu phổ biến có thể kể đến như PostgreSQL, MySQL, MariaDB, DB2, Informix, Microsoft SQL Server hoặc MongoDB
+Khi người dùng truy cập vào ứng dụng và thực hiện một hoạt động nghiệp vụ như đặt hàng, thanh toán, hoặc xem báo cáo, các yêu cầu sẽ được gửi từ phía Frontend tới Backend bằng các API theo chuẩn RESTful. Backend sẽ xác thực người dùng thông qua JWT, xử lý logic nghiệp vụ, truy vấn cơ sở dữ liệu và trả về kết quả dưới dạng JSON cho Frontend hiển thị.
 
-Tại hệ thống POS này, tầng trình bày được phát triển bằng HTML, CSS và JavaScript thông qua thư viện React, tầng ứng dụng được phát triển bằng Java và framework Spring boot, tầng dữ liệu sử dụng cơ sở dữ liệu PostgreSQL. 
+Kiến trúc này mang lại nhiều lợi ích cho hệ thống quản lý quán cơm bình dân: \textbf{Tập trung dữ liệu}: Toàn bộ dữ liệu được lưu trữ tại một nơi, đảm bảo tính nhất quán và dễ dàng sao lưu, phục hồi; \textbf{Dễ bảo trì}: Logic nghiệp vụ tập trung tại Backend, khi cần thay đổi chỉ cần cập nhật một nơi mà không ảnh hưởng đến các thiết bị khách; \textbf{Khả năng mở rộng}: Có thể dễ dàng thêm nhiều thiết bị POS hoặc phục vụ nhiều khách hàng online đồng thời bằng cách nâng cấp máy chủ; \textbf{Bảo mật}: Dữ liệu nhạy cảm được bảo vệ tại máy chủ, các thiết bị khách chỉ nhận dữ liệu cần thiết thông qua API được phân quyền.
+
 
 \subsection{Thiết kế tổng quan}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ phụ thuộc gói.png}
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ phụ thuộc gói final.png}
     \caption{Biểu đồ phụ thuộc gói}
-    \label{fig:Fig1}
+    \label{fig:Fig2}
 \end{figure}
 
-Hình 4.2 là biểu đồ phụ thuộc gói của hệ thống, với mục đích/nhiệm vụ của từng
-gói được nêu ở bảng 4.1.
+Hình 4.3 là biểu đồ phụ thuộc gói của hệ thống, với mục đích/nhiệm vụ của từng gói được nêu ở bảng 4.1.
 
 \begin{table}[H]
-\centering
-
-\label{tab:package_desc}
-\begin{tabular}{|c|p{3cm}|p{8cm}|}
-\hline
-\textbf{STT} & \textbf{Tên gói} & \textbf{Mục đích/Nhiệm vụ} \\ \hline
-1 & View & Gồm các thành phần tạo nên những giao diện trực quan giúp người dùng tương tác và sử dụng hệ thống. Trong gói View gồm các gói con pages, api, components, styles, hooks, utils, icons. \\ \hline
-2 & Pages & Là thiết kế giao diện của các màn hình trong hệ thống. Mỗi một class trong gói tương ứng với một màn hình của hệ thống. \\ \hline
-3 & Components & Là những thành phần nhỏ giúp hiển thị giao diện hoặc xử lý logic cấu thành nên một page. \\ \hline
-4 & Styles & Là tập hợp các tập tin giúp cải thiện chất lượng giao diện, làm đẹp hơn, đảm bảo các tính chất khi thiết kế giao diện và trải nghiệm người dùng trên các màn hình của hệ thống. \\ \hline
-5 & Hooks & Tập hợp các hook tự phát triển (Hook - được định nghĩa và giải thích trong phần 3.1.3). \\ \hline
-6 & Api & Thực hiện các yêu cầu xử lý, truy vấn dữ liệu của client đến server. Nhận phản hồi từ server và xử lý. \\ \hline
-7 & Utils & Tập hợp các tiện ích, các hằng số được sử dụng trong các component. \\ \hline
-8 & Icons & Tập hợp các icon được sử dụng trong các component. \\ \hline
-9 & Controller & Nhận các yêu cầu từ Client gửi đến, phân quyền, xác thực danh tính và gửi xuống Service để xử lý. \\ \hline
-10 & Service & Gồm các lớp xử lý logic các yêu cầu từ controller gửi xuống, sử dụng các phương thức được cung cấp bởi repository để truy vấn đến cơ sở dữ liệu. \\ \hline
-11 & Repository & Gồm các class cung cấp những phương thức thực hiện các câu truy vấn đến cơ sở dữ liệu. \\ \hline
-12 & Model & Tập hợp các lớp định nghĩa thông tin cơ bản của các đối tượng trong hệ thống, mỗi class tương ứng với một bảng trong database. \\ \hline
-
-\end{tabular}
-\caption{Mục đích/Nhiệm vụ của các gói trong hệ thống}
+    \centering
+    \label{tab:package_desc}
+    \begin{tabular}{|c|p{2.5cm}|p{8.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Tên gói} & \textbf{Mục đích/Nhiệm vụ}                                                                                                          \\ \hline
+        1            & app              & Gói gốc chứa toàn bộ mã nguồn giao diện người dùng, được xây dựng bằng React và Vite. Bao gồm hai gói con chính: modules và shared. \\ \hline
+        2            & modules          & Chứa các module chức năng được phân chia theo vai trò người dùng. Mỗi module là một đơn vị độc lập với pages và components riêng.   \\ \hline
+        3            & admin            & Module dành cho quản trị viên, chứa các màn hình quản lý thực đơn, nhân viên, đơn hàng, kho hàng và báo cáo thống kê.               \\ \hline
+        4            & staff            & Module dành cho nhân viên bán hàng (POS), chứa giao diện bán hàng tại quầy và quản lý ca làm việc.                                  \\ \hline
+        5            & customer         & Module dành cho khách hàng, chứa các màn hình xem thực đơn, giỏ hàng, đặt món trực tuyến và theo dõi đơn hàng.                      \\ \hline
+        6            & pages            & Thiết kế giao diện các màn hình trong từng module. Mỗi file tương ứng với một màn hình của hệ thống.                                \\ \hline
+        7            & components       & Các thành phần giao diện tái sử dụng trong phạm vi module (ví dụ: AdminLayout, CustomerLayout).                                     \\ \hline
+        8            & shared           & Gói chứa các thành phần dùng chung cho tất cả các module, bao gồm api, components, context, services và icons.                      \\ \hline
+        9            & api              & Cung cấp axios client để thực hiện các yêu cầu HTTP đến backend thông qua RESTful API.                                              \\ \hline
+        10           & context          & Quản lý trạng thái toàn cục của ứng dụng bằng React Context (AuthContext, CartContext).                                             \\ \hline
+        11           & services         & Các service xử lý logic nghiệp vụ phía client, gọi api để giao tiếp với server (authService, orderService, productService).         \\ \hline
+        12           & icons            & Tập hợp các icon SVG được sử dụng trong giao diện.                                                                                  \\ \hline
+        13           & config           & Chứa các lớp cấu hình cho Spring Security, CORS, JWT và các bean cần thiết.                                                         \\ \hline
+        14           & controller       & Nhận các HTTP request từ frontend, xác thực và điều phối xuống service để xử lý.                                                    \\ \hline
+        15           & dto              & Data Transfer Object - các lớp chứa dữ liệu truyền giữa các tầng và trả về cho client.                                              \\ \hline
+        16           & service          & Xử lý logic nghiệp vụ, gọi repository để thao tác dữ liệu và chuyển đổi giữa entity và DTO.                                         \\ \hline
+        17           & repository       & Cung cấp các phương thức truy vấn cơ sở dữ liệu PostgreSQL thông qua Spring Data JPA.                                               \\ \hline
+        18           & entity           & Các lớp ánh xạ với bảng trong cơ sở dữ liệu (User, Order, Product, Material, Shift, StockTransaction...).                           \\ \hline
+    \end{tabular}
+    \caption{Mục đích/Nhiệm vụ của các gói trong hệ thống}
 \end{table}
+
+% Bảng mới mô tả cấu trúc thực tế của hệ thống - sử dụng longtable để tự động ngắt trang
+% \begin{longtable}{|c|p{3cm}|p{8cm}|}
+%     \\
+%     \hline
+%     \textbf{STT} & \textbf{Tên gói} & \textbf{Mục đích/Nhiệm vụ}                                                                                                                            \\ \hline
+%     \endfirsthead
+
+%     % \multicolumn{3}{c}%
+%     % {{\bfseries \tablename\ \thetable{} -- tiếp theo từ trang trước}}                                                                                                                       \\
+%     \hline
+%     \textbf{STT} & \textbf{Tên gói} & \textbf{Mục đích/Nhiệm vụ}                                                                                                                            \\ \hline
+%     \endhead
+
+%     % \hline \multicolumn{3}{|r|}{{Tiếp tục ở trang sau}}                                                                                                                                     \\ \hline
+%     \endfoot
+
+%     \hline
+%     \endlastfoot
+
+%     % \multicolumn{3}{|c|}{\textbf{FRONTEND (View)}} \\ \hline
+%     % \multicolumn{3}{|c|}                                                                                                                                                                    \\ \hline
+
+%     1            & View             & Gói gốc chứa toàn bộ mã nguồn giao diện người dùng, được xây dựng bằng React và Vite. Bao gồm hai gói con chính: modules và shared.                   \\ \hline
+%     2            & modules          & Chứa các module chức năng được phân chia theo vai trò người dùng trong hệ thống. Mỗi module là một đơn vị độc lập với pages và components riêng.      \\ \hline
+%     3            & admin            & Module dành cho quản trị viên, chứa các màn hình quản lý thực đơn, nhân viên, bàn ăn, đơn hàng, kho hàng và báo cáo thống kê.                         \\ \hline
+%     4            & staff            & Module dành cho nhân viên bán hàng (POS), chứa giao diện bán hàng tại quầy và quản lý ca làm việc.                                                    \\ \hline
+%     5            & customer         & Module dành cho khách hàng, chứa các màn hình xem thực đơn, giỏ hàng, đặt món trực tuyến và theo dõi đơn hàng.                                        \\ \hline
+%     6            & pages            & Thiết kế giao diện các màn hình trong từng module. Mỗi file tương ứng với một màn hình của hệ thống, phụ thuộc vào components để xây dựng giao diện.  \\ \hline
+%     7            & components       & Các thành phần giao diện tái sử dụng trong phạm vi module (ví dụ: AdminLayout). Được sử dụng bởi pages.                                               \\ \hline
+%     8            & shared           & Gói chứa các thành phần dùng chung cho tất cả các module, bao gồm api, components, context, services và icons.                                        \\ \hline
+%     9            & api              & Cung cấp axios client để thực hiện các yêu cầu HTTP đến backend thông qua RESTful API.                                                                \\ \hline
+%     10           & context          & Quản lý trạng thái toàn cục của ứng dụng bằng React Context (AuthContext, CartContext).                                                               \\ \hline
+%     11           & services         & Các service xử lý logic nghiệp vụ phía client, sử dụng api để giao tiếp với server (authService, orderService, productService).                       \\ \hline
+%     12           & icons            & Tập hợp các icon SVG được sử dụng trong giao diện.                                                                                                    \\ \hline
+%     % \multicolumn{3}{|c|}{\textbf{BACKEND}}                                                                                                                                                  \\ \hline
+%     13           & controller       & Nhận các HTTP request từ frontend, xác thực và điều phối xuống service. Bao gồm các controller cho Product, Order, Admin, Auth, Inventory, Analytics. \\ \hline
+%     14           & dto              & Data Transfer Object - các lớp chứa dữ liệu truyền giữa các tầng và trả về cho client, đảm bảo không lộ cấu trúc entity.                              \\ \hline
+%     15           & service          & Xử lý logic nghiệp vụ, gọi repository để thao tác dữ liệu và chuyển đổi giữa entity và DTO.                                                           \\ \hline
+%     16           & repository       & Cung cấp các phương thức truy vấn cơ sở dữ liệu PostgreSQL thông qua Spring Data JPA.                                                                 \\ \hline
+%     17           & entity           & Các lớp ánh xạ với bảng trong cơ sở dữ liệu (User, Order, OrderItem, Product, Material, Shift, StockTransaction).                                     \\ \hline
+% \end{longtable}
 
 \subsection{Thiết kế chi tiết gói}
 
 
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Model final.png}
+%     \caption{Biểu đồ thiết kế gói Model}
+%     \label{fig:Fig3}
+% \end{figure}
+
+% Hình 4.4 là biểu đồ thiết kế cho gói Model (Entity). Gói Model tập hợp các lớp định nghĩa thông tin cơ bản của các đối tượng trong hệ thống, bao gồm: User - người dùng, Order - đơn hàng, OrderItem - chi tiết đơn hàng, OrderStatusHistory - lịch sử trạng thái đơn hàng, Product - món ăn, Shift - ca làm việc, Material - nguyên liệu, StockTransaction - giao dịch kho, Feedback - đánh giá đơn hàng và UserAddress - địa chỉ giao hàng.
+
+% Mỗi đối tượng User (nhân viên thu ngân, quản lý hoặc khách hàng) có một roleId để xác định quyền hạn trong hệ thống. Một User có thể tạo ra nhiều Order; do đó Order có mối quan hệ liên kết với User thông qua userId và cashierId để lưu vết người tạo đơn và nhân viên xử lý. Ngoài ra, một User có thể có nhiều UserAddress để lưu trữ các địa chỉ giao hàng khác nhau (nhà, công ty...), hỗ trợ tính năng đặt hàng online.
+
+% Lớp Order có quan hệ hợp thành với OrderItem và OrderStatusHistory. Một đơn hàng bao gồm danh sách các món ăn chi tiết (OrderItem) và lịch sử thay đổi trạng thái. Nếu đơn hàng bị xóa, các chi tiết món ăn và lịch sử trạng thái đi kèm cũng bị xóa theo. Mỗi OrderItem tham chiếu đến một Product cụ thể thông qua productId, đồng thời lưu priceAtPurchase - giá tại thời điểm mua để đảm bảo tính toàn vẹn dữ liệu khi giá món ăn thay đổi.
+
+% Lớp Feedback liên kết với cả Order và User, cho phép khách hàng đánh giá (rating) và bình luận (comment) sau khi hoàn thành đơn hàng. Mỗi Feedback thuộc về một Order duy nhất và được tạo bởi một User cụ thể.
+
+% Về quản lý ca làm việc, mỗi Shift được gắn với một User (nhân viên thu ngân) thông qua cashierId. Các đơn hàng bán tại quầy được liên kết với shiftId tương ứng để thống kê doanh thu theo ca. Đối với quản lý kho, Material đại diện cho các nguyên liệu, và StockTransaction ghi nhận các giao dịch nhập/xuất kho. Mỗi StockTransaction tham chiếu đến một Material thông qua materialId và ghi nhận người thực hiện qua createdBy liên kết với User.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Model.png}
-    \caption{Biểu đồ thiết kế gói Model}
-    \label{fig:Fig2}
+    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Controller final.png}
+    \caption{Biểu đồ thiết kế gói Đặt hàng trực tuyến}
+    \label{fig:Fig4}
 \end{figure}
 
-Hình 4.3 là biểu đồ thiết kế cho gói Model. Gói Model tập hợp các lớp định nghĩa thông tin cơ bản của các đối tượng bao gồm User - người dùng, Order - đơn hàng, OrderItem - đơn hàng chi tiết, Product - sản phẩm, Role - vai trò của người dùng. Mỗi đối tượng User (như nhân viên thu ngân hoặc quản lý) có quan hệ kết tập  với một hoặc nhiều Role để xác định quyền hạn trong hệ thống. Một User bao gồm thông tin về các Role mà họ đảm nhận. Mỗi Order (đơn hàng) được tạo ra bởi một User (thường là nhân viên thu ngân hoặc khách hàng đã đăng nhập), do đó Order có mối quan hệ liên kết với User để lưu vết người tạo đơn. Lớp Order có quan hệ hợp thành chặt chẽ với OrderItem. Một đơn hàng bao gồm danh sách các món ăn chi tiết OrderItem. Nếu đơn hàng bị xóa, các chi tiết món ăn đi kèm cũng không còn ý nghĩa tồn tại. Mỗi OrderItem tham chiếu đến một Product cụ thể để xác định đó là món ăn gì (ví dụ: Suất 30k, Trà đá).
+Hình 4.5 mô tả thiết kế API phía server xử lý một yêu cầu đặt hàng trực tuyến từ phía frontend (ứng dụng khách hàng).
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế gói Controller.png}
-    \caption{Biểu đồ thiết kế gói Controller}
-    \label{fig:Fig2}
-\end{figure}
+Sau khi thực hiện xác thực (Authentication) thông qua JWT Token và kiểm tra ủy quyền (Authorization) thành công trong lớp SecurityConfig, lớp OrderService sẽ được tiêm các đối tượng là thể hiện của các interface: OrderRepository, OrderItemRepository, ProductRepository và OrderStatusHistoryRepository thông qua cơ chế Dependency Injection của Spring Framework.
 
-Hình 4.4 là biểu đồ thiết kế cho gói Controller, Service, Repository. Các lớp trong gói Controller có nhiệm vụ là nhận yêu cầu từ client thông qua giao thức HTTP, sau đó chuyển xuống cho các lớp Service tương ứng của nó xử lý. Ví dụ lớp OrderController có một thuộc tính là một đối tượng OrderService, khi nhận được yêu cầu tạo đơn hàng nhanh từ client (máy POS), OrderController sẽ sử dụng các phương thức được cung cấp bởi OrderService để xử lý yêu cầu đó. Các lớp trong gói Service có nhiệm vụ xử lý logic nghiệp vụ. Lớp ProductService đảm nhận vai trò xử lý logic với những yêu cầu liên quan đến quản lý thực đơn và cập nhật trạng thái món ăn. Để thao tác với dữ liệu về món ăn trong cơ sở dữ liệu, nó sẽ sử dụng những phương thức được cung cấp bởi ProductRepository. Tương tự, OrderService đảm nhận vai trò xử lý logic nghiệp vụ phức tạp liên quan đến quy trình bán hàng và thanh toán. Để lưu trữ và thao tác với dữ liệu đơn hàng trong cơ sở dữ liệu, nó gọi đến những phương thức được cung cấp bởi OrderRepository. Ngoài ra, để đảm bảo tính toàn vẹn dữ liệu khi tạo đơn hàng (như lấy thông tin giá hiện tại của món ăn hay kiểm tra trạng thái tồn kho), OrderService sẽ gọi đến các phương thức mà ProductRepository (hoặc ProductService) cung cấp; đồng thời để ghi nhận nhân viên thực hiện giao dịch, nó cũng tương tác với UserRepository. Thiết kế này đảm bảo rằng, tất cả các lớp Controller sẽ chỉ có một nhiệm vụ duy nhất là nhận và điều phối yêu cầu từ client, việc xử lý logic nghiệp vụ sẽ do lớp Service của chính nó đảm nhận, và các đối tượng Repository chỉ cung cấp các phương thức truy xuất dữ liệu cơ bản. Để thực hiện các nghiệp vụ phức tạp liên quan đến nhiều thực thể, Service sẽ gọi tới Repository của chính nó hoặc sử dụng phương thức do các Service/Repository khác cung cấp.
+Sau đó, thể hiện của lớp OrderService được tiêm vào lớp OrderController. Phần thân trong lời gọi API POST /api/orders từ phía frontend sẽ được ánh xạ thành một đối tượng là thể hiện của lớp CreateOrderRequest, bao gồm các thông tin: userId (mã người dùng), totalAmount (tổng tiền), paymentMethod (phương thức thanh toán) và danh sách items chứa thông tin các món ăn đặt mua (productId, quantity, price).
+
+Trong quá trình xử lý nghiệp vụ, OrderService gọi đến OrderRepository để lưu thông tin đơn hàng mới vào bảng \texttt{orders}, OrderService gọi đến ProductRepository để lấy thông tin giá và tên món ăn hiện tại, OrderService gọi đến OrderItemRepository để lưu chi tiết các món ăn trong đơn hàng vào bảng \texttt{order\_items}, OrderService gọi đến OrderStatusHistoryRepository để ghi nhận lịch sử trạng thái đơn hàng (PENDING) vào bảng \texttt{order\_status\_history}. Các lớp Order, OrderItem, Product, OrderStatusHistory có nhiệm vụ ánh xạ các bản ghi dữ liệu từ các bảng trong cơ sở dữ liệu PostgreSQL thành các đối tượng trong chương trình (ORM - Object Relational Mapping).
+
+Sau khi hoàn thành các hoạt động xử lý nghiệp vụ (tạo đơn hàng, lưu chi tiết món, ghi lịch sử trạng thái), server sẽ trả về kết quả là thể hiện của lớp ResponseEntity chứa orderId (mã đơn hàng), orderCode (mã tra cứu) và thông báo thành công để frontend điều hướng người dùng đến trang theo dõi đơn hàng.
 
 \section{Thiết kế chi tiết}
 \subsection{Thiết kế giao diện}
 Hệ thống được thiết kế tối ưu cho máy tính để bàn và laptop có màn hình từ 14 inch trở lên với độ phân giải khuyến nghị 1440x900 pixels, nhằm đảm bảo không gian hiển thị rộng rãi cho các nghiệp vụ xử lý đơn hàng phức tạp. Về mặt thị giác, giao diện sử dụng màu xanh dương làm chủ đạo để tạo cảm giác chuyên nghiệp, với các nút bấm được chuẩn hóa đồng nhất (cao 36px, bo góc 4px, không viền) và cơ chế thông báo phản hồi trạng thái (thành công màu xanh, thất bại màu đỏ) đặt tại góc trái dưới màn hình. Các chức năng cốt lõi như Thực đơn điện tử, Giỏ hàng và đặc biệt là phân hệ POS bán hàng tại quầy đều tuân thủ nguyên tắc tối giản, chia bố cục rõ ràng thành các khu vực chức năng riêng biệt và hỗ trợ các thao tác nhanh (như phím tắt, gợi ý mệnh giá tiền) để đáp ứng áp lực phục vụ lớn trong giờ cao điểm.
 
-Dưới đây là một số hình ảnh minh họa thiết kế giao diện của hệ thống: 
+Dưới đây là một số hình ảnh minh họa thiết kế giao diện của hệ thống:
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện bán hàng chính.png}
     \caption{Giao diện bán hàng chính}
-    \label{fig:Fig2}
+    \label{fig:Fig5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện báo cáo thống kê.png}
     \caption{Giao diện báo cáo thống kê}
-    \label{fig:Fig2}
+    \label{fig:Fig6}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện đặt hàng.png}
     \caption{Giao diện đặt hàng}
-    \label{fig:Fig2}
+    \label{fig:Fig7}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện giỏ hàng.png}
     \caption{Giao diện giỏ hàng}
-    \label{fig:Fig2}
+    \label{fig:Fig8}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện popup thanh toán nhanh.png}
     \caption{Giao diện popup thanh toán nhanh}
-    \label{fig:Fig2}
+    \label{fig:Fig9}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý bàn ăn.png}
     \caption{Giao diện quản lý bàn ăn}
-    \label{fig:Fig2}
+    \label{fig:Fig10}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý đơn hàng.png}
     \caption{Giao diện quản lý đơn hàng}
-    \label{fig:Fig2}
+    \label{fig:Fig11}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý nhân viên.png}
     \caption{Giao diện quản lý nhân viên}
-    \label{fig:Fig2}
+    \label{fig:Fig12}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý thực đơn.png}
     \caption{Giao diện quản lý thực đơn}
-    \label{fig:Fig2}
+    \label{fig:Fig13}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện quản lý tổng quan.png}
     \caption{Giao diện tổng quan}
-    \label{fig:Fig2}
+    \label{fig:Fig14}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Hinhve/Giao diện trạng thái đơn hàng.png}
     \caption{Giao diện trạng thái đơn hàng}
-    \label{fig:Fig2}
+    \label{fig:Fig15}
 \end{figure}
 
 
 
 \subsection{Thiết kế lớp}
 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp Order.png}
-    \caption{Thiết kế lớp Order}
-    \label{fig:Fig2}
+    \includegraphics[width=0.85\linewidth]{Hinhve/Biểu đồ thiết kế lớp Order.png}
+    \caption{Biểu đồ thiết kế lớp xử lý đơn hàng}
+    \label{fig:order_class_design}
 \end{figure}
+Hình 4.14 mô tả thiết kế các lớp quan trọng trong hệ thống xử lý đơn hàng. Hệ thống hỗ trợ hai chức năng đặt hàng chính: Đặt hàng trực tuyến (khách hàng) và Lên đơn trực tiếp tại quầy (nhân viên POS).
+
+Thông tin chung của một đơn hàng được biểu diễn thành các thuộc tính của lớp Order, bao gồm: orderId (mã đơn), orderCode (mã tra cứu), orderDate (thời gian tạo đơn), totalAmount (tổng tiền), status (trạng thái) và paymentMethod (phương thức thanh toán). Đặc biệt, thuộc tính orderType được sử dụng để phân biệt loại đơn hàng: giá trị "ONLINE" cho đơn đặt trực tuyến và "INSTORE" cho đơn bán tại quầy.
+
+Mỗi loại hình đặt hàng có các thuộc tính đặc trưng khác nhau. Với đơn hàng trực tuyến, lớp Order sử dụng userId (mã khách hàng) và estimatedPickupTime (thời gian dự kiến lấy hàng). Với đơn hàng tại quầy POS, lớp Order sử dụng các thuộc tính: tableNumber (số bàn), shiftId (mã ca làm việc) và cashierId (mã nhân viên thu ngân).
+
+Lớp OrderController nhận các HTTP request từ frontend và điều phối xuống OrderService để xử lý nghiệp vụ. Các phương thức quan trọng bao gồm: createOrder() xử lý đơn đặt hàng online từ khách hàng, createInstoreOrder() xử lý đơn lên tại quầy POS, updateOrderStatus() cập nhật trạng thái đơn hàng, getInstoreOrdersByShift() lấy danh sách đơn theo ca và getPendingOnlineOrders() lấy các đơn online đang chờ xử lý.
+
+Lớp OrderService được tiêm các đối tượng Repository thông qua cơ chế Dependency Injection, bao gồm: OrderRepository, OrderItemRepository, ProductRepository và OrderStatusHistoryRepository. Các phương thức createOnlineOrder() và createInstoreOrder() chịu trách nhiệm tạo đối tượng Order tương ứng với từng loại hình đặt hàng.
+
+Lớp Order có quan hệ hợp thành (composition) với OrderItem. Một đơn hàng bao gồm một hoặc nhiều chi tiết món ăn (quan hệ 1-*). Mỗi OrderItem tham chiếu đến một Product thông qua productId, đồng thời lưu priceAtPurchase (giá tại thời điểm mua) để đảm bảo tính toàn vẹn dữ liệu khi giá món ăn thay đổi sau này.
+
+Lớp Product đại diện cho thông tin món ăn trong thực đơn, bao gồm: productId (mã món), name (tên món), price (giá hiện tại), isActive (trạng thái hiển thị) và stockQuantity (số lượng tồn kho).
+
+Thiết kế này tuân theo mô hình kiến trúc phân tầng Controller-Service-Repository, cho phép tách biệt rõ ràng giữa tầng điều khiển, tầng nghiệp vụ và tầng truy cập dữ liệu, giúp hệ thống dễ bảo trì và mở rộng trong tương lai.
+
+\textbf{Mô hình hóa ca sử dụng Tạo đơn hàng nhanh bằng biểu đồ tuần tự}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp OrderService.png}
-    \caption{Thiết kế lớp OrderService}
-    \label{fig:Fig2}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Lớp Product.png}
-    \caption{Thiết kế lớp Product}
-    \label{fig:Fig2}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ trình tự Tạo đơn hàng nhanh.png}
+    \includegraphics[width=0.85\linewidth]{Hinhve/seq_tao_don_hang_simple.png}
     \caption{Biểu đồ trình tự Tạo đơn hàng nhanh}
-    \label{fig:Fig2}
+    \label{fig:seq_create_order}
 \end{figure}
+Nhân viên thu ngân chọn các món ăn trên giao diện và nhấn nút "Tạo đơn". Frontend gửi yêu cầu tới OrderController thông qua phương thức createInstoreOrder(params). OrderController chuyển tiếp yêu cầu tới OrderService cũng qua phương thức createInstoreOrder(params).
+
+Trong quá trình xử lý, OrderService tạo một đối tượng Order mới, sau đó gọi phương thức generateOrderCode() để sinh mã đơn hàng duy nhất. Tiếp theo, OrderService gọi save(order) để lưu đơn hàng vào cơ sở dữ liệu thông qua đối tượng Order. Sau đó, OrderService tạo đối tượng OrderItem mới cho từng món ăn và gọi save(item) để lưu vào cơ sở dữ liệu.
+
+\textbf{Mô hình hóa ca sử dụng Thanh toán bằng biểu đồ tuần tự}
+
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ trình tự Thanh toán.png}
-    \caption{Biểu đồ trình tự Thanh toán}
-    \label{fig:Fig2}
+    \includegraphics[width=0.85\linewidth]{Hinhve/seq_thanh_toan_simple.png}
+    \caption{Biểu đồ trình tự Thanh toán đơn hàng}
+    \label{fig:seq_payment}
 \end{figure}
+\noindent Nhân viên thu ngân chọn phương thức thanh toán và nhấn nút "Thanh toán" trên giao diện. Frontend gửi yêu cầu tới OrderController thông qua phương thức updateOrderPayment(params). OrderController chuyển tiếp yêu cầu tới OrderService cũng qua phương thức updateOrderPayment(params).
+
+Trong quá trình xử lý, OrderService gọi phương thức findById(orderId) để lấy thông tin đơn hàng hiện tại từ đối tượng Order. Tiếp theo, OrderService gọi phương thức validateOrderStatus(order) để kiểm tra trạng thái đơn hàng có hợp lệ không. Nếu hợp lệ, OrderService gọi save(order) để lưu thay đổi trạng thái thanh toán vào cơ sở dữ liệu.
 
 \subsection{Thiết kế cơ sở dữ liệu}
 
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thực thể liên kết.png}
+%     \caption{Biểu đồ thực thể liên kết}
+%     \label{fig:Fig21}
+% \end{figure}
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thực thể liên kết.png}
+    \includegraphics[width=0.75\linewidth]{Hinhve/erd_diagram_new.png}
     \caption{Biểu đồ thực thể liên kết}
-    \label{fig:Fig2}
-\end{figure}
-Hình 4.5 là biểu đồ thực thể liên kết của hệ thống, gồm các thực thể chính là người dùng, vai trò, sản phẩm và đơn hàng. Mỗi người dùng (\texttt{users}) có \texttt{user\_id} riêng biệt, \texttt{username} và \texttt{password} dùng để đăng nhập và xác thực quyền truy cập vào hệ thống, \texttt{full\_name} dùng để hiển thị tên nhân viên trên hóa đơn. Mỗi người dùng được gán một vai trò (\texttt{roles}) nhất định thông qua \texttt{role\_id} để phân biệt quyền hạn quản trị hoặc nhân viên thu ngân.
-
-Thực thể sản phẩm (\texttt{products}) đại diện cho các món ăn trong thực đơn, bao gồm \texttt{product\_id} để định danh, \texttt{name} là tên món ăn, \texttt{price} là giá bán hiện tại. Đặc biệt, hệ thống sử dụng trường \texttt{is\_active} để quản lý việc hiển thị món ăn trên thực đơn theo ngày và \texttt{stock\_quantity} để kiểm soát số lượng suất ăn còn lại trong kho, giúp nhân viên biết được món nào còn hay hết theo thời gian thực.
-
-Về nghiệp vụ bán hàng, một đơn hàng (\texttt{orders}) bao gồm \texttt{order\_id} riêng biệt để phân biệt các giao dịch, \texttt{total\_amount} là tổng giá trị thanh toán, \texttt{status} thể hiện trạng thái đơn hàng (chờ thanh toán, đã thanh toán, hủy) và \texttt{payment\_method} lưu phương thức thanh toán. Một người dùng (nhân viên) có thể tạo ra nhiều đơn hàng, nhưng một đơn hàng luôn được tạo bởi một và chỉ một người dùng cụ thể để phục vụ việc truy vết trách nhiệm.
-
-Ngoài ra, một đơn hàng có thể bao gồm nhiều món ăn khác nhau, và một món ăn có thể xuất hiện trong nhiều đơn hàng. Vì thế, chúng tôi tạo thêm một thực thể trung gian là chi tiết đơn hàng (\texttt{order\_items}). Mỗi chi tiết đơn hàng là một thể hiện cụ thể của một món ăn nằm trong một đơn hàng tương ứng. Chi tiết đơn hàng liên kết với đơn hàng qua \texttt{order\_id} và món ăn qua \texttt{product\_id}, lưu trữ \texttt{quantity} là số lượng khách gọi. Quan trọng nhất, thực thể này có trường \texttt{price\_at\_purchase} dùng để lưu trữ giá bán tại thời điểm giao dịch, đảm bảo tính toàn vẹn của dữ liệu doanh thu lịch sử ngay cả khi giá gốc của sản phẩm (\texttt{products}) có sự thay đổi trong tương lai.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Hinhve/Biểu đồ thiết kế db.png}
-    \caption{Biểu đồ thiết kế cơ sở dữ liệu}
-    \label{fig:Fig2}
+    \label{fig:Fig22}
 \end{figure}
 
-% --- Cần khai báo các gói này ở đầu file main.tex ---
-% \usepackage{float}
-% \usepackage{array}
-% \usepackage{longtable}
+Biểu đồ thực thể liên kết của hệ thống bao gồm 11 thực thể chính, được thiết kế để đáp ứng đầy đủ các nghiệp vụ của một quán cơm bình dân.
 
-\section{Thiết kế chi tiết cơ sở dữ liệu}
+Nhóm thực thể quản lý người dùng bao gồm roles, users và user\_addresses. Thực thể users lưu trữ thông tin đăng nhập và xác thực, liên kết với roles qua role\_id để phân quyền (ADMIN, CASHIER, KITCHEN, CUSTOMER). Thực thể user\_addresses lưu địa chỉ giao hàng của khách hàng đặt hàng trực tuyến.
+
+Nhóm thực thể quản lý sản phẩm gồm products với các trường name, price, category và is\_active để quản lý thực đơn theo ngày. Nhóm quản lý nguyên liệu gồm materials và stock\_transactions, cho phép theo dõi nhập xuất kho nguyên liệu theo thời gian thực.
+
+Nhóm thực thể nghiệp vụ bán hàng là trọng tâm của hệ thống. Thực thể orders lưu thông tin đơn hàng với order\_code duy nhất, order\_type phân biệt đơn tại quầy (INSTORE) và đơn trực tuyến (ONLINE), payment\_method lưu phương thức thanh toán. Thực thể order\_items là thực thể trung gian giữa orders và products, lưu quantity và price\_at\_purchase để đảm bảo tính toàn vẹn dữ liệu lịch sử. Thực thể order\_status\_history ghi lại lịch sử thay đổi trạng thái đơn hàng.
+
+Thực thể shifts quản lý ca làm việc của nhân viên thu ngân, liên kết với orders qua shift\_id và cashier\_id. Mỗi ca lưu trữ cash\_revenue và transfer\_revenue để phục vụ báo cáo doanh thu theo ca. Thực thể feedbacks cho phép khách hàng đánh giá đơn hàng với rating và comment sau khi hoàn thành.
+
+
+% \section{Thiết kế chi tiết cơ sở dữ liệu}
 \section{Thiết kế chi tiết cơ sở dữ liệu}
 Dưới đây là mô tả chi tiết ý nghĩa các bảng và các trường dữ liệu được sử dụng trong hệ thống.
 
@@ -244,21 +325,27 @@ Dưới đây là mô tả chi tiết ý nghĩa các bảng và các trường d
     \centering
     \caption{Mô tả bảng Người dùng (users)}
     \label{tab:users}
-    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
         \hline
-        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                                       \\
         \hline
-        user\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của nhân viên trong hệ thống. \\
+        user\_id            & BIGSERIAL             & Khóa chính (PK), mã định danh duy nhất của người dùng.       \\
         \hline
-        username & VARCHAR(50) & Tên đăng nhập dùng để xác thực danh tính khi truy cập hệ thống. \\
+        role\_id            & BIGINT                & Khóa ngoại (FK) liên kết với bảng roles, xác định quyền hạn. \\
         \hline
-        password & VARCHAR(255) & Mật khẩu đăng nhập (được lưu dưới dạng mã hóa BCrypt). \\
+        username            & VARCHAR(50)           & Tên đăng nhập dùng để xác thực khi truy cập hệ thống.        \\
         \hline
-        full\_name & VARCHAR(100) & Họ và tên đầy đủ của nhân viên, dùng để hiển thị trên hóa đơn và giao diện. \\
+        password            & VARCHAR(255)          & Mật khẩu đăng nhập (lưu dạng mã hóa BCrypt).                 \\
         \hline
-        role\_id & BIGINT & Khóa ngoại (FK) liên kết với bảng roles, xác định quyền hạn của nhân viên. \\
+        full\_name          & VARCHAR(100)          & Họ và tên đầy đủ, hiển thị trên hóa đơn và giao diện.        \\
         \hline
-        created\_at & TIMESTAMP & Thời gian tài khoản được tạo. \\
+        email               & VARCHAR(100)          & Địa chỉ email của người dùng.                                \\
+        \hline
+        phone               & VARCHAR(20)           & Số điện thoại liên hệ.                                       \\
+        \hline
+        reset\_token        & VARCHAR(100)          & Token dùng để đặt lại mật khẩu.                              \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian tài khoản được tạo.                                \\
         \hline
     \end{tabular}
 \end{table}
@@ -270,81 +357,261 @@ Dưới đây là mô tả chi tiết ý nghĩa các bảng và các trường d
     \label{tab:roles}
     \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
         \hline
-        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                           \\
         \hline
-        role\_id & BIGINT & Khóa chính (PK), mã định danh của vai trò. \\
+        role\_id            & BIGSERIAL             & Khóa chính (PK), mã định danh của vai trò.       \\
         \hline
-        role\_name & VARCHAR(20) & Tên vai trò (Ví dụ: ADMIN, STAFF), dùng để phân quyền chức năng. \\
+        role\_name          & VARCHAR(20)           & Tên vai trò (ADMIN, CASHIER, KITCHEN, CUSTOMER). \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian vai trò được tạo.                      \\
         \hline
     \end{tabular}
 \end{table}
 
-% --- Bảng 3: Products ---
+% --- Bảng 3: User Addresses ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Địa chỉ giao hàng (user\_addresses)}
+    \label{tab:user_addresses}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                    \\
+        \hline
+        address\_id         & BIGSERIAL             & Khóa chính (PK), mã định danh địa chỉ.    \\
+        \hline
+        user\_id            & BIGINT                & Khóa ngoại (FK), liên kết với người dùng. \\
+        \hline
+        label               & VARCHAR(50)           & Nhãn địa chỉ (Nhà, Công ty...).           \\
+        \hline
+        recipient\_name     & VARCHAR(100)          & Tên người nhận hàng.                      \\
+        \hline
+        phone               & VARCHAR(20)           & Số điện thoại người nhận.                 \\
+        \hline
+        address\_line       & VARCHAR(255)          & Địa chỉ chi tiết (số nhà, đường, ngõ).    \\
+        \hline
+        ward                & VARCHAR(100)          & Phường/Xã.                                \\
+        \hline
+        district            & VARCHAR(100)          & Quận/Huyện.                               \\
+        \hline
+        city                & VARCHAR(100)          & Thành phố/Tỉnh.                           \\
+        \hline
+        is\_default         & BOOLEAN               & Đánh dấu địa chỉ mặc định.                \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 4: Products ---
 \begin{table}[H]
     \centering
     \caption{Mô tả bảng Sản phẩm/Món ăn (products)}
     \label{tab:products}
     \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
         \hline
-        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                         \\
         \hline
-        product\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của món ăn. \\
+        product\_id         & BIGSERIAL             & Khóa chính (PK), mã định danh món ăn.          \\
         \hline
-        name & VARCHAR(100) & Tên món ăn hiển thị trên thực đơn (Menu). \\
+        name                & VARCHAR(100)          & Tên món ăn hiển thị trên thực đơn.             \\
         \hline
-        price & DECIMAL(10,2) & Giá bán hiện tại của món ăn. \\
+        price               & DECIMAL(10,2)         & Giá bán hiện tại của món ăn.                   \\
         \hline
-        image\_url & VARCHAR(255) & Đường dẫn tới hình ảnh minh họa cho món ăn. \\
+        image\_data         & TEXT                  & Hình ảnh món ăn (lưu dạng Base64).             \\
         \hline
-        is\_active & BOOLEAN & Trạng thái hiển thị. Nếu true, món ăn sẽ xuất hiện trên menu bán hàng hôm nay. \\
+        category            & VARCHAR(50)           & Phân loại món ăn (MÓN MẶN, RAU/CANH, NƯỚC...). \\
         \hline
-        stock\_quantity & INTEGER & Số lượng suất ăn ước tính còn lại trong kho, dùng để cảnh báo hết hàng. \\
+        is\_active          & BOOLEAN               & Trạng thái hiển thị trên menu bán hàng.        \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian tạo món ăn.                          \\
+        \hline
+        updated\_at         & TIMESTAMP             & Thời gian cập nhật gần nhất.                   \\
         \hline
     \end{tabular}
 \end{table}
 
-% --- Bảng 4: Orders ---
+% --- Bảng 5: Orders ---
 \begin{table}[H]
     \centering
     \caption{Mô tả bảng Đơn hàng (orders)}
     \label{tab:orders}
-    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+    \begin{tabular}{|p{4cm}|p{3cm}|p{7cm}|}
         \hline
-        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \textbf{Tên trường}     & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                                        \\
         \hline
-        order\_id & BIGINT & Khóa chính (PK), mã định danh duy nhất của giao dịch/đơn hàng. \\
+        order\_id               & BIGSERIAL             & Khóa chính (PK), mã định danh đơn hàng.                       \\
         \hline
-        user\_id & BIGINT & Khóa ngoại (FK), xác định nhân viên nào đã tạo đơn hàng này. \\
+        user\_id                & BIGINT                & Khóa ngoại (FK), khách hàng đặt đơn (nếu có).                 \\
         \hline
-        total\_amount & DECIMAL(15,2) & Tổng giá trị thanh toán cuối cùng của đơn hàng. \\
+        shift\_id               & BIGINT                & Khóa ngoại (FK), ca làm việc tạo đơn.                         \\
         \hline
-        status & VARCHAR(20) & Trạng thái đơn hàng (Ví dụ: PENDING, PAID, CANCELLED). \\
+        cashier\_id             & BIGINT                & Khóa ngoại (FK), nhân viên thu ngân tạo đơn.                  \\
         \hline
-        payment\_method & VARCHAR(20) & Phương thức khách hàng dùng để thanh toán (Tiền mặt, Chuyển khoản). \\
+        order\_code             & VARCHAR(20)           & Mã đơn hàng duy nhất (VD: DH240121001).                       \\
         \hline
-        order\_date & TIMESTAMP & Thời gian chính xác khi đơn hàng được khởi tạo. \\
+        order\_date             & TIMESTAMP             & Thời gian đơn hàng được tạo.                                  \\
+        \hline
+        estimated\_pickup\_time & TIMESTAMP             & Thời gian dự kiến lấy hàng (đơn online).                      \\
+        \hline
+        total\_amount           & DECIMAL(15,2)         & Tổng giá trị thanh toán.                                      \\
+        \hline
+        status                  & VARCHAR(30)           & Trạng thái (PENDING, PREPARING, READY, COMPLETED, CANCELLED). \\
+        \hline
+        payment\_method         & VARCHAR(20)           & Phương thức thanh toán (CASH, VIETQR).                        \\
+        \hline
+        table\_number           & VARCHAR(10)           & Số bàn (đơn tại quầy).                                        \\
+        \hline
+        order\_type             & VARCHAR(20)           & Loại đơn (INSTORE, ONLINE).                                   \\
         \hline
     \end{tabular}
 \end{table}
 
-% --- Bảng 5: Order Items ---
+% --- Bảng 6: Order Items ---
 \begin{table}[H]
     \centering
     \caption{Mô tả bảng Chi tiết đơn hàng (order\_items)}
     \label{tab:order_items}
     \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
         \hline
-        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả} \\
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                                             \\
         \hline
-        item\_id & BIGINT & Khóa chính (PK), định danh dòng chi tiết. \\
+        item\_id            & BIGSERIAL             & Khóa chính (PK), định danh dòng chi tiết.                          \\
         \hline
-        order\_id & BIGINT & Khóa ngoại (FK), liên kết chi tiết này thuộc về đơn hàng nào. \\
+        order\_id           & BIGINT                & Khóa ngoại (FK), liên kết với đơn hàng.                            \\
         \hline
-        product\_id & BIGINT & Khóa ngoại (FK), xác định món ăn nào được gọi. \\
+        product\_id         & BIGINT                & Khóa ngoại (FK), xác định món ăn.                                  \\
         \hline
-        quantity & INTEGER & Số lượng món ăn khách hàng gọi trong đơn hàng này. \\
+        quantity            & INTEGER               & Số lượng món ăn khách gọi.                                         \\
         \hline
-        price\_at\_purchase & DECIMAL(10,2) & Giá bán của món ăn \textbf{tại thời điểm mua}. Lưu trữ giá trị này để đảm bảo lịch sử doanh thu không bị sai lệch khi giá gốc thay đổi. \\
+        price\_at\_purchase & DECIMAL(10,2)         & Giá bán tại thời điểm mua (đảm bảo tính toàn vẹn dữ liệu lịch sử). \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 7: Order Status History ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Lịch sử trạng thái đơn hàng (order\_status\_history)}
+    \label{tab:order_status_history}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                         \\
+        \hline
+        history\_id         & BIGSERIAL             & Khóa chính (PK), mã định danh bản ghi lịch sử. \\
+        \hline
+        order\_id           & BIGINT                & Khóa ngoại (FK), liên kết với đơn hàng.        \\
+        \hline
+        status              & VARCHAR(30)           & Trạng thái đơn hàng tại thời điểm ghi nhận.    \\
+        \hline
+        changed\_at         & TIMESTAMP             & Thời gian thay đổi trạng thái.                 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 8: Feedbacks ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Đánh giá khách hàng (feedbacks)}
+    \label{tab:feedbacks}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                  \\
+        \hline
+        feedback\_id        & BIGSERIAL             & Khóa chính (PK), mã định danh đánh giá. \\
+        \hline
+        order\_id           & BIGINT                & Khóa ngoại (FK), liên kết với đơn hàng. \\
+        \hline
+        user\_id            & BIGINT                & Khóa ngoại (FK), khách hàng đánh giá.   \\
+        \hline
+        rating              & INTEGER               & Điểm đánh giá (1-5 sao).                \\
+        \hline
+        comment             & TEXT                  & Nhận xét của khách hàng.                \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian đánh giá.                     \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 9: Shifts ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Ca làm việc (shifts)}
+    \label{tab:shifts}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                            \\
+        \hline
+        shift\_id           & BIGSERIAL             & Khóa chính (PK), mã định danh ca làm việc.        \\
+        \hline
+        cashier\_id         & BIGINT                & Khóa ngoại (FK), nhân viên thu ngân phụ trách ca. \\
+        \hline
+        start\_time         & TIMESTAMP             & Thời gian bắt đầu ca.                             \\
+        \hline
+        end\_time           & TIMESTAMP             & Thời gian kết thúc ca.                            \\
+        \hline
+        status              & VARCHAR(20)           & Trạng thái ca (ACTIVE, CLOSED).                   \\
+        \hline
+        total\_orders       & INTEGER               & Tổng số đơn hàng trong ca.                        \\
+        \hline
+        total\_revenue      & DECIMAL(15,2)         & Tổng doanh thu ca.                                \\
+        \hline
+        cash\_revenue       & DECIMAL(15,2)         & Doanh thu tiền mặt.                               \\
+        \hline
+        transfer\_revenue   & DECIMAL(15,2)         & Doanh thu chuyển khoản.                           \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 10: Materials ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Nguyên liệu (materials)}
+    \label{tab:materials}
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{7.5cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                     \\
+        \hline
+        material\_id        & BIGSERIAL             & Khóa chính (PK), mã định danh nguyên liệu. \\
+        \hline
+        name                & VARCHAR(100)          & Tên nguyên liệu (Gạo, Thịt lợn...).        \\
+        \hline
+        unit                & VARCHAR(20)           & Đơn vị tính (kg, lít, quả...).             \\
+        \hline
+        unit\_price         & DECIMAL(10,2)         & Đơn giá nhập kho.                          \\
+        \hline
+        quantity\_in\_stock & DECIMAL(10,2)         & Số lượng tồn kho hiện tại.                 \\
+        \hline
+        min\_stock\_level   & DECIMAL(10,2)         & Mức tồn kho tối thiểu (cảnh báo hết hàng). \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian tạo.                             \\
+        \hline
+        updated\_at         & TIMESTAMP             & Thời gian cập nhật gần nhất.               \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% --- Bảng 11: Stock Transactions ---
+\begin{table}[H]
+    \centering
+    \caption{Mô tả bảng Giao dịch kho (stock\_transactions)}
+    \label{tab:stock_transactions}
+    \begin{tabular}{|p{3cm}|p{3cm}|p{8cm}|}
+        \hline
+        \textbf{Tên trường} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa/Mô tả}                          \\
+        \hline
+        transaction\_id     & BIGSERIAL             & Khóa chính (PK), mã định danh giao dịch.        \\
+        \hline
+        material\_id        & BIGINT                & Khóa ngoại (FK), nguyên liệu liên quan.         \\
+        \hline
+        created\_by         & BIGINT                & Khóa ngoại (FK), nhân viên thực hiện giao dịch. \\
+        \hline
+        type                & VARCHAR(10)           & Loại giao dịch (IN: nhập, OUT: xuất).           \\
+        \hline
+        quantity            & DECIMAL(10,2)         & Số lượng nhập/xuất.                             \\
+        \hline
+        unit\_price         & DECIMAL(10,2)         & Đơn giá tại thời điểm giao dịch.                \\
+        \hline
+        note                & TEXT                  & Ghi chú giao dịch.                              \\
+        \hline
+        created\_at         & TIMESTAMP             & Thời gian giao dịch.                            \\
         \hline
     \end{tabular}
 \end{table}
@@ -353,36 +620,233 @@ Dưới đây là mô tả chi tiết ý nghĩa các bảng và các trường d
 
 
 
+\section{Xây dựng ứng dụng}
+\subsection{Thư viện và công cụ sử dụng}
+
+Bảng \ref{tab:tools_libs} liệt kê danh sách các công cụ, ngôn ngữ lập trình và thư viện được sử dụng trong quá trình phát triển hệ thống.
+
+\begin{table}[H]
+    \centering
+    \caption{Danh sách thư viện và công cụ sử dụng}
+    \label{tab:tools_libs}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{3.5cm}|p{6.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Mục đích}              & \textbf{Công cụ/Thư viện} & \textbf{Địa chỉ URL}                       \\
+        \hline
+        1            & Text editor lập trình Frontend & Visual Studio Code 1.85   & https://code.visualstudio.com/             \\
+        \hline
+        2            & IDE Lập trình Backend          & Visual Studio Code 1.85   & https://code.visualstudio.com/             \\
+        \hline
+        3            & Framework Frontend             & React 19.2.3              & https://react.dev/                         \\
+        \hline
+        4            & Thư viện UI Components         & Tailwind CSS 4.1.18       & https://tailwindcss.com/                   \\
+        \hline
+        5            & Build Tool Frontend            & Vite 7.3.1                & https://vitejs.dev/                        \\
+        \hline
+        6            & Thư viện tạo biểu đồ           & Recharts 2.10             & https://recharts.org/                      \\
+        \hline
+        7            & Ngôn ngữ lập trình Backend     & Java 17                   & https://www.oracle.com/java/               \\
+        \hline
+        8            & Framework Backend              & Spring Boot 3.5.6         & https://spring.io/projects/spring-boot     \\
+        \hline
+        9            & Quản lý thư viện Backend       & Gradle 8.5                & https://gradle.org/                        \\
+        \hline
+        10           & Hệ quản trị cơ sở dữ liệu      & PostgreSQL 16             & https://www.postgresql.org/                \\
+        \hline
+        11           & Thư viện bảo mật               & Spring Security           & https://spring.io/projects/spring-security \\
+        \hline
+        12           & Thư viện JWT                   & JJWT 0.12.3               & https://github.com/jwtk/jjwt               \\
+        \hline
+        13           & Thư viện Mapper                & ModelMapper 3.1.1         & http://modelmapper.org/                    \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Kết quả đạt được}
+Sau quá trình phát triển, hệ thống đã được hoàn thiện với đầy đủ các phân hệ chức năng cho cả 3 đối tượng người dùng: Khách hàng, Nhân viên và Quản lý. backend được xây dựng chuẩn theo kiến trúc RESTful API, frontend là ứng dụng Single Page Application (SPA) hiện đại.
+
+Thống kê chi tiết về mã nguồn hệ thống được trình bày trong Bảng \ref{tab:code_stats}.
+
+\begin{table}[H]
+    \centering
+    \caption{Thống kê chi tiết thông tin ứng dụng}
+    \label{tab:code_stats}
+    \begin{tabular}{|p{1cm}|p{5cm}|p{4cm}|}
+        \hline
+        \textbf{STT} & \textbf{Tên thông số}   & \textbf{Kết quả} \\
+        \hline
+        \multicolumn{3}{|c|}{\textbf{Backend (API Service)}}      \\
+        \hline
+        1            & Số dòng code (Java)     & 5000 dòng        \\
+        \hline
+        2            & Số lượng gói (Package)  & 18 gói           \\
+        \hline
+        3            & Kích thước file JAR     & ~45 MB           \\
+        \hline
+        \multicolumn{3}{|c|}{\textbf{Frontend (Client App)}}      \\
+        \hline
+        1            & Số dòng code (React/JS) & ~2500 dòng       \\
+        \hline
+        2            & Số lượng Components     & ~40 components   \\
+        \hline
+        3            & Kích thước bản build    & ~15 MB           \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Minh họa các chức năng chính}
+
+\subsubsection{Giao diện dành cho Khách hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa khách hàng trang chủ.png}
+    \caption{Giao diện trang chủ đặt món trực tuyến}
+    \label{fig:customer_home}
+\end{figure}
+
+Hình \ref{fig:customer_home} minh họa giao diện trang chủ dành cho khách hàng đặt món trực tuyến. Thanh tiêu đề hiển thị tên thương hiệu kèm nút Đăng nhập và Đăng ký. Banner quảng cáo với gradient màu cam nổi bật thông báo các món đặc biệt trong ngày. Thực đơn được hiển thị theo ngày với các tab lọc theo danh mục (Tất cả, Món mặn, Rau/Canh, Cơm thêm, Nước). Mỗi món ăn được trình bày trong một thẻ riêng gồm hình ảnh, tên món, giá và nút Thêm vào giỏ hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa khách hàng giỏ hàng.png}
+    \caption{Giao diện giỏ hàng khách hàng}
+    \label{fig:customer_cart}
+\end{figure}
+
+Hình \ref{fig:customer_cart} thể hiện giao diện giỏ hàng. Sidebar bên trái hiển thị các mục điều hướng (Trang chủ, Lịch sử đơn hàng, Tài khoản cá nhân, Giỏ hàng). Phần chính hiển thị danh sách các món đã chọn với số lượng có thể điều chỉnh, đơn giá và thành tiền. Bên dưới là phần chọn địa chỉ giao hàng đã lưu sẵn và tổng tiền đơn hàng. Nút Thanh toán VietQR cho phép khách hàng tiến hành thanh toán.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa khách hàng thanh toán.png}
+    \caption{Giao diện thanh toán VietQR}
+    \label{fig:customer_payment}
+\end{figure}
+
+Hình \ref{fig:customer_payment} minh họa modal thanh toán VietQR. Hệ thống tự động tạo mã QR theo chuẩn VietQR với đầy đủ thông tin: ngân hàng (MB Bank), số tài khoản, tên tài khoản (CƠM BÌNH DÂN), số tiền và nội dung chuyển khoản. Khách hàng chỉ cần mở ứng dụng ngân hàng, quét mã QR và xác nhận thanh toán. Hướng dẫn chi tiết được hiển thị bên dưới mã QR.
+
+\subsubsection{Giao diện dành cho Nhân viên thu ngân}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa nhân viên trang chủ.png}
+    \caption{Giao diện bán hàng POS}
+    \label{fig:staff_pos}
+\end{figure}
+
+Hình \ref{fig:staff_pos} minh họa giao diện màn hình bán hàng (POS) dành cho nhân viên thu ngân. Giao diện được thiết kế với tông màu tối để giảm mỏi mắt khi làm việc liên tục. Bên trái là danh mục món ăn với các tab lọc (Tất cả, Món mặn, Rau/Canh, Cơm thêm) và bảng giá các món theo dạng grid. Bên phải là chi tiết đơn hàng hiện tại với mã đơn, danh sách món đã chọn, tổng tiền và các nút Khách trả, Tiền thừa. Nút Thanh toán và In nằm ở cuối với phím tắt F1, F2, F3 để thao tác nhanh.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa nhân viên danh sách đơn hàng.png}
+    \caption{Giao diện quản lý đơn hàng nhân viên}
+    \label{fig:staff_orders}
+\end{figure}
+
+Hình \ref{fig:staff_orders} thể hiện giao diện quản lý đơn hàng dành cho nhân viên. Màn hình chia thành 2 tab: Đơn Online và Đơn tại quán. Mỗi đơn hàng được hiển thị dạng thẻ với mã đơn, thời gian, danh sách món, tổng tiền, trạng thái thanh toán và thời gian dự kiến hoàn thành. Các trạng thái được phân biệt bằng màu sắc (xanh: chuyển khoản, cam: tiền mặt). Nhân viên có thể cập nhật trạng thái đơn hàng bằng nút Hoàn thành.
+
+\subsubsection{Giao diện dành cho Quản lý}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa quản lý tổng quan.png}
+    \caption{Giao diện Dashboard quản lý}
+    \label{fig:admin_dashboard}
+\end{figure}
+
+Hình \ref{fig:admin_dashboard} minh họa Dashboard tổng quan dành cho quản lý. Phần trên hiển thị các chỉ số quan trọng: doanh thu hôm nay, số đơn hàng hôm nay và tổng đơn hàng. Bên dưới là các nút truy cập nhanh đến các chức năng quản lý (Thực đơn, Nhân viên, Bán án, Thống kê). Phần Trạng thái đơn hàng hôm nay hiển thị số đơn hoàn thành. Bảng Top món bán chạy hôm nay liệt kê các món có số lượng bán cao nhất.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa quản lý thực đơn.png}
+    \caption{Giao diện quản lý thực đơn}
+    \label{fig:admin_menu}
+\end{figure}
+
+Hình \ref{fig:admin_menu} thể hiện giao diện quản lý thực đơn. Danh sách món ăn được hiển thị dạng bảng với các cột: Hình ảnh, Tên món ăn, Giá bán, Đơn vị, Tình trạng (Còn hàng/Hết hàng) và Tác vụ (Sửa, Xóa). Các tab lọc theo danh mục giúp quản lý tìm kiếm nhanh chóng. Nút thêm món mới được bố trí ở góc trên.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa quản lý đơn hàng.png}
+    \caption{Giao diện quản lý đơn hàng}
+    \label{fig:admin_orders}
+\end{figure}
+
+Hình \ref{fig:admin_orders} minh họa giao diện quản lý đơn hàng toàn hệ thống. Thanh công cụ phía trên cung cấp các bộ lọc: Lọc nhanh (Hôm nay, Hôm qua, 7 ngày, Tháng này), Tùy chọn theo khoảng ngày và Tìm theo mã đơn. Bảng đơn hàng hiển thị đầy đủ thông tin: Mã đơn, Thời gian, Loại đơn, Khách hàng, Tổng tiền, Trạng thái và Thao tác. Các trạng thái đơn hàng được phân biệt bằng tag màu (Chờ xử lý, Đang chuẩn bị, Chờ lấy, Sẵn sàng, Hoàn thành, Đã xong, Đã hủy).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Hinhve/Minh họa quản lý báo cáo thống kê.png}
+    \caption{Giao diện báo cáo thống kê}
+    \label{fig:admin_reports}
+\end{figure}
+
+Hình \ref{fig:admin_reports} thể hiện giao diện báo cáo thống kê doanh thu. Phần trên là các thẻ hiển thị chỉ số tổng hợp: Doanh thu, Giá vốn (COGS), Lợi nhuận gộp, Đơn thành công, Tổ đơn, Khách hàng. Phần chính là biểu đồ đường thể hiện doanh thu theo ngày trong khoảng thời gian đã chọn. Thanh công cụ cho phép lọc theo ngày và xuất báo cáo ra file Excel.
 
 
-% \section{Xây dựng ứng dụng}
-% \subsection{Thư viện và công cụ sử dụng}
-% Sinh viên liệt kê các công cụ, ngôn ngữ lập trình, API, thư viện, IDE, công cụ kiểm thử, v.v. mà mình sử dụng để phát triển ứng dụng. Mỗi công cụ phải được chỉ rõ phiên bản sử dụng. SV nên kẻ bảng mô tả tương tự như Bảng \ref{table:my_label}. Nếu có nhiều nội dung trình bày, sinh viên cần xoay ngang bảng.
+\section{Kiểm thử}
 
-% \begin{table}[H]
-% \centering{}
-%     \begin{tabular}{lll}
-%         \hline
-%         \textbf{Mục đích} & \textbf{Công cụ}       & \textbf{Địa chỉ URL}    \\ \hline
-%         IDE lập trình     & Eclipse Oxygen a64 bit & http://www.eclipse.org/ \\ \hline
-%         v.v.              & v.v.                   & v.v.                    \\ \hline
-%         \end{tabular}
-%     \caption{Danh sách thư viện và công cụ sử dụng}
-%     \label{fig:my_label}
-% \end{table}
+Hệ thống được kiểm thử theo phương pháp Hộp đen (Black Box Testing) để đảm bảo các luồng nghiệp vụ chính hoạt động chính xác. Dưới đây là kết quả kiểm thử cho hai chức năng quan trọng nhất: "Tạo đơn hàng tại quầy" và "Thanh toán đơn hàng".
 
-% \subsection{Kết quả đạt được}
-% Sinh viên trước tiên mô tả kết quả đạt được của mình là gì, ví dụ như các sản phẩm được đóng gói là gì, bao gồm những thành phần nào, ý nghĩa, vai trò?
+\subsection{Kiểm thử chức năng Tạo đơn hàng tại quầy}
 
-% Sinh viên cần thống kê các thông tin về ứng dụng của mình như: số dòng code, số lớp, số gói, dung lượng toàn bộ mã nguồn, dung lượng của từng sản phẩm đóng gói, v.v. Tương tự như phần liệt kê về công cụ sử dụng, sinh viên cũng nên dùng bảng để mô tả phần thông tin thống kê này.
+\begin{table}[H]
+    \centering
+    \caption{Kiểm thử chức năng Tạo đơn hàng tại quầy}
+    \label{tab:test_create_order}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{4cm}|p{2.5cm}|p{2cm}|p{1.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Dữ liệu kiểm thử}           & \textbf{Quy trình kiểm thử}                                           & \textbf{Kết quả mong muốn}                                  & \textbf{Kết quả thực tế}                           & \textbf{Trạng thái} \\
+        \hline
+        1            & Không chọn món ăn nào               & 1. Nhấn nút "Tạo đơn" khi giỏ hàng rỗng.                              & Hệ thống báo lỗi "Vui lòng chọn ít nhất 1 món".             & Hệ thống hiển thị thông báo lỗi đúng như mong đợi. & Đạt                 \\
+        \hline
+        2            & Chọn 1 món, số lượng hợp lệ         & 1. Chọn món "Cơm rang dưa bò". 2. Nhập số lượng 2. 3. Nhấn "Tạo đơn". & Đơn hàng được tạo, hiển thị tổng tiền đúng (ví dụ 60.000đ). & Đơn hàng tạo thành công, tổng tiền chính xác.      & Đạt                 \\
+        \hline
+        3            & Chọn món có số lượng tồn kho bằng 0 & 1. Chọn món "Sườn xào" (đã hết hàng). 2. Nhấn "Thêm".                 & Hệ thống báo "Món ăn đã hết hàng".                          & Hệ thống không cho phép thêm vào giỏ.              & Đạt                 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-% \subsection{Minh họa các chức năng chính}
-% Sinh viên lựa chọn và đưa ra màn hình cho các chức năng chính, quan trọng, và thú vị nhất. Mỗi giao diện cần phải có lời giải thích ngắn gọn. Khi giải thích, sinh viên có thể kết hợp với các chú thích ở trong hình ảnh giao diện.
+\subsection{Kiểm thử chức năng Thanh toán}
 
-% \section{Kiểm thử}
-% Phần này có độ dài từ hai đến ba trang. Sinh viên thiết kế các trường hợp kiểm thử cho hai đến ba chức năng quan trọng nhất. Sinh viên cần chỉ rõ các kỹ thuật kiểm thử đã sử dụng. Chi tiết các trường hợp kiểm thử khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
-% Sinh viên sau cùng tổng kết về số lượng các trường hợp kiểm thử và kết quả kiểm thử. Sinh viên cần phân tích lý do nếu kết quả kiểm thử không đạt.
-% \section{Triển khai}
-% Sinh viên trình bày mô hình và/hoặc cách thức triển khai thử nghiệm/thực tế. Ứng dụng của sinh viên được triển khai trên server/thiết bị gì, cấu hình như thế nào. Kết quả triển khai thử nghiệm nếu có (số lượng người dùng, số lượng truy cập, thời gian phản hồi, phản hồi người dùng, khả năng chịu tải, các thống kê, v.v.)
+\begin{table}[H]
+    \centering
+    \caption{Kiểm thử chức năng Thanh toán đơn hàng}
+    \label{tab:test_payment}
+    \begin{tabular}{|p{0.5cm}|p{3.5cm}|p{4cm}|p{2.5cm}|p{2cm}|p{1.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Dữ liệu kiểm thử} & \textbf{Quy trình kiểm thử}                               & \textbf{Kết quả mong muốn}                                       & \textbf{Kết quả thực tế}                  & \textbf{Trạng thái} \\
+        \hline
+        1            & Thanh toán tiền mặt       & 1. Chọn phương thức "Tiền mặt". 2. Nhấn "Thanh toán".     & Trạng thái đơn đổi sang "PAID", cập nhật doanh thu tiền mặt.     & Trạng thái cập nhật đúng, doanh thu tăng. & Đạt                 \\
+        \hline
+        2            & Thanh toán chuyển khoản   & 1. Chọn phương thức "Chuyển khoản". 2. Nhấn "Thanh toán". & Trạng thái đơn đổi sang "PAID", cập nhật doanh thu chuyển khoản. & Trạng thái cập nhật đúng, doanh thu tăng. & Đạt                 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Triển khai}
+
+Hệ thống được triển khai thực tế trên nền tảng đám mây Heroku để đảm bảo tính sẵn sàng cao, khả năng mở rộng linh hoạt và dễ dàng quản lý. Mô hình triển khai bao gồm 3 thành phần chính được quản lý bởi Heroku Platform.
+
+\begin{table}[H]
+    \centering
+    \caption{Thông tin môi trường triển khai trên Heroku}
+    \label{tab:deployment_info}
+    \begin{tabular}{|p{0.8cm}|p{2.5cm}|p{4.5cm}|p{5.5cm}|}
+        \hline
+        \textbf{STT} & \textbf{Thành phần} & \textbf{Môi trường/Cấu hình} & \textbf{Địa chỉ truy cập}    \\
+        \hline
+        1            & Database            & Heroku Postgres - 64MB RAM   & (nội bộ Heroku)              \\
+        \hline
+        2            & Backend API         & Heroku Dyno - Java 17        & api-combinhdan.herokuapp.com \\
+        \hline
+        3            & Frontend            & Heroku Dyno - Node.js        & combinhdan.herokuapp.com     \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+Quy trình triển khai sử dụng Heroku CLI và Git để đẩy mã nguồn lên nền tảng đám mây. Heroku tự động nhận diện loại ứng dụng thông qua các buildpack (Java cho Backend, Node.js cho Frontend) và thực hiện quá trình build, deploy hoàn toàn tự động (CI/CD). Cơ sở dữ liệu PostgreSQL được cung cấp bởi Heroku Postgres add-on với khả năng backup tự động hàng ngày. Biến môi trường (Environment Variables) được quản lý thông qua Heroku Config Vars, đảm bảo bảo mật thông tin nhạy cảm như database URL, JWT secret key.
 
 \end{document}
+

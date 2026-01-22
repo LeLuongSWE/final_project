@@ -1,11 +1,296 @@
 \documentclass[../20232006p.tex]{subfiles}
 \begin{document}
-Nếu trong nội dung chính không đủ không gian cho các use case khác (ngoài các use case nghiệp vụ chính) thì đặc tả thêm cho các use case đó ở đây.
 
-\section{Đặc tả use case ``Thống kê tình hình mượn sách''}
-\ldots
+Phụ lục này trình bày đặc tả chi tiết các Use Case của hệ thống quản lý quán cơm bình dân. Mỗi Use Case được mô tả theo chuẩn gồm: Mã định danh, Tên, Tác nhân, Mô tả, Điều kiện tiên quyết, Luồng chính và Luồng thay thế.
 
-\section{Đặc tả use case ``Đăng ký làm thẻ mượn''}
-\ldots
+% ===================== KHÁCH HÀNG =====================
+\section{Đặc tả Use Case phân hệ Khách hàng}
+
+\subsection{UC-C01: Đặt hàng trực tuyến}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-C01                                                                          \\
+        \hline
+        \textbf{Tên}                  & Đặt hàng trực tuyến                                                             \\
+        \hline
+        \textbf{Tác nhân}             & Khách hàng                                                                      \\
+        \hline
+        \textbf{Mô tả}                & Khách hàng đặt món ăn qua website, chọn thời gian lấy hàng và thanh toán online \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Khách hàng đã đăng nhập vào hệ thống                                            \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Khách hàng xem thực đơn hôm nay \newline
+        2. Khách hàng chọn món và thêm vào giỏ hàng \newline
+        3. Khách hàng xem giỏ hàng và điều chỉnh số lượng \newline
+        4. Khách hàng chọn địa chỉ giao hàng hoặc thời gian đến lấy \newline
+        5. Khách hàng thanh toán qua VietQR \newline
+        6. Hệ thống tạo đơn hàng và gửi thông báo xác nhận                                                              \\
+        \hline
+        \textbf{Luồng thay thế}       &
+        3a. Giỏ hàng trống: Hệ thống hiển thị thông báo yêu cầu thêm món \newline
+        5a. Thanh toán thất bại: Hệ thống hiển thị thông báo lỗi                                                        \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-C02: Xem lịch sử mua hàng}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-C02                                       \\
+        \hline
+        \textbf{Tên}                  & Xem lịch sử mua hàng                         \\
+        \hline
+        \textbf{Tác nhân}             & Khách hàng                                   \\
+        \hline
+        \textbf{Mô tả}                & Khách hàng xem danh sách các đơn hàng đã đặt \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Khách hàng đã đăng nhập                      \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Khách hàng chọn menu Lịch sử đơn hàng \newline
+        2. Hệ thống hiển thị danh sách đơn hàng theo thời gian \newline
+        3. Khách hàng có thể lọc theo trạng thái hoặc khoảng ngày \newline
+        4. Khách hàng chọn xem chi tiết một đơn hàng                                 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-C03: Gửi Feedback}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-C03                                                     \\
+        \hline
+        \textbf{Tên}                  & Gửi Feedback                                               \\
+        \hline
+        \textbf{Tác nhân}             & Khách hàng                                                 \\
+        \hline
+        \textbf{Mô tả}                & Khách hàng đánh giá chất lượng đơn hàng sau khi hoàn thành \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Đơn hàng đã hoàn thành                                     \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Khách hàng vào chi tiết đơn hàng đã hoàn thành \newline
+        2. Khách hàng chọn số sao đánh giá (1-5) \newline
+        3. Khách hàng nhập nhận xét (tùy chọn) \newline
+        4. Hệ thống lưu feedback và hiển thị thông báo cảm ơn                                      \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% ===================== NHÂN VIÊN =====================
+\section{Đặc tả Use Case phân hệ Nhân viên bán hàng}
+
+\subsection{UC-S01: Thanh toán đơn hàng}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-S01                                                  \\
+        \hline
+        \textbf{Tên}                  & Thanh toán đơn hàng                                     \\
+        \hline
+        \textbf{Tác nhân}             & Nhân viên thu ngân                                      \\
+        \hline
+        \textbf{Mô tả}                & Nhân viên tạo và thanh toán đơn hàng tại quầy cho khách \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Nhân viên đã đăng nhập và mở ca làm việc                \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Nhân viên chọn món ăn từ danh sách thực đơn \newline
+        2. Hệ thống tự động tính tổng tiền \newline
+        3. Nhân viên nhập số tiền khách trả \newline
+        4. Hệ thống tính tiền thừa \newline
+        5. Nhân viên chọn phương thức thanh toán (Tiền mặt/VietQR) \newline
+        6. Hệ thống lưu đơn hàng và cập nhật doanh thu ca                                       \\
+        \hline
+        \textbf{Luồng thay thế}       &
+        1a. Món hết hàng: Hệ thống hiển thị thông báo và không cho phép chọn                    \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-S02: Quản lý đơn hàng}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-S02                                                 \\
+        \hline
+        \textbf{Tên}                  & Quản lý đơn hàng                                       \\
+        \hline
+        \textbf{Tác nhân}             & Nhân viên thu ngân                                     \\
+        \hline
+        \textbf{Mô tả}                & Nhân viên theo dõi và cập nhật trạng thái các đơn hàng \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Nhân viên đã đăng nhập                                 \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Nhân viên xem danh sách đơn hàng (Online và Tại quán) \newline
+        2. Nhân viên chọn đơn hàng cần xử lý \newline
+        3. Nhân viên cập nhật trạng thái (Đang chuẩn bị → Sẵn sàng → Hoàn thành) \newline
+        4. Hệ thống lưu thay đổi và ghi vào lịch sử                                            \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-S03: Đóng ca làm việc}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-S03                                         \\
+        \hline
+        \textbf{Tên}                  & Đóng ca làm việc                               \\
+        \hline
+        \textbf{Tác nhân}             & Nhân viên thu ngân                             \\
+        \hline
+        \textbf{Mô tả}                & Nhân viên kết thúc ca và xem báo cáo doanh thu \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Nhân viên có ca đang mở                        \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Nhân viên chọn Đóng ca làm việc \newline
+        2. Hệ thống hiển thị tổng kết: số đơn, doanh thu tiền mặt, doanh thu chuyển khoản \newline
+        3. Nhân viên xác nhận đóng ca \newline
+        4. Hệ thống lưu thông tin ca và chuyển trạng thái sang CLOSED                  \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% ===================== QUẢN LÝ =====================
+\section{Đặc tả Use Case phân hệ Quản lý}
+
+\subsection{UC-A01: Quản lý thực đơn}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-A01                                       \\
+        \hline
+        \textbf{Tên}                  & Quản lý thực đơn                             \\
+        \hline
+        \textbf{Tác nhân}             & Quản lý                                      \\
+        \hline
+        \textbf{Mô tả}                & Quản lý thêm, sửa, xóa món ăn trong thực đơn \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Quản lý đã đăng nhập với quyền ADMIN         \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Quản lý xem danh sách món ăn \newline
+        2. Quản lý thêm món mới (nhập tên, giá, hình ảnh, danh mục) \newline
+        3. Quản lý sửa thông tin món ăn \newline
+        4. Quản lý bật/tắt trạng thái Còn hàng                                       \\
+        \hline
+        \textbf{Luồng thay thế}       &
+        2a. Thông tin không hợp lệ: Hệ thống hiển thị lỗi validation                 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-A02: Quản lý nhân viên}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-A02                                     \\
+        \hline
+        \textbf{Tên}                  & Quản lý nhân viên                          \\
+        \hline
+        \textbf{Tác nhân}             & Quản lý                                    \\
+        \hline
+        \textbf{Mô tả}                & Quản lý thêm, sửa, xóa tài khoản nhân viên \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Quản lý đã đăng nhập với quyền ADMIN       \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Quản lý xem danh sách nhân viên \newline
+        2. Quản lý thêm nhân viên mới (username, password, họ tên, vai trò) \newline
+        3. Quản lý sửa thông tin nhân viên \newline
+        4. Quản lý vô hiệu hóa tài khoản nhân viên                                 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-A03: Quản lý nguyên liệu}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-A03                                                \\
+        \hline
+        \textbf{Tên}                  & Quản lý nguyên liệu                                   \\
+        \hline
+        \textbf{Tác nhân}             & Quản lý                                               \\
+        \hline
+        \textbf{Mô tả}                & Quản lý nhập xuất kho nguyên liệu và theo dõi tồn kho \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Quản lý đã đăng nhập                                  \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Quản lý xem danh sách nguyên liệu và số lượng tồn kho \newline
+        2. Quản lý thêm nguyên liệu mới (tên, đơn vị, đơn giá) \newline
+        3. Quản lý ghi nhận nhập kho (loại IN, số lượng, đơn giá) \newline
+        4. Hệ thống tự động cập nhật số lượng tồn kho                                         \\
+        \hline
+        \textbf{Luồng thay thế}       &
+        4a. Tồn kho dưới mức tối thiểu: Hệ thống hiển thị cảnh báo                            \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-A04: Báo cáo thống kê}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-A04                                               \\
+        \hline
+        \textbf{Tên}                  & Báo cáo thống kê                                     \\
+        \hline
+        \textbf{Tác nhân}             & Quản lý                                              \\
+        \hline
+        \textbf{Mô tả}                & Quản lý xem các báo cáo doanh thu, thống kê bán hàng \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Quản lý đã đăng nhập                                 \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Quản lý chọn khoảng thời gian cần xem báo cáo \newline
+        2. Hệ thống hiển thị tổng doanh thu, giá vốn, lợi nhuận, số đơn hàng \newline
+        3. Hệ thống hiển thị biểu đồ doanh thu theo ngày \newline
+        4. Quản lý có thể xuất báo cáo ra file Excel                                         \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{UC-A05: Quản lý đơn hàng (Admin)}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{10cm}|}
+        \hline
+        \textbf{Mã UC}                & UC-A05                                                 \\
+        \hline
+        \textbf{Tên}                  & Quản lý đơn hàng                                       \\
+        \hline
+        \textbf{Tác nhân}             & Quản lý                                                \\
+        \hline
+        \textbf{Mô tả}                & Quản lý xem và quản lý toàn bộ đơn hàng trong hệ thống \\
+        \hline
+        \textbf{Điều kiện tiên quyết} & Quản lý đã đăng nhập                                   \\
+        \hline
+        \textbf{Luồng chính}          &
+        1. Quản lý xem danh sách đơn hàng với các bộ lọc \newline
+        2. Quản lý lọc theo: Ngày, Trạng thái, Loại đơn, Mã đơn \newline
+        3. Quản lý xem chi tiết từng đơn hàng \newline
+        4. Quản lý có thể hủy đơn hàng nếu cần                                                 \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \end{document}

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { useCart } from '../../../shared/context/CartContext';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { orderService } from '../../../shared/services/orderService';
+import { userService } from '../../../shared/services/userService';
 
 // Helper to get item ID
 const getItemId = (item) => item.product_id || item.productId || item.id;
@@ -16,6 +17,39 @@ const CartPage = () => {
     const [paymentInfo, setPaymentInfo] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    // Address state
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [addressLoading, setAddressLoading] = useState(true);
+    const [showAddressWarning, setShowAddressWarning] = useState(false);
+
+    // Load addresses on mount
+    useEffect(() => {
+        loadAddresses();
+    }, [user]);
+
+    const loadAddresses = async () => {
+        if (!user) {
+            setAddressLoading(false);
+            return;
+        }
+        try {
+            const data = await userService.getAddresses();
+            setAddresses(data);
+            // Auto-select default address
+            const defaultAddr = data.find(a => a.isDefault);
+            if (defaultAddr) {
+                setSelectedAddressId(defaultAddr.addressId);
+            } else if (data.length > 0) {
+                setSelectedAddressId(data[0].addressId);
+            }
+        } catch (err) {
+            console.error('Error loading addresses:', err);
+        } finally {
+            setAddressLoading(false);
+        }
+    };
+
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -24,14 +58,12 @@ const CartPage = () => {
     };
 
     const generateVietQR = (amount) => {
-        // VietQR standard format
-        const bankId = '970422'; // MB Bank (example)
-        const accountNo = '0123456789'; // Account number
-        const accountName = 'COM BINH DAN 123';
+        const bankId = '970422';
+        const accountNo = '0123456789';
+        const accountName = 'COM BINH DAN';
         const amountStr = Math.round(amount).toString();
         const description = `COMBD ${Date.now()}`;
 
-        // Generate QR code URL using VietQR API
         const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${amountStr}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
 
         return {
@@ -45,6 +77,16 @@ const CartPage = () => {
     };
 
     const handleCheckout = () => {
+        // Check if address is selected
+        if (addresses.length === 0) {
+            setShowAddressWarning(true);
+            return;
+        }
+        if (!selectedAddressId) {
+            alert('Vui lòng chọn địa chỉ giao hàng');
+            return;
+        }
+
         const total = getTotal();
         const qrInfo = generateVietQR(total);
         setPaymentInfo(qrInfo);
@@ -57,11 +99,16 @@ const CartPage = () => {
         setIsProcessing(true);
 
         try {
-            // Prepare order data
+            const selectedAddress = addresses.find(a => a.addressId === selectedAddressId);
+
             const orderData = {
                 userId: user?.userId,
                 totalAmount: getTotal(),
                 paymentMethod: 'VIETQR',
+                deliveryAddressId: selectedAddressId,
+                deliveryAddress: selectedAddress ?
+                    `${selectedAddress.recipientName} - ${selectedAddress.phone}, ${selectedAddress.addressLine}${selectedAddress.ward ? ', ' + selectedAddress.ward : ''}${selectedAddress.district ? ', ' + selectedAddress.district : ''}${selectedAddress.city ? ', ' + selectedAddress.city : ''}`
+                    : null,
                 items: cart.map(item => ({
                     productId: getItemId(item),
                     quantity: item.quantity,
@@ -69,14 +116,11 @@ const CartPage = () => {
                 }))
             };
 
-            // Create order via API
             const response = await orderService.createOrder(orderData);
 
-            // Clear cart and close modal
             clearCart();
             setShowPayment(false);
 
-            // Navigate to order status page
             navigate(`/orders/${response.orderId}/status`);
 
         } catch (error) {
@@ -86,6 +130,8 @@ const CartPage = () => {
             setIsProcessing(false);
         }
     };
+
+    const selectedAddress = addresses.find(a => a.addressId === selectedAddressId);
 
     return (
         <div className="flex min-h-screen bg-gray-50">
@@ -117,12 +163,10 @@ const CartPage = () => {
                                                 key={itemId}
                                                 className="flex items-center gap-4 pb-4 border-b last:border-b-0"
                                             >
-                                                {/* Product Image Placeholder */}
                                                 <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
                                                     <span className="text-gray-400 text-2xl">🍚</span>
                                                 </div>
 
-                                                {/* Product Info */}
                                                 <div className="flex-1 min-w-0">
                                                     <h3 className="font-semibold text-gray-800 truncate">{item.name}</h3>
                                                     <p className="text-orange-600 font-medium">
@@ -130,7 +174,6 @@ const CartPage = () => {
                                                     </p>
                                                 </div>
 
-                                                {/* Quantity Controls */}
                                                 <div className="flex items-center gap-3">
                                                     <button
                                                         onClick={() => updateQuantity(itemId, item.quantity - 1)}
@@ -147,14 +190,12 @@ const CartPage = () => {
                                                     </button>
                                                 </div>
 
-                                                {/* Subtotal */}
                                                 <div className="w-32 text-right">
                                                     <p className="font-semibold text-gray-800">
                                                         {formatCurrency(item.price * item.quantity)}
                                                     </p>
                                                 </div>
 
-                                                {/* Remove Button */}
                                                 <button
                                                     onClick={() => removeFromCart(itemId)}
                                                     className="text-red-500 hover:text-red-700 p-2 transition"
@@ -165,6 +206,74 @@ const CartPage = () => {
                                         );
                                     })}
                                 </div>
+                            </div>
+
+                            {/* Delivery Address Section */}
+                            <div className="bg-white rounded-lg shadow p-6">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                        📍 Địa chỉ giao hàng
+                                    </h2>
+                                    <Link to="/profile" className="text-orange-600 hover:text-orange-700 text-sm font-medium">
+                                        Quản lý địa chỉ →
+                                    </Link>
+                                </div>
+
+                                {addressLoading ? (
+                                    <div className="text-center py-4 text-gray-500">Đang tải...</div>
+                                ) : addresses.length === 0 ? (
+                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                        <p className="text-yellow-800 flex items-center gap-2">
+                                            <span className="text-xl">⚠️</span>
+                                            <span>Bạn chưa có địa chỉ giao hàng nào.</span>
+                                        </p>
+                                        <Link
+                                            to="/profile"
+                                            className="mt-2 inline-block text-orange-600 hover:text-orange-700 font-medium"
+                                        >
+                                            + Thêm địa chỉ mới
+                                        </Link>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {addresses.map(addr => (
+                                            <label
+                                                key={addr.addressId}
+                                                className={`block border rounded-lg p-3 cursor-pointer transition ${selectedAddressId === addr.addressId
+                                                        ? 'border-orange-500 bg-orange-50'
+                                                        : 'border-gray-200 hover:border-gray-300'
+                                                    }`}
+                                            >
+                                                <div className="flex items-start gap-3">
+                                                    <input
+                                                        type="radio"
+                                                        name="address"
+                                                        checked={selectedAddressId === addr.addressId}
+                                                        onChange={() => setSelectedAddressId(addr.addressId)}
+                                                        className="mt-1"
+                                                    />
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <span className="font-medium">
+                                                                {addr.label === 'Nhà' ? '🏠' : addr.label === 'Công ty' ? '🏢' : '📍'} {addr.label}
+                                                            </span>
+                                                            {addr.isDefault && (
+                                                                <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded">Mặc định</span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-gray-800 text-sm">{addr.recipientName} - {addr.phone}</p>
+                                                        <p className="text-gray-600 text-sm">
+                                                            {addr.addressLine}
+                                                            {addr.ward && `, ${addr.ward}`}
+                                                            {addr.district && `, ${addr.district}`}
+                                                            {addr.city && `, ${addr.city}`}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
                             {/* Order Summary */}
@@ -180,6 +289,14 @@ const CartPage = () => {
                                         <span>Phí giao hàng:</span>
                                         <span>Miễn phí</span>
                                     </div>
+                                    {selectedAddress && (
+                                        <div className="flex justify-between text-gray-600">
+                                            <span>Giao đến:</span>
+                                            <span className="text-right text-sm max-w-xs truncate">
+                                                {selectedAddress.addressLine}, {selectedAddress.district}
+                                            </span>
+                                        </div>
+                                    )}
                                     <div className="border-t pt-2 mt-2">
                                         <div className="flex justify-between text-lg font-bold text-gray-800">
                                             <span>Tổng cộng:</span>
@@ -191,9 +308,13 @@ const CartPage = () => {
                                 <div className="space-y-3">
                                     <button
                                         onClick={handleCheckout}
-                                        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg transition"
+                                        disabled={addresses.length === 0}
+                                        className={`w-full font-semibold py-3 rounded-lg transition ${addresses.length === 0
+                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                : 'bg-orange-600 hover:bg-orange-700 text-white'
+                                            }`}
                                     >
-                                        Thanh toán VietQR
+                                        {addresses.length === 0 ? 'Vui lòng thêm địa chỉ giao hàng' : 'Thanh toán VietQR'}
                                     </button>
                                     <button
                                         onClick={clearCart}
@@ -207,6 +328,35 @@ const CartPage = () => {
                     )}
                 </div>
             </main>
+
+            {/* No Address Warning Modal */}
+            {showAddressWarning && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg max-w-md w-full p-6">
+                        <div className="text-center">
+                            <span className="text-5xl mb-4 block">📍</span>
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">Chưa có địa chỉ giao hàng</h3>
+                            <p className="text-gray-600 mb-6">
+                                Bạn cần thêm địa chỉ giao hàng trước khi thanh toán.
+                            </p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setShowAddressWarning(false)}
+                                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 rounded-lg"
+                                >
+                                    Để sau
+                                </button>
+                                <button
+                                    onClick={() => navigate('/profile')}
+                                    className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 rounded-lg"
+                                >
+                                    Thêm địa chỉ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* VietQR Payment Modal */}
             {showPayment && paymentInfo && (
@@ -230,6 +380,19 @@ const CartPage = () => {
                         </div>
 
                         <div className="p-6 pt-4 space-y-4">
+                            {/* Selected Address Info */}
+                            {selectedAddress && (
+                                <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-sm">
+                                    <p className="font-medium text-orange-800 mb-1">📍 Giao đến:</p>
+                                    <p className="text-gray-800">{selectedAddress.recipientName} - {selectedAddress.phone}</p>
+                                    <p className="text-gray-600">
+                                        {selectedAddress.addressLine}
+                                        {selectedAddress.ward && `, ${selectedAddress.ward}`}
+                                        {selectedAddress.district && `, ${selectedAddress.district}`}
+                                    </p>
+                                </div>
+                            )}
+
                             {/* QR Code */}
                             <div className="bg-white border-2 border-gray-200 rounded-lg p-4 flex justify-center">
                                 <img
