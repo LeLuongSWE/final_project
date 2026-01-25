@@ -14,6 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./source_code/database/01_schema_and_data.sql:/docker-entrypoint-initdb.d/01_schema_and_data.sql
       - ./source_code/database/02_functions.sql:/docker-entrypoint-initdb.d/02_functions.sql
+      - ./source_code/database/03_address_data.sql:/docker-entrypoint-initdb.d/03_address_data.sql
     networks:
       - rice_shop_network
     healthcheck:

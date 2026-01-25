@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { userService } from '../../../shared/services/userService';
+import AddressSelector from '../../../shared/components/AddressSelector';
 
 const ProfilePage = () => {
     const { user, setUser } = useAuth();
@@ -37,7 +38,7 @@ const ProfilePage = () => {
         addressLine: '',
         ward: '',
         district: '',
-        city: 'Hà Nội'
+        city: ''
     });
 
     // Load profile data
@@ -118,7 +119,7 @@ const ProfilePage = () => {
             addressLine: '',
             ward: '',
             district: '',
-            city: 'Hà Nội'
+            city: ''
         });
         setEditingAddress(null);
     };
@@ -406,35 +407,14 @@ const ProfilePage = () => {
                                             />
                                         </div>
 
-                                        <div className="grid grid-cols-3 gap-3">
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Phường/Xã</label>
-                                                <input
-                                                    type="text"
-                                                    value={addressForm.ward}
-                                                    onChange={(e) => setAddressForm({ ...addressForm, ward: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Quận/Huyện</label>
-                                                <input
-                                                    type="text"
-                                                    value={addressForm.district}
-                                                    onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Thành phố</label>
-                                                <input
-                                                    type="text"
-                                                    value={addressForm.city}
-                                                    onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                                                />
-                                            </div>
-                                        </div>
+                                        <AddressSelector
+                                            city={addressForm.city}
+                                            district={addressForm.district}
+                                            ward={addressForm.ward}
+                                            onChange={({ city, district, ward }) =>
+                                                setAddressForm({ ...addressForm, city, district, ward })
+                                            }
+                                        />
 
                                         <div className="flex gap-2 pt-2">
                                             <button
