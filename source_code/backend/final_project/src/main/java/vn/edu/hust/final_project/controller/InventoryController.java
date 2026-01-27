@@ -80,8 +80,12 @@ public class InventoryController {
     // ==================== Stock Transactions ====================
 
     @GetMapping("/transactions")
-    public ResponseEntity<List<StockTransaction>> getTransactions() {
-        return ResponseEntity.ok(inventoryService.getAllTransactions());
+    public ResponseEntity<List<Map<String, Object>>> getTransactions() {
+        // Use searchTransactions with large limit to get all transactions with material info
+        Map<String, Object> result = inventoryService.searchTransactions(0, 10000, null, null, null, null);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> content = (List<Map<String, Object>>) result.get("content");
+        return ResponseEntity.ok(content != null ? content : Collections.emptyList());
     }
 
     @GetMapping("/transactions/search")

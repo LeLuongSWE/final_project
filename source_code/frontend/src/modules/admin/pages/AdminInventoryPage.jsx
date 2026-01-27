@@ -16,10 +16,11 @@ const AdminInventoryPage = () => {
     const [formData, setFormData] = useState({
         name: '', unit: 'kg', unitPrice: 0, minStockLevel: 0, quantity: 0, note: ''
     });
-    const [summary, setSummary] = useState({ totalMaterials: 0, lowStockCount: 0, totalValue: 0 });
+    const [summary, setSummary] = useState({ totalMaterials: 0, lowStockCount: 0, totalInventoryValue: 0 });
     const [unitTypes, setUnitTypes] = useState(['kg', 'lít', 'quả', 'bó', 'bìa', 'gói', 'hộp', 'chai', 'túi', 'con']);
     const [newUnitInput, setNewUnitInput] = useState('');
     const [confirmDelete, setConfirmDelete] = useState({ show: false, id: null, name: '' });
+    const [displayCount, setDisplayCount] = useState(20); // Lazy load: show 20 items at a time
 
     const addNewUnit = () => {
         if (newUnitInput.trim() && !unitTypes.includes(newUnitInput.trim())) {
@@ -156,7 +157,7 @@ const AdminInventoryPage = () => {
                 </div>
                 <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                     <div className="text-gray-600 font-bold text-sm">GIÁ TRỊ TỒN KHO</div>
-                    <div className="text-2xl font-black text-green-600">{formatCurrency(summary.totalValue)} đ</div>
+                    <div className="text-2xl font-black text-green-600">{formatCurrency(summary.totalInventoryValue)} đ</div>
                 </div>
             </div>
 
@@ -294,44 +295,62 @@ const AdminInventoryPage = () => {
 
                         {/* Transactions Tab */}
                         {activeTab === 'transactions' && (
-                            <table className="w-full">
-                                <thead className="bg-gray-100">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left font-bold text-gray-700">Thời gian</th>
-                                        <th className="px-4 py-3 text-left font-bold text-gray-700">Nguyên liệu</th>
-                                        <th className="px-4 py-3 text-center font-bold text-gray-700">Loại</th>
-                                        <th className="px-4 py-3 text-right font-bold text-gray-700">Số lượng</th>
-                                        <th className="px-4 py-3 text-right font-bold text-gray-700">Đơn giá</th>
-                                        <th className="px-4 py-3 text-left font-bold text-gray-700">Ghi chú</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {transactions.map(tx => (
-                                        <tr key={tx.transactionId} className="border-t hover:bg-gray-50">
-                                            <td className="px-4 py-3 text-gray-600 text-sm">
-                                                {new Date(tx.createdAt).toLocaleString('vi-VN')}
-                                            </td>
-                                            <td className="px-4 py-3 font-bold text-gray-800">{tx.materialName}</td>
-                                            <td className="px-4 py-3 text-center">
-                                                {tx.type === 'IN' ? (
-                                                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">
-                                                        📥 NHẬP
-                                                    </span>
-                                                ) : (
-                                                    <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-bold">
-                                                        📤 XUẤT
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td className={`px-4 py-3 text-right font-bold ${tx.type === 'IN' ? 'text-green-600' : 'text-orange-600'}`}>
-                                                {tx.type === 'IN' ? '+' : '-'}{tx.quantity} {tx.materialUnit}
-                                            </td>
-                                            <td className="px-4 py-3 text-right">{formatCurrency(tx.unitPrice)} đ</td>
-                                            <td className="px-4 py-3 text-gray-600">{tx.note || '-'}</td>
+                            <>
+                                <table className="w-full">
+                                    <thead className="bg-gray-100">
+                                        <tr>
+                                            <th className="px-4 py-3 text-left font-bold text-gray-700">Thời gian</th>
+                                            <th className="px-4 py-3 text-left font-bold text-gray-700">Nguyên liệu</th>
+                                            <th className="px-4 py-3 text-center font-bold text-gray-700">Loại</th>
+                                            <th className="px-4 py-3 text-right font-bold text-gray-700">Số lượng</th>
+                                            <th className="px-4 py-3 text-right font-bold text-gray-700">Đơn giá</th>
+                                            <th className="px-4 py-3 text-left font-bold text-gray-700">Ghi chú</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {transactions.slice(0, displayCount).map(tx => (
+                                            <tr key={tx.transaction_id} className="border-t hover:bg-gray-50">
+                                                <td className="px-4 py-3 text-gray-600 text-sm">
+                                                    {new Date(tx.created_at).toLocaleString('vi-VN')}
+                                                </td>
+                                                <td className="px-4 py-3 font-bold text-gray-800">{tx.material_name || '-'}</td>
+                                                <td className="px-4 py-3 text-center">
+                                                    {tx.type === 'IN' ? (
+                                                        <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">
+                                                            📥 NHẬP
+                                                        </span>
+                                                    ) : (
+                                                        <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-bold">
+                                                            📤 XUẤT
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td className={`px-4 py-3 text-right font-bold ${tx.type === 'IN' ? 'text-green-600' : 'text-orange-600'}`}>
+                                                    {tx.type === 'IN' ? '+' : '-'}{tx.quantity} {tx.unit || ''}
+                                                </td>
+                                                <td className="px-4 py-3 text-right">{formatCurrency(tx.unit_price)} đ</td>
+                                                <td className="px-4 py-3 text-gray-600">{tx.note || '-'}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                {/* Load More Button */}
+                                {displayCount < transactions.length && (
+                                    <div className="text-center py-4">
+                                        <button
+                                            onClick={() => setDisplayCount(prev => prev + 20)}
+                                            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
+                                        >
+                                            📥 Xem thêm ({transactions.length - displayCount} còn lại)
+                                        </button>
+                                    </div>
+                                )}
+                                {transactions.length > 0 && (
+                                    <div className="text-center text-gray-500 text-sm py-2">
+                                        Đang hiển thị {Math.min(displayCount, transactions.length)} / {transactions.length} giao dịch
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
