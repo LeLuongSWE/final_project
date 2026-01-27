@@ -28,6 +28,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // For shift statistics
     Integer countByShiftId(Long shiftId);
     
+    // Today's in-store orders (for staff view)
+    @org.springframework.data.jpa.repository.Query("SELECT o FROM Order o WHERE o.orderType = 'INSTORE' AND o.orderDate >= CURRENT_DATE ORDER BY o.orderDate DESC")
+    List<Order> findTodayInstoreOrders();
+    
     @org.springframework.data.jpa.repository.Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.shiftId = :shiftId AND o.status = 'COMPLETED'")
     java.math.BigDecimal sumTotalAmountByShiftId(@org.springframework.data.repository.query.Param("shiftId") Long shiftId);
 }

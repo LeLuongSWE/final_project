@@ -793,5 +793,166 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- ==========================================
+-- CUSTOMER ANALYTICS FUNCTIONS
+-- ==========================================
+
+-- 1. Customer Distribution by Ward (Phường/Xã)
+CREATE OR REPLACE FUNCTION fn_customer_by_ward(
+    start_ts TIMESTAMP,
+    end_ts TIMESTAMP
+)
+RETURNS TABLE (
+    ward VARCHAR,
+    customer_count BIGINT,
+    order_count BIGINT,
+    total_revenue NUMERIC,
+    avg_order_value NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        COALESCE(
+            CASE 
+                WHEN o.delivery_address LIKE '%Phường%' THEN 
+                    SUBSTRING(o.delivery_address FROM 'Phường [^,]+')
+                WHEN o.delivery_address LIKE '%Xã%' THEN 
+                    SUBSTRING(o.delivery_address FROM 'Xã [^,]+')
+                WHEN o.delivery_address LIKE '%P.%' THEN 
+                    SUBSTRING(o.delivery_address FROM 'P\.[^,]+')
+                ELSE 'Khác'
+            END,
+            'Chưa xác định'
+        )::VARCHAR AS ward,
+        COUNT(DISTINCT o.user_id) AS customer_count,
+        COUNT(*) AS order_count,
+        ROUND(SUM(o.total_amount), 0) AS total_revenue,
+        ROUND(AVG(o.total_amount), 0) AS avg_order_value
+    FROM orders o
+    WHERE o.order_date >= start_ts 
+        AND o.order_date < end_ts
+        AND o.status = 'COMPLETED'
+        AND o.order_type = 'ONLINE'
+        AND o.delivery_address IS NOT NULL
+    GROUP BY 1
+    ORDER BY order_count DESC
+    LIMIT 15;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2. Customer Segmentation by Order Frequency
+CREATE OR REPLACE FUNCTION fn_customer_by_frequency(
+    start_ts TIMESTAMP,
+    end_ts TIMESTAMP
+)
+RETURNS TABLE (
+    segment VARCHAR,
+    customer_count BIGINT,
+    total_orders BIGINT,
+    total_revenue NUMERIC,
+    avg_orders_per_customer NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    WITH customer_orders AS (
+        SELECT 
+            o.user_id,
+            COUNT(*) AS order_count,
+            SUM(o.total_amount) AS total_spent
+        FROM orders o
+        WHERE o.order_date >= start_ts 
+            AND o.order_date < end_ts
+            AND o.status = 'COMPLETED'
+            AND o.user_id IS NOT NULL
+        GROUP BY o.user_id
+    ),
+    segmented AS (
+        SELECT 
+            CASE 
+                WHEN order_count >= 10 THEN 'VIP (10+ đơn)'
+                WHEN order_count >= 5 THEN 'Thường xuyên (5-9 đơn)'
+                WHEN order_count >= 2 THEN 'Thỉnh thoảng (2-4 đơn)'
+                ELSE 'Mới (1 đơn)'
+            END AS segment,
+            order_count,
+            total_spent
+        FROM customer_orders
+    )
+    SELECT 
+        s.segment::VARCHAR,
+        COUNT(*)::BIGINT AS customer_count,
+        SUM(s.order_count)::BIGINT AS total_orders,
+        ROUND(SUM(s.total_spent), 0) AS total_revenue,
+        ROUND(AVG(s.order_count), 1) AS avg_orders_per_customer
+    FROM segmented s
+    GROUP BY s.segment
+    ORDER BY 
+        CASE s.segment
+            WHEN 'VIP (10+ đơn)' THEN 1
+            WHEN 'Thường xuyên (5-9 đơn)' THEN 2
+            WHEN 'Thỉnh thoảng (2-4 đơn)' THEN 3
+            ELSE 4
+        END;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Customer Segmentation by Average Order Value
+CREATE OR REPLACE FUNCTION fn_customer_by_order_value(
+    start_ts TIMESTAMP,
+    end_ts TIMESTAMP
+)
+RETURNS TABLE (
+    segment VARCHAR,
+    customer_count BIGINT,
+    total_orders BIGINT,
+    total_revenue NUMERIC,
+    avg_order_value NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    WITH customer_avg AS (
+        SELECT 
+            o.user_id,
+            COUNT(*) AS order_count,
+            SUM(o.total_amount) AS total_spent,
+            AVG(o.total_amount) AS avg_order
+        FROM orders o
+        WHERE o.order_date >= start_ts 
+            AND o.order_date < end_ts
+            AND o.status = 'COMPLETED'
+            AND o.user_id IS NOT NULL
+        GROUP BY o.user_id
+    ),
+    segmented AS (
+        SELECT 
+            CASE 
+                WHEN avg_order >= 100000 THEN 'Cao cấp (100k+)'
+                WHEN avg_order >= 50000 THEN 'Trung bình (50k-100k)'
+                WHEN avg_order >= 30000 THEN 'Tiết kiệm (30k-50k)'
+                ELSE 'Cơ bản (<30k)'
+            END AS segment,
+            order_count,
+            total_spent,
+            avg_order
+        FROM customer_avg
+    )
+    SELECT 
+        s.segment::VARCHAR,
+        COUNT(*)::BIGINT AS customer_count,
+        SUM(s.order_count)::BIGINT AS total_orders,
+        ROUND(SUM(s.total_spent), 0) AS total_revenue,
+        ROUND(AVG(s.avg_order), 0) AS avg_order_value
+    FROM segmented s
+    GROUP BY s.segment
+    ORDER BY 
+        CASE s.segment
+            WHEN 'Cao cấp (100k+)' THEN 1
+            WHEN 'Trung bình (50k-100k)' THEN 2
+            WHEN 'Tiết kiệm (30k-50k)' THEN 3
+            ELSE 4
+        END;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ==========================================
 -- END OF ANALYTICS FUNCTIONS
 -- ==========================================

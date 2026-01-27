@@ -219,6 +219,12 @@ const AdminReportsPage = () => {
     const [reconciliationData, setReconciliationData] = useState([]);
     const [heatmapData, setHeatmapData] = useState([]);
 
+    // Customer Analytics Data
+    const [customerKpiData, setCustomerKpiData] = useState({});
+    const [customerDistrictData, setCustomerDistrictData] = useState([]);
+    const [customerFrequencyData, setCustomerFrequencyData] = useState([]);
+    const [customerValueData, setCustomerValueData] = useState([]);
+
     useEffect(() => {
         const adminUser = sessionStorage.getItem('adminUser');
         if (!adminUser) {
@@ -233,6 +239,8 @@ const AdminReportsPage = () => {
             fetchProductData();
         } else if (activeTab === 'workforce') {
             fetchWorkforceData();
+        } else if (activeTab === 'customer') {
+            fetchCustomerData();
         }
     }, [navigate, activeTab, dateRange.startDate, dateRange.endDate]);
 
@@ -340,6 +348,32 @@ const AdminReportsPage = () => {
             setHeatmapData(heatmap.data);
         } catch (error) {
             console.error('Error fetching workforce data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchCustomerData = async () => {
+        setLoading(true);
+        try {
+            const params = {
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate
+            };
+
+            const [kpi, ward, frequency, orderValue] = await Promise.all([
+                api.get('/analytics/customers/kpi', { params }),
+                api.get('/analytics/customers/by-ward', { params }),
+                api.get('/analytics/customers/by-frequency', { params }),
+                api.get('/analytics/customers/by-order-value', { params })
+            ]);
+
+            setCustomerKpiData(kpi.data);
+            setCustomerDistrictData(ward.data);
+            setCustomerFrequencyData(frequency.data);
+            setCustomerValueData(orderValue.data);
+        } catch (error) {
+            console.error('Error fetching customer data:', error);
         } finally {
             setLoading(false);
         }
@@ -885,7 +919,8 @@ const AdminReportsPage = () => {
         { id: 'sales', label: 'Báo cáo Bán hàng', icon: '📊', description: 'Doanh thu và đơn hàng' },
         { id: 'supply', label: 'Quản lý Kho', icon: '📦', description: 'Tồn kho và nhập xuất' },
         { id: 'product', label: 'Phân tích Món ăn', icon: '🎯', description: 'Ma trận BCG & Gợi ý Combo' },
-        { id: 'workforce', label: 'Báo cáo Nhân viên', icon: '👥', description: 'Hiệu suất & Đối soát ca' }
+        { id: 'workforce', label: 'Báo cáo Nhân viên', icon: '👥', description: 'Hiệu suất & Đối soát ca' },
+        { id: 'customer', label: 'Phân tích Khách hàng', icon: '🧑‍🤝‍🧑', description: 'Vị trí & Phân khúc' }
     ];
 
     // Chart configurations
@@ -925,7 +960,7 @@ const AdminReportsPage = () => {
         <AdminLayout activePage="Báo cáo Thống kê">
             {/* Tab Navigation */}
             <div className="bg-white rounded-lg shadow mb-6">
-                <div className="grid grid-cols-4 border-b">
+                <div className="grid grid-cols-5 border-b">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
@@ -1314,7 +1349,7 @@ const AdminReportsPage = () => {
             )}
 
             {/* Placeholder for other tabs */}
-            {activeTab !== 'sales' && activeTab !== 'supply' && activeTab !== 'product' && activeTab !== 'workforce' && (
+            {activeTab !== 'sales' && activeTab !== 'supply' && activeTab !== 'product' && activeTab !== 'workforce' && activeTab !== 'customer' && (
                 <div className="bg-white rounded-lg shadow p-12 text-center">
                     <div className="text-6xl mb-4">🚧</div>
                     <h3 className="text-2xl font-black text-gray-800 mb-2">Tính năng đang phát triển</h3>
@@ -1644,6 +1679,158 @@ const AdminReportsPage = () => {
                                             )}
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </>
+            )}
+
+            {/* Customer Analytics Tab */}
+            {activeTab === 'customer' && (
+                <>
+                    {loading ? (
+                        <div className="text-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        </div>
+                    ) : (
+                        <>
+                            {/* KPI Cards */}
+                            <div className="grid grid-cols-4 gap-4 mb-6">
+                                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow p-4 text-white">
+                                    <div className="text-sm opacity-90 mb-1">👥 Tổng Khách Hàng</div>
+                                    <div className="text-2xl font-black">{customerKpiData.totalCustomers || 0}</div>
+                                    <div className="text-xs opacity-75 mt-1 italic">Trong kỳ báo cáo</div>
+                                </div>
+                                <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow p-4 text-white">
+                                    <div className="text-sm opacity-90 mb-1">🆕 Khách Hàng Mới</div>
+                                    <div className="text-2xl font-black">{customerKpiData.newCustomers || 0}</div>
+                                    <div className="text-xs opacity-75 mt-1 italic">Đơn đầu tiên</div>
+                                </div>
+                                <div className="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg shadow p-4 text-white">
+                                    <div className="text-sm opacity-90 mb-1">🔄 Khách Quay Lại</div>
+                                    <div className="text-2xl font-black">{customerKpiData.returningCustomers || 0}</div>
+                                    <div className="text-xs opacity-75 mt-1 italic">Đã mua trước đó</div>
+                                </div>
+                                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow p-4 text-white">
+                                    <div className="text-sm opacity-90 mb-1">📊 TB Đơn/Khách</div>
+                                    <div className="text-2xl font-black">{customerKpiData.avgOrdersPerCustomer || 0}</div>
+                                    <div className="text-xs opacity-75 mt-1 italic">Đơn hàng trung bình</div>
+                                </div>
+                            </div>
+
+                            {/* Customer by District */}
+                            <div className="bg-white rounded-lg shadow p-6 mb-6">
+                                <h3 className="font-black text-gray-800 mb-4">📍 Phân Bố Khách Hàng Theo Phường/Xã</h3>
+                                <p className="text-sm text-gray-500 mb-4 italic">Top 15 khu vực có nhiều đơn hàng giao nhất</p>
+                                {customerDistrictData.length > 0 ? (
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div style={{ height: '300px' }}>
+                                            <Pie
+                                                data={{
+                                                    labels: customerDistrictData.map(d => d.ward),
+                                                    datasets: [{
+                                                        data: customerDistrictData.map(d => d.order_count),
+                                                        backgroundColor: [
+                                                            '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+                                                            '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1',
+                                                            '#14b8a6', '#a855f7', '#22c55e', '#eab308', '#fb923c'
+                                                        ]
+                                                    }]
+                                                }}
+                                                options={{ maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }}
+                                            />
+                                        </div>
+                                        <div className="overflow-auto max-h-72">
+                                            <table className="w-full text-sm">
+                                                <thead className="bg-gray-50">
+                                                    <tr>
+                                                        <th className="px-3 py-2 text-left">Phường/Xã</th>
+                                                        <th className="px-3 py-2 text-right">Số đơn</th>
+                                                        <th className="px-3 py-2 text-right">Doanh thu</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {customerDistrictData.map((item, idx) => (
+                                                        <tr key={idx} className="border-t">
+                                                            <td className="px-3 py-2 font-medium">{item.ward}</td>
+                                                            <td className="px-3 py-2 text-right">{item.order_count}</td>
+                                                            <td className="px-3 py-2 text-right">{formatCurrency(item.total_revenue)}đ</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-500 text-center py-8">Chưa có dữ liệu địa chỉ giao hàng</p>
+                                )}
+                            </div>
+
+                            {/* Customer Segmentation Charts */}
+                            <div className="grid grid-cols-2 gap-6">
+                                {/* By Frequency */}
+                                <div className="bg-white rounded-lg shadow p-6">
+                                    <h3 className="font-black text-gray-800 mb-4">📈 Phân Khúc Theo Tần Suất</h3>
+                                    <p className="text-sm text-gray-500 mb-4 italic">Phân loại khách hàng dựa trên số lần đặt hàng</p>
+                                    {customerFrequencyData.length > 0 ? (
+                                        <Bar
+                                            data={{
+                                                labels: customerFrequencyData.map(d => d.segment),
+                                                datasets: [{
+                                                    label: 'Số khách hàng',
+                                                    data: customerFrequencyData.map(d => d.customer_count),
+                                                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981']
+                                                }]
+                                            }}
+                                            options={{
+                                                indexAxis: 'y',
+                                                plugins: { legend: { display: false } }
+                                            }}
+                                        />
+                                    ) : (
+                                        <p className="text-gray-500 text-center py-8">Chưa có dữ liệu</p>
+                                    )}
+                                    <div className="mt-4 space-y-2">
+                                        {customerFrequencyData.map((d, idx) => (
+                                            <div key={idx} className="flex justify-between text-sm">
+                                                <span className="text-gray-600">{d.segment}</span>
+                                                <span className="font-bold">{formatCurrency(d.total_revenue)}đ</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* By Order Value */}
+                                <div className="bg-white rounded-lg shadow p-6">
+                                    <h3 className="font-black text-gray-800 mb-4">💰 Phân Khúc Theo Giá Trị</h3>
+                                    <p className="text-sm text-gray-500 mb-4 italic">Phân loại theo giá trị đơn hàng trung bình</p>
+                                    {customerValueData.length > 0 ? (
+                                        <Bar
+                                            data={{
+                                                labels: customerValueData.map(d => d.segment),
+                                                datasets: [{
+                                                    label: 'Số khách hàng',
+                                                    data: customerValueData.map(d => d.customer_count),
+                                                    backgroundColor: ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b']
+                                                }]
+                                            }}
+                                            options={{
+                                                indexAxis: 'y',
+                                                plugins: { legend: { display: false } }
+                                            }}
+                                        />
+                                    ) : (
+                                        <p className="text-gray-500 text-center py-8">Chưa có dữ liệu</p>
+                                    )}
+                                    <div className="mt-4 space-y-2">
+                                        {customerValueData.map((d, idx) => (
+                                            <div key={idx} className="flex justify-between text-sm">
+                                                <span className="text-gray-600">{d.segment}</span>
+                                                <span className="font-bold">AOV: {formatCurrency(d.avg_order_value)}đ</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </>

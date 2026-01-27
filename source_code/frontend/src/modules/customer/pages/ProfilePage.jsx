@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import { useAuth } from '../../../shared/context/AuthContext';
 import { userService } from '../../../shared/services/userService';
 import AddressSelector from '../../../shared/components/AddressSelector';
+import MapSelector from '../../../shared/components/MapSelector';
 
 const ProfilePage = () => {
     const { user, setUser } = useAuth();
@@ -38,7 +39,9 @@ const ProfilePage = () => {
         addressLine: '',
         ward: '',
         district: '',
-        city: ''
+        city: '',
+        latitude: null,
+        longitude: null
     });
 
     // Load profile data
@@ -119,7 +122,9 @@ const ProfilePage = () => {
             addressLine: '',
             ward: '',
             district: '',
-            city: ''
+            city: '',
+            latitude: null,
+            longitude: null
         });
         setEditingAddress(null);
     };
@@ -137,7 +142,9 @@ const ProfilePage = () => {
             addressLine: address.addressLine,
             ward: address.ward || '',
             district: address.district || '',
-            city: address.city || 'Hà Nội'
+            city: address.city || 'Hà Nội',
+            latitude: address.latitude,
+            longitude: address.longitude
         });
         setEditingAddress(address);
         setShowAddressForm(true);
@@ -415,6 +422,77 @@ const ProfilePage = () => {
                                                 setAddressForm({ ...addressForm, city, district, ward })
                                             }
                                         />
+
+                                        {/* Map Integration */}
+                                        <div className="space-y-2">
+                                            <div className="flex gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (navigator.geolocation) {
+                                                            navigator.geolocation.getCurrentPosition(
+                                                                (position) => {
+                                                                    const { latitude, longitude } = position.coords;
+                                                                    setAddressForm(prev => ({ ...prev, latitude, longitude }));
+                                                                },
+                                                                (error) => alert('Không thể lấy vị trí: ' + error.message)
+                                                            );
+                                                        } else {
+                                                            alert('Trình duyệt không hỗ trợ Geolocation');
+                                                        }
+                                                    }}
+                                                    className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center gap-1"
+                                                >
+                                                    📍 Vị trí hiện tại
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={async () => {
+                                                        const query = [
+                                                            addressForm.addressLine,
+                                                            addressForm.ward,
+                                                            addressForm.district,
+                                                            addressForm.city
+                                                        ].filter(Boolean).join(', ');
+
+                                                        if (!query) {
+                                                            alert('Vui lòng nhập địa chỉ trước');
+                                                            return;
+                                                        }
+
+                                                        try {
+                                                            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
+                                                            const data = await response.json();
+                                                            if (data && data.length > 0) {
+                                                                setAddressForm(prev => ({
+                                                                    ...prev,
+                                                                    latitude: parseFloat(data[0].lat),
+                                                                    longitude: parseFloat(data[0].lon)
+                                                                }));
+                                                            } else {
+                                                                alert('Không tìm thấy địa điểm trên bản đồ');
+                                                            }
+                                                        } catch (error) {
+                                                            console.error(error);
+                                                            alert('Lỗi khi tìm kiếm bản đồ');
+                                                        }
+                                                    }}
+                                                    className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition flex items-center gap-1"
+                                                >
+                                                    🔍 Tìm trên bản đồ
+                                                </button>
+                                            </div>
+
+                                            {addressForm.latitude && addressForm.longitude && (
+                                                <MapSelector
+                                                    position={[addressForm.latitude, addressForm.longitude]}
+                                                    onPositionChange={([lat, lng]) =>
+                                                        setAddressForm(prev => ({ ...prev, latitude: lat, longitude: lng }))
+                                                    }
+                                                />
+                                            )}
+                                        </div>
 
                                         <div className="flex gap-2 pt-2">
                                             <button

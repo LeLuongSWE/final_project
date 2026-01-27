@@ -152,12 +152,9 @@ const OrderManagementPage = () => {
             const onlineResponse = await api.get('/orders/online/pending');
             setOnlineCount(onlineResponse.data.length);
 
-            // Fetch instore count
-            const shift = JSON.parse(sessionStorage.getItem('currentShift'));
-            if (shift) {
-                const instoreResponse = await api.get(`/orders/instore/shift/${shift.shiftId}`);
-                setInstoreCount(instoreResponse.data.length);
-            }
+            // Fetch today's instore count
+            const instoreResponse = await api.get('/orders/instore/today');
+            setInstoreCount(instoreResponse.data.length);
         } catch (error) {
             console.error('Error fetching order counts:', error);
         }
@@ -170,12 +167,8 @@ const OrderManagementPage = () => {
             if (activeTab === 'ONLINE') {
                 response = await api.get('/orders/online/pending');
             } else {
-                const shift = JSON.parse(sessionStorage.getItem('currentShift'));
-                if (shift) {
-                    response = await api.get(`/orders/instore/shift/${shift.shiftId}`);
-                } else {
-                    response = { data: [] };
-                }
+                // Use /instore/today to get all today's in-store orders
+                response = await api.get('/orders/instore/today');
             }
             // Sort orders immediately after fetching
             const sortedOrders = sortOrders(response.data);
@@ -422,6 +415,33 @@ const OrderManagementPage = () => {
                                                     )}
                                                 </div>
                                             </div>
+
+                                            {/* Delivery Address for Online Orders */}
+                                            {order.orderType === 'ONLINE' && order.deliveryAddress && (
+                                                <div className="border-t border-gray-600 pt-3 mb-3">
+                                                    <div className="text-sm">
+                                                        <div className="flex items-center gap-2 text-gray-400 mb-1">
+                                                            <span>📍 Địa chỉ giao hàng:</span>
+                                                        </div>
+                                                        <div className="text-white font-medium mb-1">
+                                                            {order.deliveryRecipient} - {order.deliveryPhone}
+                                                        </div>
+                                                        <div className="text-gray-300 text-xs mb-2">
+                                                            {order.deliveryAddress}
+                                                        </div>
+                                                        {order.deliveryLatitude && order.deliveryLongitude && (
+                                                            <a
+                                                                href={`https://www.google.com/maps/dir/?api=1&destination=${order.deliveryLatitude},${order.deliveryLongitude}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition"
+                                                            >
+                                                                🗺️ Chỉ đường Google Maps
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
 
                                             {/* Status and Actions */}
                                             <div className="space-y-2">

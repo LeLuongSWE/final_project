@@ -86,6 +86,15 @@ public class OrderService {
     @Transactional
     public Map<String, Object> createOnlineOrder(Long userId, BigDecimal totalAmount, 
             String paymentMethod, List<OrderItemRequest> items) {
+        return createOnlineOrder(userId, totalAmount, paymentMethod, items, null);
+    }
+
+    /**
+     * Create online order with delivery address
+     */
+    @Transactional
+    public Map<String, Object> createOnlineOrder(Long userId, BigDecimal totalAmount, 
+            String paymentMethod, List<OrderItemRequest> items, DeliveryInfo delivery) {
         
         String orderCode = generateOrderCode();
 
@@ -97,6 +106,15 @@ public class OrderService {
         order.setStatus("PENDING");
         order.setOrderType("ONLINE");
         order.setEstimatedPickupTime(LocalDateTime.now().plusMinutes(30));
+
+        // Set delivery address if provided
+        if (delivery != null) {
+            order.setDeliveryAddress(delivery.getAddress());
+            order.setDeliveryLatitude(delivery.getLatitude());
+            order.setDeliveryLongitude(delivery.getLongitude());
+            order.setDeliveryRecipient(delivery.getRecipient());
+            order.setDeliveryPhone(delivery.getPhone());
+        }
 
         Order savedOrder = orderRepository.save(order);
 
@@ -228,6 +246,15 @@ public class OrderService {
     }
 
     /**
+     * Get today's in-store orders (regardless of shift)
+     */
+    public List<Order> getTodayInstoreOrders() {
+        List<Order> orders = orderRepository.findTodayInstoreOrders();
+        populateOrderItems(orders);
+        return orders;
+    }
+
+    /**
      * Search orders with pagination and filters
      */
     public Map<String, Object> searchOrders(int page, int size, String startDate, 
@@ -336,4 +363,29 @@ public class OrderService {
         public BigDecimal getPrice() { return price; }
         public void setPrice(BigDecimal price) { this.price = price; }
     }
+
+    // ========== DTO for Delivery Info ==========
+    public static class DeliveryInfo {
+        private String address;
+        private BigDecimal latitude;
+        private BigDecimal longitude;
+        private String recipient;
+        private String phone;
+
+        public String getAddress() { return address; }
+        public void setAddress(String address) { this.address = address; }
+
+        public BigDecimal getLatitude() { return latitude; }
+        public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
+
+        public BigDecimal getLongitude() { return longitude; }
+        public void setLongitude(BigDecimal longitude) { this.longitude = longitude; }
+
+        public String getRecipient() { return recipient; }
+        public void setRecipient(String recipient) { this.recipient = recipient; }
+
+        public String getPhone() { return phone; }
+        public void setPhone(String phone) { this.phone = phone; }
+    }
 }
+

@@ -90,6 +90,12 @@ CREATE TABLE orders (
     order_type VARCHAR(20) NOT NULL DEFAULT 'ONLINE',
     shift_id BIGINT,
     cashier_id BIGINT,
+    -- Delivery address fields for online orders
+    delivery_address TEXT,
+    delivery_latitude DECIMAL(10, 8),
+    delivery_longitude DECIMAL(11, 8),
+    delivery_recipient VARCHAR(100),
+    delivery_phone VARCHAR(20),
     CONSTRAINT fk_order_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
 );
 
@@ -97,6 +103,7 @@ CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_orders_order_date ON orders(order_date);
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_order_code ON orders(order_code);
+CREATE INDEX idx_orders_delivery_location ON orders(delivery_latitude, delivery_longitude) WHERE delivery_latitude IS NOT NULL;
 
 -- ==========================================
 -- TABLE: order_items
@@ -471,7 +478,71 @@ BEGIN
     END LOOP;
 END $$;
 
--- 6. ONLINE ORDERS
+-- 5.1 CREATE TODAY'S OPEN SHIFT WITH PENDING INSTORE ORDERS
+-- This allows staff to see orders when they open a shift
+DO $$
+DECLARE
+    today_shift_id BIGINT;
+    cashier_id_gen BIGINT;
+    order_id_gen BIGINT;
+    order_code_gen TEXT;
+    order_total DECIMAL;
+    product_ids INTEGER[];
+    product_prices INTEGER[];
+    order_i INTEGER;
+    order_time TIMESTAMP;
+BEGIN
+    -- Get a random cashier
+    SELECT user_id INTO cashier_id_gen FROM users WHERE role_id = 2 ORDER BY random() LIMIT 1;
+    
+    -- Get products
+    SELECT ARRAY_AGG(product_id), ARRAY_AGG(price::INTEGER)
+    INTO product_ids, product_prices 
+    FROM products WHERE is_active = true AND price > 0;
+    
+    -- Create today's shift as OPEN (not closed yet)
+    INSERT INTO shifts (cashier_id, start_time, end_time, status, total_orders, total_revenue, cash_revenue, transfer_revenue)
+    VALUES (cashier_id_gen, CURRENT_DATE + interval '10 hours', NULL, 'OPEN', 0, 0, 0, 0)
+    RETURNING shift_id INTO today_shift_id;
+    
+    -- Create 5-10 PENDING instore orders for today
+    FOR order_i IN 1..(5 + floor(random() * 6)::int) LOOP
+        order_time := CURRENT_TIMESTAMP - (floor(random() * 30) || ' minutes')::interval;
+        order_code_gen := 'DH' || to_char(CURRENT_DATE, 'YYMMDD') || lpad((900 + order_i)::text, 3, '0');
+        order_total := 0;
+        
+        INSERT INTO orders (user_id, order_code, order_date, total_amount, status, payment_method, order_type, shift_id, cashier_id)
+        VALUES (NULL, order_code_gen, order_time, 0, 'PENDING', 'PENDING', 'INSTORE', today_shift_id, cashier_id_gen)
+        RETURNING order_id INTO order_id_gen;
+        
+        -- Insert 2-4 items per order
+        DECLARE
+            num_items INTEGER := 2 + floor(random() * 3)::int;
+            item_i INTEGER;
+            rand_idx INTEGER;
+            item_price DECIMAL;
+        BEGIN
+            FOR item_i IN 1..num_items LOOP
+                rand_idx := 1 + floor(random() * array_length(product_ids, 1))::int;
+                item_price := product_prices[rand_idx];
+                order_total := order_total + item_price;
+                
+                INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
+                VALUES (order_id_gen, product_ids[rand_idx], 1, item_price);
+            END LOOP;
+            
+            UPDATE orders SET total_amount = order_total WHERE order_id = order_id_gen;
+        END;
+        
+        -- Only insert PENDING status history
+        INSERT INTO order_status_history (order_id, status, changed_at) VALUES
+            (order_id_gen, 'PENDING', order_time);
+    END LOOP;
+    
+    RAISE NOTICE 'Created today OPEN shift (ID=%) with PENDING in-store orders', today_shift_id;
+END $$;
+
+-- 6. ONLINE ORDERS WITH DELIVERY ADDRESSES (around HUST area)
 DO $$
 DECLARE
     customer_rec RECORD;
@@ -485,12 +556,53 @@ DECLARE
     product_prices INTEGER[];
     reg_date DATE;
     global_order_num INTEGER := 0;
+    -- Delivery address variables
+    ward_idx INTEGER;
+    ward_names TEXT[] := ARRAY[
+        'Phường Bách Khoa',
+        'Phường Lê Đại Hành', 
+        'Phường Trương Định',
+        'Phường Đồng Tâm',
+        'Phường Phố Huế',
+        'Phường Đống Mác',
+        'Phường Thanh Nhàn',
+        'Phường Bạch Mai',
+        'Phường Cầu Dền',
+        'Phường Minh Khai',
+        'Phường Vĩnh Tuy',
+        'Phường Quỳnh Mai',
+        'Phường Quỳnh Lôi',
+        'Phường Phương Liên'
+    ];
+    -- GPS coordinates around HUST (21.0045, 105.8453)
+    ward_lats DECIMAL[] := ARRAY[
+        21.0045, 21.0087, 21.0012, 21.0068, 21.0123,
+        21.0034, 21.0098, 21.0021, 21.0156, 21.0089,
+        21.0032, 21.0001, 20.9978, 20.9956
+    ];
+    ward_lngs DECIMAL[] := ARRAY[
+        105.8453, 105.8412, 105.8501, 105.8367, 105.8489,
+        105.8523, 105.8345, 105.8567, 105.8398, 105.8534,
+        105.8612, 105.8478, 105.8423, 105.8356
+    ];
+    street_names TEXT[] := ARRAY[
+        'Số 1 Đại Cồ Việt', 'Số 15 Tạ Quang Bửu', 'Số 8 Trần Đại Nghĩa',
+        'Số 25 Bạch Mai', 'Số 12 Phố Huế', 'Số 45 Lê Thanh Nghị',
+        'Số 33 Giải Phóng', 'Số 67 Trương Định', 'Số 89 Minh Khai',
+        'Số 22 Lê Đại Hành', 'Số 56 Đại La', 'Số 78 Thanh Nhàn'
+    ];
+    street_idx INTEGER;
+    delivery_addr TEXT;
+    delivery_lat DECIMAL;
+    delivery_lng DECIMAL;
+    delivery_recip TEXT;
+    delivery_ph TEXT;
 BEGIN
     SELECT ARRAY_AGG(product_id), ARRAY_AGG(price::INTEGER)
     INTO product_ids, product_prices 
     FROM products WHERE is_active = true AND price > 0;
     
-    FOR customer_rec IN SELECT user_id, created_at FROM users WHERE role_id = 4 ORDER BY random() LIMIT 200 LOOP
+    FOR customer_rec IN SELECT user_id, full_name, phone, created_at FROM users WHERE role_id = 4 ORDER BY random() LIMIT 200 LOOP
         reg_date := customer_rec.created_at::date;
         
         IF random() < 0.1 THEN order_count := 5 + floor(random() * 10)::int;
@@ -508,10 +620,26 @@ BEGIN
             order_code_gen := 'ON' || to_char(order_date_gen, 'YYMMDD') || lpad(global_order_num::text, 4, '0');
             order_total := 0;
             
-            INSERT INTO orders (user_id, order_code, order_date, estimated_pickup_time, total_amount, status, payment_method, order_type)
+            -- Generate delivery address around HUST
+            ward_idx := 1 + floor(random() * array_length(ward_names, 1))::int;
+            street_idx := 1 + floor(random() * array_length(street_names, 1))::int;
+            
+            -- Weight certain wards more heavily (Bách Khoa, Lê Đại Hành get more orders)
+            IF random() < 0.4 THEN ward_idx := 1 + floor(random() * 3)::int; END IF;
+            
+            delivery_addr := street_names[street_idx] || ', ' || ward_names[ward_idx] || ', Quận Hai Bà Trưng, Hà Nội';
+            -- Add small random offset to GPS coords
+            delivery_lat := ward_lats[ward_idx] + (random() - 0.5) * 0.005;
+            delivery_lng := ward_lngs[ward_idx] + (random() - 0.5) * 0.005;
+            delivery_recip := customer_rec.full_name;
+            delivery_ph := COALESCE(customer_rec.phone, '09' || lpad(floor(random() * 100000000)::text, 8, '0'));
+            
+            INSERT INTO orders (user_id, order_code, order_date, estimated_pickup_time, total_amount, status, payment_method, order_type,
+                               delivery_address, delivery_latitude, delivery_longitude, delivery_recipient, delivery_phone)
             VALUES (customer_rec.user_id, order_code_gen, order_date_gen, order_date_gen + interval '30 minutes', 0,
                 CASE WHEN random() < 0.95 THEN 'COMPLETED' ELSE 'CANCELLED' END,
-                CASE WHEN random() < 0.8 THEN 'VIETQR' ELSE 'CASH' END, 'ONLINE')
+                CASE WHEN random() < 0.8 THEN 'VIETQR' ELSE 'CASH' END, 'ONLINE',
+                delivery_addr, delivery_lat, delivery_lng, delivery_recip, delivery_ph)
             RETURNING order_id INTO order_id_gen;
             
             DECLARE
@@ -545,6 +673,8 @@ BEGIN
                 (order_id_gen, 'COMPLETED', order_date_gen + (25 + random() * 15)::int * interval '1 minute');
         END LOOP;
     END LOOP;
+    
+    RAISE NOTICE 'Generated % online orders with delivery addresses around HUST', global_order_num;
 END $$;
 
 -- 7. STOCK TRANSACTIONS

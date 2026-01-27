@@ -46,6 +46,22 @@ public class Order {
     @Column(name = "cashier_id")
     private Long cashierId;
 
+    // Delivery address fields for online orders
+    @Column(name = "delivery_address", columnDefinition = "TEXT")
+    private String deliveryAddress;
+
+    @Column(name = "delivery_latitude", precision = 10, scale = 8)
+    private BigDecimal deliveryLatitude;
+
+    @Column(name = "delivery_longitude", precision = 11, scale = 8)
+    private BigDecimal deliveryLongitude;
+
+    @Column(name = "delivery_recipient", length = 100)
+    private String deliveryRecipient;
+
+    @Column(name = "delivery_phone", length = 20)
+    private String deliveryPhone;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> items;
 
@@ -109,4 +125,20 @@ public class Order {
 
     public List<OrderStatusHistory> getStatusHistory() { return statusHistory; }
     public void setStatusHistory(List<OrderStatusHistory> statusHistory) { this.statusHistory = statusHistory; }
+
+    // Delivery address getters and setters
+    public String getDeliveryAddress() { return deliveryAddress; }
+    public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+
+    public BigDecimal getDeliveryLatitude() { return deliveryLatitude; }
+    public void setDeliveryLatitude(BigDecimal deliveryLatitude) { this.deliveryLatitude = deliveryLatitude; }
+
+    public BigDecimal getDeliveryLongitude() { return deliveryLongitude; }
+    public void setDeliveryLongitude(BigDecimal deliveryLongitude) { this.deliveryLongitude = deliveryLongitude; }
+
+    public String getDeliveryRecipient() { return deliveryRecipient; }
+    public void setDeliveryRecipient(String deliveryRecipient) { this.deliveryRecipient = deliveryRecipient; }
+
+    public String getDeliveryPhone() { return deliveryPhone; }
+    public void setDeliveryPhone(String deliveryPhone) { this.deliveryPhone = deliveryPhone; }
 }

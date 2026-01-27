@@ -101,14 +101,21 @@ const CartPage = () => {
         try {
             const selectedAddress = addresses.find(a => a.addressId === selectedAddressId);
 
+            // Build full delivery address string
+            const fullAddress = selectedAddress ?
+                `${selectedAddress.addressLine}${selectedAddress.ward ? ', ' + selectedAddress.ward : ''}${selectedAddress.district ? ', ' + selectedAddress.district : ''}${selectedAddress.city ? ', ' + selectedAddress.city : ''}`
+                : null;
+
             const orderData = {
                 userId: user?.userId,
                 totalAmount: getTotal(),
                 paymentMethod: 'VIETQR',
-                deliveryAddressId: selectedAddressId,
-                deliveryAddress: selectedAddress ?
-                    `${selectedAddress.recipientName} - ${selectedAddress.phone}, ${selectedAddress.addressLine}${selectedAddress.ward ? ', ' + selectedAddress.ward : ''}${selectedAddress.district ? ', ' + selectedAddress.district : ''}${selectedAddress.city ? ', ' + selectedAddress.city : ''}`
-                    : null,
+                // Delivery address fields matching backend DTO
+                deliveryAddress: fullAddress,
+                deliveryLatitude: selectedAddress?.latitude || null,
+                deliveryLongitude: selectedAddress?.longitude || null,
+                deliveryRecipient: selectedAddress?.recipientName || null,
+                deliveryPhone: selectedAddress?.phone || null,
                 items: cart.map(item => ({
                     productId: getItemId(item),
                     quantity: item.quantity,
@@ -240,8 +247,8 @@ const CartPage = () => {
                                             <label
                                                 key={addr.addressId}
                                                 className={`block border rounded-lg p-3 cursor-pointer transition ${selectedAddressId === addr.addressId
-                                                        ? 'border-orange-500 bg-orange-50'
-                                                        : 'border-gray-200 hover:border-gray-300'
+                                                    ? 'border-orange-500 bg-orange-50'
+                                                    : 'border-gray-200 hover:border-gray-300'
                                                     }`}
                                             >
                                                 <div className="flex items-start gap-3">
@@ -310,8 +317,8 @@ const CartPage = () => {
                                         onClick={handleCheckout}
                                         disabled={addresses.length === 0}
                                         className={`w-full font-semibold py-3 rounded-lg transition ${addresses.length === 0
-                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                                : 'bg-orange-600 hover:bg-orange-700 text-white'
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            : 'bg-orange-600 hover:bg-orange-700 text-white'
                                             }`}
                                     >
                                         {addresses.length === 0 ? 'Vui lòng thêm địa chỉ giao hàng' : 'Thanh toán VietQR'}

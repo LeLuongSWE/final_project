@@ -71,11 +71,23 @@ public class OrderController {
                         .collect(Collectors.toList());
             }
 
+            // Build delivery info if provided
+            OrderService.DeliveryInfo delivery = null;
+            if (request.getDeliveryAddress() != null) {
+                delivery = new OrderService.DeliveryInfo();
+                delivery.setAddress(request.getDeliveryAddress());
+                delivery.setLatitude(request.getDeliveryLatitude());
+                delivery.setLongitude(request.getDeliveryLongitude());
+                delivery.setRecipient(request.getDeliveryRecipient());
+                delivery.setPhone(request.getDeliveryPhone());
+            }
+
             Map<String, Object> result = orderService.createOnlineOrder(
                     request.getUserId(),
                     request.getTotalAmount(),
                     request.getPaymentMethod(),
-                    items
+                    items,
+                    delivery
             );
             return ResponseEntity.ok(result);
         } catch (Exception e) {
@@ -104,6 +116,11 @@ public class OrderController {
     @GetMapping("/instore/shift/{shiftId}")
     public ResponseEntity<?> getInstoreOrdersByShift(@PathVariable Long shiftId) {
         return ResponseEntity.ok(orderService.getInstoreOrdersByShift(shiftId));
+    }
+
+    @GetMapping("/instore/today")
+    public ResponseEntity<?> getTodayInstoreOrders() {
+        return ResponseEntity.ok(orderService.getTodayInstoreOrders());
     }
 
     @PutMapping("/{orderId}/payment")
@@ -194,6 +211,12 @@ public class OrderController {
         private BigDecimal totalAmount;
         private String paymentMethod;
         private List<OrderItemRequest> items;
+        // Delivery address fields
+        private String deliveryAddress;
+        private BigDecimal deliveryLatitude;
+        private BigDecimal deliveryLongitude;
+        private String deliveryRecipient;
+        private String deliveryPhone;
 
         public Long getUserId() { return userId; }
         public void setUserId(Long userId) { this.userId = userId; }
@@ -203,6 +226,18 @@ public class OrderController {
         public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
         public List<OrderItemRequest> getItems() { return items; }
         public void setItems(List<OrderItemRequest> items) { this.items = items; }
+
+        // Delivery address getters and setters
+        public String getDeliveryAddress() { return deliveryAddress; }
+        public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+        public BigDecimal getDeliveryLatitude() { return deliveryLatitude; }
+        public void setDeliveryLatitude(BigDecimal deliveryLatitude) { this.deliveryLatitude = deliveryLatitude; }
+        public BigDecimal getDeliveryLongitude() { return deliveryLongitude; }
+        public void setDeliveryLongitude(BigDecimal deliveryLongitude) { this.deliveryLongitude = deliveryLongitude; }
+        public String getDeliveryRecipient() { return deliveryRecipient; }
+        public void setDeliveryRecipient(String deliveryRecipient) { this.deliveryRecipient = deliveryRecipient; }
+        public String getDeliveryPhone() { return deliveryPhone; }
+        public void setDeliveryPhone(String deliveryPhone) { this.deliveryPhone = deliveryPhone; }
 
         public static class OrderItemRequest {
             private Long productId;
